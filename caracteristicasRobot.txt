@@ -1,0 +1,16 @@
+Info robot:
+Servo motores: Tower Pro MG946R con 13 kg de torque
+Motor PaP: 1,8° por paso (full step) y 1,2A
+Reducción entre motor y base robot: 12/65. 12 dientes motor PaP y 65 dientes en base robot
+Alimentación arduino: 7 a 12V en pin Vin
+Pololu voltaje de 0,82v
+
+Lista de componentes faltantes:
+1 Servo MG946R
+1 Pololu DRV8825
+1 LM2596
+1 Webcam
+-Imprimir linea de montaje
+-Imprimir soporte camara
+-Imprimir objetos a mover
+-Imprimir cajas donde irian los objetos
