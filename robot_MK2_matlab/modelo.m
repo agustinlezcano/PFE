@@ -5,14 +5,11 @@ clc;clear;
 
 %------------------Robot 1--------------------
 %---------------------------------------------
-%corregir las longiudes
+%Longitudes de los eslabones
 L1 =0.057;
 L2 =0.135;
 L3 =0.147;
-L1 =1;
-L2 =1;
-L3 =1;
-%en el original es pi/2
+L = [L1 L2 L3];
 dh = [0 L1  0 -pi/2   0;
       0 0   L2  0     0;
       0 0   L3  0     0];
@@ -23,11 +20,11 @@ R.qlim(1,1:2) = [-185,  185]*pi/180;
 R.qlim(2,1:2) = [-185,  185]*pi/180;
 R.qlim(3,1:2) = [-185, 228]*pi/180;
 
-% R.offset = [pi -pi/2 -pi/2];
-R.offset = [pi -pi/2 -pi/2];
+%R.offset = [pi -pi/2 -pi/2];
+R.offset = [0 0 0];
 
 %cambiar las dimensiones de tool
-R.tool = transl(.0817, 0, 0) * trotz(-pi/2) * transl(0.0419, 0, 0);
+% R.tool = transl(.0817, 0, 0) * trotz(-pi/2) * transl(0.0419, 0, 0);
 R.tool = eye(4)
 Tool = R.tool.double;
 R.base = transl(0, 0, 0.0);
@@ -105,17 +102,15 @@ switch x
         R.teach()
     case 2
         % Cinematica Inversa
-        T = transl(0.43,-0.993,1.958);  %Posicion objetivo. z = 0.317
-        T = Base * T * Tool;
-        [q_obj, flag, qqs] = cInversa(q_ini, dh, T, R)
+        T = transl(0.191,0.126,0.150);  %Posicion objetivo. z = 0.317
+        T = Base * T;
+        [q_obj, flag, qqs] = cInversa(q_ini, dh, T, R, L)
         
         % Comparacion con Ikine 
         L1 =0.057;
         L2 =0.135;
         L3 =0.147;
-        L1 =1;
-        L2 =1;
-        L3 =1;
+
         dh = [0 L1  0 -pi/2   0;
               0 0   L2  0     0;
               0 0   L3  0     0];
@@ -126,30 +121,26 @@ switch x
         R1.qlim(2,1:2) = [-185,  185]*pi/180;
         R1.qlim(3,1:2) = [-185, 228]*pi/180;
 
-        R1.offset = [pi -pi/2 -pi/2];
-        R1.tool = transl(.0817, 0, 0) * trotz(-pi/2) * transl(0.0419, 0, 0)
-        R.tool = eye(4)
-        Tool = R1.tool.double;
+%         R1.offset = [pi -pi/2 -pi/2];
+        R1.offset = [0 0 0];
+%         R1.tool = transl(.0817, 0, 0) * trotz(-pi/2) * transl(0.0419, 0, 0)
+        R1.tool = eye(4)
+%         Tool = R1.tool.double;
         
         R1.base = transl(0, 0, 0.0);
         Base = R1.base.double;
-        T1 = transl(0.43,-0.993,1.958); %Posicion objetivo
-        T1 = Base * T1 * Tool;
-
+        T1 = transl(0.191,0.126,0.150); %Posicion objetivo
+        T1 = Base * T1;
         Q = R1.ikine(T1, 'mask', [1 1 1 0 0 0])
         figure()
-%         R.plot(q_obj)
-        R.plot(qqs(:,1)')
+        R.plot(q_obj)
+        R.plot(qqs(:,4)')
         hold on
         R1.plot(Q)
-        
-        %comparacion de 4 posiciones
-%         figure()
-%         R.plot(qqs(:,1)')
-%         for i=1:4
-%             R.plot(qqs(:,i)')
-%             hold on
-%         end
+
+    case 3
+        J = (R.jacob0(q_ini));
+        R.maniplty(q_ini)
     case 5
         q_a=[0 0 0];
         figure()

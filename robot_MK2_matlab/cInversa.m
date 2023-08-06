@@ -1,12 +1,12 @@
-function [q_obj, flag, qqs] = cInversa(q_ant, dh, T, R)
+function [q_obj, flag, qqs] = cInversa(q_ant, dh, T, R,L)
 
 %% Cinematica Inversa
-L1 =1.678;
-L2 =3.3345;
-L3 =3.6369;
+L1 =L(1);
+L2 =L(2);
+L3 =L(3);
 
 %[q_obj, flag, qqs] = cinv(q_ini, dh, T, R)
-T = invHomog(R.base.double) * T * invHomog(R.tool.double);
+T = invHomog(R.base.double) * T;% * invHomog(R.tool.double);
 Pm = T(1:3,4) %posicion final deseada
 %4 soluciones
 qq=zeros(3,4);
@@ -57,7 +57,8 @@ qq(1,3:4) = [1 1] * q1(2);
 % qq = qq - R.offset' * ones(1,4);
 
 %% Prueba: 4/8 cambio en q2
-T1 = A_dh(dh(1,:), q1(1));
+T1 = A_dh(dh(1,:), q1(1))
+invHomog(T1)
 p21 = invHomog(T1) * [Pm; 1]
 B = atan2(p21(2), p21(1));   %o es p21(2)y 3 en  vez de 1 2?
 d= sqrt(p21(1)^2 + p21(2)^2);
@@ -66,7 +67,8 @@ q2(1)=B - real(C);
 q2(2)=B + real(C);
 img1=~isreal(C);
 
-T1 = A_dh(dh(1,:), q1(2));
+T1 = A_dh(dh(1,:), q1(2))
+invHomog(T1)
 p22 = invHomog(T1) * [Pm; 1]
 B = atan2(p22(2), p22(1));   %o es p21(2)y 3 en  vez de 1 2?
 d= sqrt(p22(1)^2 + p22(2)^2);
@@ -81,12 +83,13 @@ qq(2,:) = [q2(1) q2(2) q2(3) q2(4)];
 for i=1:4
     T1 = A_dh(dh(1,:), qq(1,i));
     p22 = invHomog(T1) * [Pm; 1];
-    d= (p22(1)^2 + p22(2)^2);
-    q3(i) = pi-(acos((d^2 - L2^2 - L3^2) / -(2 * L3 * L2)));
+    d= sqrt(p22(1)^2 + p22(2)^2);
+%     q3(i) = pi - real(acos((d^2 - L2^2 - L3^2) / (-2 * L3 * L2)));
+    q3(i) = real(acos((d^2 - L2^2 - L3^2) / (2 * L3 * L2)));
 end
 
 qq(3,:) = [q3(1) q3(2) q3(3) q3(4)];
-%% menores distancia, primero las opciones reales.
+%% menores distancias, primero las opciones reales.
 qdis=zeros(1,4);
 num=[1,2,3,4];
 qqimg=zeros(1,4);
@@ -98,6 +101,7 @@ end
 if (img2==1)
     qqimg(3:4)=1;
 end
+
 
 for i=1:4
 qdis(i)=sum(abs(qq(:,i)'-q_ant));
@@ -129,6 +133,11 @@ else
     flag=1;
     fprintf('La posicion esta dentro del espacio de trabajo\n\n')
 end
+
+%% Animacion de movimiento
+% figure()
+% R.plot(q_ini)
+% R.animate()
 
 %% funciones auxiliares
 function T= A_dh(dh,q)
