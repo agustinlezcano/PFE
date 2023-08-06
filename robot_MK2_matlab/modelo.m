@@ -1,60 +1,144 @@
-clc;clear;
-%Matriz DENAVIT-HARTEMBERG
-%Parametros
+function [q_obj, flag, qqs] = cInversa(q_ant, dh, T, R)
+
+%% Cinematica Inversa
 L1 =1.678;
 L2 =3.3345;
 L3 =3.6369;
-dh = [0 L1  0 -pi/2   0;
-      0 0   L2  0     0;
-      0 0   L3  0     0];
 
-R=SerialLink(dh,'name','MK2');
-%LIMITES ARTICULARES
-R.qlim(1,1:2) = [-185,  185]*pi/180;
-R.qlim(2,1:2) = [-155,  95]*pi/180;
-R.qlim(3,1:2) = [-85, 228]*pi/180;
+%[q_obj, flag, qqs] = cinv(q_ini, dh, T, R)
+T = invHomog(R.base.double) * T * invHomog(R.tool.double);
+Pm = T(1:3,4) %posicion final deseada
+%4 soluciones
+qq=zeros(3,4);
 
-R.offset = [0 -pi/2 -pi/2];
+%q1---------------------------------------------------------
 
-R.tool = transl(1.848, 0, 0.506);
-Tool = R.tool.double;
+q1(1) = atan2(Pm(2), Pm(1));
 
-R.base = transl(0, 0, 0);
-Base = R.base.double;
-%ANGULOS INICIALES
-q_ini=[0 0 0];
+if q1(1) > 0
+    q1(2) = q1(1) - pi; 
+else
+    q1(2) = q1(1) + pi; 
+end
 
-T=transl(1,0,2.75)*trotz(-pi/2)*trotx(-pi/4); %Posicion objetivo
-T = Base * T * Tool
+qq(1,1:2) = [1 1] * q1(1);
+qq(1,3:4) = [1 1] * q1(2);
 
-[q_obj, flag, qqs] = cInversa(q_ini, dh, T, R)
+% q2---------------------------------------------------------
 
-figure()
-R.plot(qqs(:,1)')
-%% Comparacion con Ikine 
-L1 =1.678;
-L2 =3.3345;
-L3 =3.6369;
-dh = [0 L1  0 -pi/2   0;
-      0 0   L2  0     0;
-      0 0   L3  0     0];
 
-R1=SerialLink(dh,'name','MK2-b');
-%LIMITES ARTICULARES
-R1.qlim(1,1:2) = [-185,  185]*pi/180;
-R1.qlim(2,1:2) = [-155,  95]*pi/180;
-R1.qlim(3,1:2) = [-85, 228]*pi/180;
+% T1 = A_dh(dh(1,:), q1(1));
+% p21 = invHomog(T1) * [Pm; 1]
+% B = atan2(p21(2), p21(1));
+% r = sqrt(p21(1)^2 + p21(2)^2);
+% G = (acos((L2^2 + r^2 - L3^2) / (2 * r * L2)));
+% 
+% q2(1) = B - real(G);
+% q2(2) = B + real(G);
+% q3(1) = (acos((r^2 - L2^2 - L3^2)/ (2 * L2 * L3)));
+% q3(2) = (acos((r^2 - L2^2 - L3^2)/ (2 * L2 * L3)));
+% img1=~isreal(G);
+% 
+% T1 = A_dh(dh(1,:), q1(2));
+% p22 = invHomog(T1) * [Pm; 1];
+% B = atan2(p22(2), p22(1));
+% r = sqrt(p22(1)^2 + p22(2)^2);
+% G = (acos((L2^2 + r^2 - L3^2) / (2 * r * L2)));
+% 
+% q2(3) = B - real(G);
+% q2(4) = B + real(G);
+% q3(3) = (acos((r^2 - L2^2 - L3^2)/ (2 * L2 * L3)));
+% q3(4) = (acos((r^2 - L2^2 - L3^2)/ (2 * L2 * L3)));
+% img2=~isreal(G);
+% 
+% qq(2,:) = [q2(1) q2(2) q2(3) q2(4)];
+% qq(3,:) = [q3(1) q3(2) q3(3) q3(4)];
+% %sacar offset
+% qq = qq - R.offset' * ones(1,4);
 
-R1.offset = [0 -pi/2 -pi/2];
+%% Prueba: 4/8 cambio en q2
+T1 = A_dh(dh(1,:), q1(1));
+p21 = invHomog(T1) * [Pm; 1]
+B = atan2(p21(2), p21(1));   %o es p21(2)y 3 en  vez de 1 2?
+d= sqrt(p21(1)^2 + p21(2)^2);
+C = (acos((L2^2 + d^2 - L3^2) / (2 * d * L2)));
+q2(1)=B - real(C);
+q2(2)=B + real(C);
+img1=~isreal(C);
 
-R1.tool = transl(1.848, 0, 0.506);
-Tool = R1.tool.double;
+T1 = A_dh(dh(1,:), q1(2));
+p22 = invHomog(T1) * [Pm; 1]
+B = atan2(p22(2), p22(1));   %o es p21(2)y 3 en  vez de 1 2?
+d= sqrt(p22(1)^2 + p22(2)^2);
+C = (acos((L2^2 + d^2 - L3^2) / (2 * d * L2)));
+q2(3)=B - real(C);
+q2(4)=B + real(C);
+img2=~isreal(C);
 
-R1.base = transl(0, 0, 0);
-Base = R1.base.double;
+qq(2,:) = [q2(1) q2(2) q2(3) q2(4)];
+%--------------q3----------------------------------
 
-Q = R1.ikine(T, 'mask', [1 1 1 0 0 0])
-figure()
-R1.plot(Q)
-%figure()
-%R.teach()
+for i=1:4
+    T1 = A_dh(dh(1,:), qq(1,i));
+    p22 = invHomog(T1) * [Pm; 1];
+    d= (p22(1)^2 + p22(2)^2);
+    q3(i) = pi-(acos((d^2 - L2^2 - L3^2) / -(2 * L3 * L2)));
+end
+
+qq(3,:) = [q3(1) q3(2) q3(3) q3(4)];
+%% menores distancia, primero las opciones reales.
+qdis=zeros(1,4);
+num=[1,2,3,4];
+qqimg=zeros(1,4);
+
+if (img1==1)
+    qqimg(1:2)=1;
+end
+
+if (img2==1)
+    qqimg(3:4)=1;
+end
+
+for i=1:4
+qdis(i)=sum(abs(qq(:,i)'-q_ant));
+end
+
+qposibles=[qdis;qqimg;num];%primer fila distancia, segunda fila 1 si es img 0 si es real, tercer fila numero de solucion.
+
+%ordeno columnas en funcion primer fila para que quede de menor a mayor distancia
+%luego ordeno en funcion de segunda fila para dejar valores imaginarios al final 
+[~,data]=sort(qposibles(1,:));
+qposibles=qposibles(:,data);
+
+[~,data]=sort(qposibles(2,:));
+qposibles=qposibles(:,data);
+qqs=[];
+for i=1:4
+qqs=[qqs qq(:,qposibles(3,i))];
+end
+indice=qposibles(3,1);
+
+q_obj=qq(:,indice)';
+
+%% revisa si la respuesta es posible o no en funcion de si es imaginaria
+fl=qposibles(2,1);
+if (fl==1)
+    flag=0; 
+    fprintf('La posicion final  esta fuera del espacio de trabajo\n se ha dado la respuesta mas cercana\n\n')
+else
+    flag=1;
+    fprintf('La posicion esta dentro del espacio de trabajo\n\n')
+end
+
+%% funciones auxiliares
+function T= A_dh(dh,q)
+T=trotz(q)*transl(dh(3),0,dh(2))*trotx(dh(4));
+end
+
+function iT = invHomog(T)
+iT = eye(4);
+iT(1:3, 1:3) = T(1:3, 1:3)';
+iT(1:3, 4) = - iT(1:3, 1:3) * T(1:3, 4);
+end
+
+end
