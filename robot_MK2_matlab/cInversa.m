@@ -7,7 +7,7 @@ L3 =3.6369;
 
 %[q_obj, flag, qqs] = cinv(q_ini, dh, T, R)
 T = invHomog(R.base.double) * T * invHomog(R.tool.double);
-Pm = T(1:3,4); %posicion final deseada
+Pm = T(1:3,4) %posicion final deseada
 %4 soluciones
 qq=zeros(3,4);
 
@@ -27,34 +27,65 @@ qq(1,3:4) = [1 1] * q1(2);
 % q2---------------------------------------------------------
 
 
-T1 = A_dh(dh(1,:), q1(1));
-p21 = invHomog(T1) * [Pm; 1];
-B = atan2(p21(2), p21(1));
-r = sqrt(p21(1)^2 + p21(2)^2);
-G = (acos((L2^2 + r^2 - L3^2) / (2 * r * L2)));
+% T1 = A_dh(dh(1,:), q1(1));
+% p21 = invHomog(T1) * [Pm; 1]
+% B = atan2(p21(2), p21(1));
+% r = sqrt(p21(1)^2 + p21(2)^2);
+% G = (acos((L2^2 + r^2 - L3^2) / (2 * r * L2)));
+% 
+% q2(1) = B - real(G);
+% q2(2) = B + real(G);
+% q3(1) = (acos((r^2 - L2^2 - L3^2)/ (2 * L2 * L3)));
+% q3(2) = (acos((r^2 - L2^2 - L3^2)/ (2 * L2 * L3)));
+% img1=~isreal(G);
+% 
+% T1 = A_dh(dh(1,:), q1(2));
+% p22 = invHomog(T1) * [Pm; 1];
+% B = atan2(p22(2), p22(1));
+% r = sqrt(p22(1)^2 + p22(2)^2);
+% G = (acos((L2^2 + r^2 - L3^2) / (2 * r * L2)));
+% 
+% q2(3) = B - real(G);
+% q2(4) = B + real(G);
+% q3(3) = (acos((r^2 - L2^2 - L3^2)/ (2 * L2 * L3)));
+% q3(4) = (acos((r^2 - L2^2 - L3^2)/ (2 * L2 * L3)));
+% img2=~isreal(G);
+% 
+% qq(2,:) = [q2(1) q2(2) q2(3) q2(4)];
+% qq(3,:) = [q3(1) q3(2) q3(3) q3(4)];
+% %sacar offset
+% qq = qq - R.offset' * ones(1,4);
 
-q2(1) = B - real(G);
-q2(2) = B + real(G);
-q3(1) = acos((r^2 - L2^2 - L3^2)/ (2 * L2 * L3));
-q3(2) = acos((r^2 - L2^2 - L3^2)/ (2 * L2 * L3));
-img1=~isreal(G);
+%% Prueba: 4/8 cambio en q2
+T1 = A_dh(dh(1,:), q1(1));
+p21 = invHomog(T1) * [Pm; 1]
+B = atan2(p21(2), p21(1));   %o es p21(2)y 3 en  vez de 1 2?
+d= sqrt(p21(1)^2 + p21(2)^2);
+C = (acos((L2^2 + d^2 - L3^2) / (2 * d * L2)));
+q2(1)=B - real(C);
+q2(2)=B + real(C);
+img1=~isreal(C);
 
 T1 = A_dh(dh(1,:), q1(2));
-p22 = invHomog(T1) * [Pm; 1];
-B = atan2(p22(2), p22(1));
-r = sqrt(p22(1)^2 + p22(2)^2);
-G = (acos((L2^2 + r^2 - L3^2) / (2 * r * L2)));
-
-q2(3) = B - real(G);
-q2(4) = B + real(G);
-q3(3) = acos((r^2 - L2^2 - L3^2)/ (2 * L2 * L3));
-q3(4) = acos((r^2 - L2^2 - L3^2)/ (2 * L2 * L3));
-img2=~isreal(G);
+p22 = invHomog(T1) * [Pm; 1]
+B = atan2(p22(2), p22(1));   %o es p21(2)y 3 en  vez de 1 2?
+d= sqrt(p22(1)^2 + p22(2)^2);
+C = (acos((L2^2 + d^2 - L3^2) / (2 * d * L2)));
+q2(3)=B - real(C);
+q2(4)=B + real(C);
+img2=~isreal(C);
 
 qq(2,:) = [q2(1) q2(2) q2(3) q2(4)];
+%--------------q3----------------------------------
+
+for i=1:4
+    T1 = A_dh(dh(1,:), qq(1,i));
+    p22 = invHomog(T1) * [Pm; 1];
+    d= (p22(1)^2 + p22(2)^2);
+    q3(i) = pi-(acos((d^2 - L2^2 - L3^2) / -(2 * L3 * L2)));
+end
+
 qq(3,:) = [q3(1) q3(2) q3(3) q3(4)];
-%sacar offset
-qq = qq - R.offset' * ones(1,4);
 %% menores distancia, primero las opciones reales.
 qdis=zeros(1,4);
 num=[1,2,3,4];
@@ -111,3 +142,4 @@ iT(1:3, 4) = - iT(1:3, 1:3) * T(1:3, 4);
 end
 
 end
+
