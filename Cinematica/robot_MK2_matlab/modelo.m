@@ -99,7 +99,7 @@ switch x
         figure()
         R.plot(q_ini,'trail', {'r'})
         hold on
-        R.teach()
+        R.teach('callback', @velelips)
     case 2
         % Cinematica Inversa
         T = transl(0.191,0.126,0.150);  %Posicion objetivo. z = 0.317
@@ -137,10 +137,21 @@ switch x
         R.plot(qqs(:,4)')
         hold on
         R1.plot(Q)
+        
+        
 
     case 3
-        J = (R.jacob0(q_ini));
+        %posicion deseada: obengo elipsoide
+        T = transl(0.191,0.126,0.150);
+        Q = R.ikine(T, 'mask', [1 1 1 0 0 0])
+        J = (R.jacob0(Q))
+        J = J(1:3,:)
         R.maniplty(q_ini)
+        figure()
+        R.plot(Q);
+        hold on
+        plot_ellipse(J*J',transl(T),'edgecolor', 'b');
+        %R.vellipse(Q, 'fillcolor','b','edgecolor', 'w', 'alpha', 0.5);
     case 5
         q_a=[0 0 0];
         figure()
