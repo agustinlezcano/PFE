@@ -29,11 +29,12 @@ L3a = 0.135;
 L4a = 0.2043;
 Xa = 0.025;
 
-R.offset = [0 0 0 0]; % [pi -pi/2 -pi/2 0]
+R.offset = [pi/12 -pi/12 -pi/12 0]; % [pi -pi/2 -pi/2 0]
 
 %cambiar las dimensiones de tool
 % R.tool = transl(.0817, 0, 0) * trotz(-pi/2) * transl(0.0419, 0, 0);
-R.tool = eye(4);
+R.tool = transl(0, 0, 0.05);
+% R.tool = eye(4);
 Tool = R.tool.double;
 R.base = transl(0, 0, 0.0);
 Base = R.base.double;
@@ -94,7 +95,7 @@ fprintf('1:Espacio de Trabajo \n')
 fprintf('2: Cinematica directa \n')
 fprintf('3: Cinematica inversa \n')
 fprintf('4: Singularidades \n')
-fprintf('5: Trayectoria \n\n')
+fprintf('5: Trayectoria \n')
 fprintf('6: Robot completo \n\n')
 x=input('Ingrese opcion: ');
 
@@ -113,56 +114,18 @@ switch x
         Ttoolbox_ini = R.fkine(q_ini)
         
         fprintf('Matriz Homogénea usando función propia: \n')
-        [T_ini,T1,q,flag] = c_dir(q_ini, dh, R) % T1 COMPONENTES
+        [T_ini,q,flag] = c_dir(q_ini, dh, R) % T1 COMPONENTES
+        
+         T_ini = Base \ T_ini / Tool;
         
     case 3
-        % Cinematica Inversa --> hacer coincidir posicion de efector final
-        % (posicion y orientacion)
-        T = transl(0.212,0.139,0.159);  %Posicion objetivo. z = 0.317
-        T = Base * T;
-%         [q_obj, flag, qqs] = cInversa(q_ini, dh, T, R, L);
+        % Cinematica Inversa --> Comparacion
+        fprintf('Se parte de una posición deseada, obteniendo una matriz de transformación homogénea: \n')
+        q_ini = deg2rad([30    10   -100    20])
+        T_obj = double(R.fkine(q_ini))
+        fprintf('Mediante la Matriz de Transformación Homogénea del ejemplo, se llega a las posiciones articulares deseadas: \n')
+        [qf] = cinv_geometrica(dh,q_ini, T_obj);
         
-        % Comparacion con Ikine 
-        L1 =0.057;
-        L2 =0.135;
-        L3 =0.147;
-        L4 =0.1;
-
-        dh = [0 L1  0 pi/2   0;
-              0 0   L2  0     0;
-              0 0   L3  0     0;
-              0 0   L4  0     0];
-          
-        T_obj =   [-0.2248   -0.4913    0.8415   -0.0267;
-                   -0.3502   -0.7651   -0.5403   -0.0416;
-                    0.9093   -0.4161         0    0.4379;
-                         0         0         0    1.0000];
-          
-        q = c_inv_alg(T_obj, dh)
-
-         R1=SerialLink(dh,'name','MK2-b');
-        %LIMITES ARTICULARES
-        R1.qlim(1,1:2) = [-185,  185]*pi/180;
-        R1.qlim(2,1:2) = [-185,  185]*pi/180;
-        R1.qlim(3,1:2) = [-185, 228]*pi/180;
-
-%         R1.offset = [pi -pi/2 -pi/2];
-        R1.offset = [0 0 0];
-%         R1.tool = transl(.0817, 0, 0) * trotz(-pi/2) * transl(0.0419, 0, 0)
-        R1.tool = eye(4);
-%         Tool = R1.tool.double;
-        
-        R1.base = transl(0, 0, 0.0);
-        Base = R1.base.double;
-        T1 = transl(0.191,0.126,0.150); %Posicion objetivo
-        T1 = Base * T1;
-        Q = R1.ikine(T1, 'mask', [1 1 1 0 0 0]);
-        figure()
-        R.plot(q_obj)
-        R.plot(qqs(:,4)')
-        hold on
-        R1.plot(Q)
-
     case 4
         %posicion deseada: obengo elipsoide
         T = transl(0.191,0.126,0.150);
