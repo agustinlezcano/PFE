@@ -2,13 +2,12 @@
 %transformación deseada y devuelve el set de posiciones articulares q (no
 %motor)
 
-function [qf] = cinv_geometrica(dh,q_ini,T_obj,Base,Tool, offset)
+function [qf, flag] = cinv_geometrica(dh,q_ini,T_obj,Base,Tool, offset, lim)
+%q_ini: arreglo de angulos inciales
 
 % Desacopar herramienta y base
 T_obj = Base \ T_obj * inv(Tool);
 
-fprintf('q final para prueba: \n')
-rad2deg(q_ini)
 fprintf('Matriz Homogénea usando función de Toolbox: \n')
 
 %Separar muñeca de extremo
@@ -16,20 +15,15 @@ Pf = T_obj(1:3,4);
 % Normal del plano XY (plano del suelo)
 % normal_XY = [0; 0; 1]; % Normal en dirección Z
 
-% Verificar si el versor Z del efector final es paralelo al plano XY
-% tol = 1e-3; % Tolerancia numérica
-% for i=1:3
-%     is_parallel = check_parallel_to_plane(Te, i, normal_XY, tol);
-%     if(is_parallel == 0)
-%         break;
-%     end
-% end
+ang_base = atan2(Pf(2), Pf(1));
+
+versor = [cos(ang_base); sin(ang_base); 0];
     
 %Pm = Pf - dh(4,3) * T_obj(1:3,i); %posicion de la muñeca, resto el parametro L4
-Pm = Pf - dh(4,3) * T_obj(1:3,1); %posicion de la muñeca, resto el parametro L4
+Pm = Pf - dh(4,3) * versor; %posicion de la muñeca, resto el parametro L4
 % CONFIGURACIÓN ALCANZABLE: Codo arriba - derecha (limitaciones fisicas)
 %% q1
-q1 = atan2(Pm(2), Pm(1));
+q1 = ang_base;
 
 %% q2
 T01 = A_dh(dh(1,:),q1);
@@ -56,4 +50,5 @@ q4 = pi - gamma;
 
 qf = real([q1 q2 q3 q4]) - offset;
 rad2deg(qf)
+flag = valida_angulos(qf,lim); %en uC: salida; qf en memoria (angulos) --> modificar ang. motor
 end

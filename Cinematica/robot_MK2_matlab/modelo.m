@@ -98,19 +98,24 @@ switch x
         % Cinematica Inversa --> Comparacion
         fprintf('Se parte de una posición deseada, obteniendo una matriz de transformación homogénea: \n')
         q_ini = deg2rad([45 -10 -10 20]); % 30    -10 1  -45    20
-        T_obj = double(R.fkine(q_ini));
+        %T_obj = double(R.fkine(q_ini));
+%         T_obj = transl(0.187, 0, 0.14)
+%         T_obj = transl(0.143, -0.154, 0.177)
+        T_obj = transl(2, 2, 2)
         T_obj1 = transl(0.187, 0, 0.14) * trotx(pi/2);
         % La rotacion es por la herramienta
         fprintf('Mediante la Matriz de Transformación Homogénea del ejemplo, se llega a las posiciones articulares deseadas: \n')
         % T_test = transl(.132,.132,.140)*trotx(deg2rad(90))*troty(deg2rad(45))
-        [qf] = cinv_geometrica(dh,q_ini, T_obj,Base,Tool, Offset);
-        % Comparacion de angulos
-        figure()
-        R.plot(qf);
-        hold on
-        trplot(T_obj,'color','b','frame','0','length',1.8)
-%         hold on
-%         trplot(T_obj1,'color','r','frame','1','length',1)
+        lim = R.qlim;
+        [qf, flag] = cinv_geometrica(dh,q_ini, T_obj,Base,Tool,Offset,lim);
+        if (~flag)
+            fprintf('Posicion no alcanzable\n');
+        else
+            figure()
+            R.plot(qf);
+            hold on
+            trplot(T_obj,'color','b','frame','0','length',1.8)
+        end
     case 4
         %posicion deseada: obengo elipsoide
         T = transl(0.191,0.126,0.150);
@@ -145,7 +150,7 @@ switch x
         Tt(:,:,1) = double(T_2);
         qq=[0;0;0;0]; % variables articulares iniciales
         for i=1:size(Tt,3)
-            aux = cinv_geometrica(dh,qq(:,i)', Tt(:,:,i),Base,Tool, Offset);
+            [aux, flag] = cinv_geometrica(dh,qq(:,i)', Tt(:,:,i),Base,Tool, Offset);
             qq=[qq aux'];
         end
         QJ=[];  % matriz de angulos
