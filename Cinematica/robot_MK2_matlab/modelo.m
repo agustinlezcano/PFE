@@ -132,14 +132,23 @@ switch x
     case 5
         % Recorrido de posiciones obtenidas mediante función que cumplan
         % que el ultimo eslabon sea horizontal
-        q4 = obtenerAngulos(R.qlim(2,:), R.qlim(3,:));
-        result = tray_inicial(q4);
-        n = height(result); % cantidad de filas
-        Tt = zeros(4,4,n);
-        % se obtienen n matrices de trayectoria
-        for i=1:n
-            Tt(:,:,i) = double(R.fkine(result(i,:)));
-        end
+%         q4 = obtenerAngulos(R.qlim(2,:), R.qlim(3,:));
+%         result = tray_inicial(q4);
+%         n = height(result); % cantidad de filas
+%         Tt = zeros(4,4,n);
+%         % se obtienen n matrices de trayectoria
+%         for i=1:n
+%             Tt(:,:,i) = double(R.fkine(result(i,:)));
+%         end
+    %% Opciones de tiempo y tarea
+        
+        fprintf('TRAYECTORIAS: Las opciones son las siguientes:\n\n');
+        fprintf('1: HOMING \n');
+        fprintf('2: SEGURIDAD \n');
+        fprintf('3: PICK \n');
+        fprintf('4: PLACE \n');
+        op = input('Ingrese opcion: \n');
+        t = input("Ingrese un tiempo para la tarea a realizar");
         
         %Se calcula la inversa para cada matriz que define un punto de la
         %trayectoria
@@ -149,143 +158,163 @@ switch x
         Tt(:,:,1) = double(T_1);
         Tt(:,:,1) = double(T_2);
         qq=[0;0;0;0]; % variables articulares iniciales
+        lim = R.qlim;
         for i=1:size(Tt,3)
-            [aux, flag] = cinv_geometrica(dh,qq(:,i)', Tt(:,:,i),Base,Tool, Offset);
+            [aux, flag] = cinv_geometrica(dh,qq(:,i)', Tt(:,:,i),Base,Tool, Offset,lim);
             qq=[qq aux'];
         end
         QJ=[];  % matriz de angulos
         QJv = [];   % velocidades articulares
         QJa = [];   % aceleraciones articulares
+        
+        switch op
+            % Para valores diferentes de Homing: corregir posicion inicial
+            case 1
+                %% Uso de Ctraj
+                % HOMING
+                TH = zeros(4,4,5); % maniobra de homing
+                TH(:,:,1) = transl(0.219,0.017,0.252)*trotx(deg2rad(90)); % posicion inicial
+                TH(:,:,2) = transl(.153,.017,.171)*trotx(deg2rad(90));
+                TH(:,:,3) = transl(.158,.017,.163)*trotx(deg2rad(90));
+                TH(:,:,4) = transl(.161,.017,.156)*trotx(deg2rad(90));
+                TH(:,:,5) = transl(.167,.017,.14)*trotx(deg2rad(90));
+                figure();
+                R.plot(q_ini,'scale',0.6,'trail', {'r'});
+                hold on;
+                qqC=q_ini; % inicial
+                lim = R.qlim;
+                for i=1:4
+                    N = 100;
+                    TC = ctraj(TH(:,:,i), TH(:,:,i+1), N);
 
-%         %uso de Jtraj
-%         for i=1:size(Tt,3)
-%             [QQ, QQv, QQa]=jtraj(qq(:,i)',qq(:,i+1)',100);
-%             QJ=[QJ;QQ];
-%             QJv=[QJv;QQv];
-%             QJa=[QJa;QQa];
-%         end
-%         
-%         % graficar trayectoria
-%         figure()
-%         R.plot(qq(:,1)','scale',.6,'trail', {'r'});
-%         hold on;
-%         R.plot(QJ,'delay',0.01);
+                    for j=1:N
+                        aux = cinv_geometrica(dh,qqC(j,:), TC(:,:,j),Base,Tool, Offset, lim);
+                        qqC=[qqC; aux];
+                    end
 
-        %% Uso de Ctraj
-        % HOMING
-        TH = zeros(4,4,5); % maniobra de homing
-        TH(:,:,1) = transl(.153,.017,.171)*trotx(deg2rad(90));
-        TH(:,:,2) = transl(.158,.017,.163)*trotx(deg2rad(90));
-        TH(:,:,3) = transl(.161,.017,.156)*trotx(deg2rad(90));
-        TH(:,:,4) = transl(.167,.017,.14)*trotx(deg2rad(90));
-        figure();
-        R.plot(q_ini,'scale',0.6,'trail', {'r'});
-        hold on;
-        qqC=q_ini; % inicial
-        for i=1:3
-            N = 100;
-            TC = ctraj(TH(:,:,i), TH(:,:,i+1), N);
-            
-            for j=1:N
-                aux = cinv_geometrica(dh,qqC(j,:), TC(:,:,j),Base,Tool, Offset);
-                qqC=[qqC; aux];
-            end
-        
-            
-        end
-        R.plot(qqC,'delay',0.01,'trail', {'r'});
-        hold off
-        
-        % SEGURIDAD
-        TH = zeros(4,4,5); % maniobra de SEGURIDAD
-        TH(:,:,1) = transl(.185,.017,.158)*trotx(deg2rad(90));
-        TH(:,:,2) = transl(.2,.017,.179)*trotx(deg2rad(90));
-        TH(:,:,3) = transl(.210,.017,.202)*trotx(deg2rad(90));
-        TH(:,:,4) = transl(.217,.017,.227)*trotx(deg2rad(90));
-        figure();
-        R.plot(q_ini,'scale',0.6,'trail', {'g'});
-        hold on;
-        qqC=q_ini; % inicial
-        for i=1:3
-            N = 100;
-            TC = ctraj(TH(:,:,i), TH(:,:,i+1), N);
-            
-            for j=1:N
-                aux = cinv_geometrica(dh,qqC(j,:), TC(:,:,j),Base,Tool, Offset);
-                qqC=[qqC; aux];
-            end
-        
-            
-        end
-        R.plot(qqC,'delay',0.01,'trail', {'g'});
-        hold off
-        
-        % PICK
-        TH = zeros(4,4,5); % maniobra de pick
-        TH(:,:,1) = transl(.257,.017,.194)*trotx(deg2rad(90));
-        TH(:,:,2) = transl(.246,.017,.171)*trotx(deg2rad(90));
-        TH(:,:,3) = transl(.239,.017,.160)*trotx(deg2rad(90));
-        TH(:,:,4) = transl(.231,.017,.150)*trotx(deg2rad(90));
-        TH(:,:,5) = transl(.213,.017,.132)*trotx(deg2rad(90));
-        TH(:,:,6) = transl(.192,.017,.117)*trotx(deg2rad(90));
-        TH(:,:,7) = transl(.167,.017,.098)*trotx(deg2rad(90));
-        figure();
-        R.plot(q_ini,'scale',0.6,'trail', {'g'});
-        hold on;
-        qqC=q_ini; % inicial
-        for i=1:6
-            N = 100;
-            TC = ctraj(TH(:,:,i), TH(:,:,i+1), N);
-            
-            for j=1:N
-                aux = cinv_geometrica(dh,qqC(j,:), TC(:,:,j),Base,Tool, Offset);
-                qqC=[qqC; aux];
-            end
-        
-            
-        end
-        R.plot(qqC,'delay',0.01,'trail', {'g'});
-        hold off
-        
-        % PALCE
-        TH = zeros(4,4,5); % maniobra de place
-        TH(:,:,1) = transl(.252,.017,.092)*trotx(deg2rad(90));
-        TH(:,:,2) = transl(.288,.017,.128)*trotx(deg2rad(90));
-        TH(:,:,3) = transl(.301,.017,.151)*trotx(deg2rad(90));
-        TH(:,:,4) = transl(.310,.017,.175)*trotx(deg2rad(90));
-        TH(:,:,5) = transl(.316,.017,.133)*trotx(deg2rad(90));
-        figure();
-        R.plot(q_ini,'scale',0.6,'trail', {'m'});
-        hold on;
-        qqC=q_ini; % inicial
-        for i=1:4
-            N = 100;
-            TC = ctraj(TH(:,:,i), TH(:,:,i+1), N);
-            
-            for j=1:N
-                aux = cinv_geometrica(dh,qqC(j,:), TC(:,:,j),Base,Tool, Offset);
-                qqC=[qqC; aux];
-            end
-        
-            
-        end
-        R.plot(qqC,'delay',0.01,'trail', {'m'});
-        hold off
-        
-        %% Ctraj: DEMO
-        N = 100;
-        TC = ctraj(T_2, T_1, N);
-        qqC=q_ini; % inicial
-        for i=1:N
-            aux = cinv_geometrica(dh,qqC(i,:), TC(:,:,i),Base,Tool, Offset);
-            qqC=[qqC; aux];
-        end
-        figure();
-        R.plot(q_ini,'scale',0.6,'trail', {'b'});
-        hold on;
-        R.plot(qqC,'delay',0.01,'trail', {'b'});
+                end
+                R.plot(qqC,'delay',0.01,'trail', {'r'});
+                hold off
+                close all;
+                scalar = 400/t; %1/(tiempo/n.ptos)
+                qqCV = rad2deg(diff(qqC));   
+                qqCA = rad2deg(diff(qqCV));
 
+            case 2
+                %% SEGURIDAD
+                TH = zeros(4,4,5); % maniobra de SEGURIDAD
+                TH(:,:,1) = transl(.185,.017,.158)*trotx(deg2rad(90));
+                TH(:,:,2) = transl(.2,.017,.179)*trotx(deg2rad(90));
+                TH(:,:,3) = transl(.210,.017,.202)*trotx(deg2rad(90));
+                TH(:,:,4) = transl(.217,.017,.227)*trotx(deg2rad(90));
+                figure();
+                R.plot(q_ini,'scale',0.6,'trail', {'g'});
+                hold on;
+                qqC=q_ini; % inicial
+                for i=1:3
+                    N = 100;
+                    TC = ctraj(TH(:,:,i), TH(:,:,i+1), N);
+
+                    for j=1:N
+                        aux = cinv_geometrica(dh,qqC(j,:), TC(:,:,j),Base,Tool, Offset, lim);
+                        qqC=[qqC; aux];
+                    end
+
+                end
+                R.plot(qqC,'delay',0.01,'trail', {'g'});
+                hold off
+                close all;
+                scalar = 300/t; %1/(tiempo/n.ptos)
+                qqCV = rad2deg(diff(qqC));   
+                qqCA = rad2deg(diff(qqCV));
+            case 3
+
+                %% PICK
+                TH = zeros(4,4,5); % maniobra de pick
+                TH(:,:,1) = transl(.257,.017,.194)*trotx(deg2rad(90));
+                TH(:,:,2) = transl(.246,.017,.171)*trotx(deg2rad(90));
+                TH(:,:,3) = transl(.239,.017,.160)*trotx(deg2rad(90));
+                TH(:,:,4) = transl(.231,.017,.150)*trotx(deg2rad(90));
+                TH(:,:,5) = transl(.213,.017,.132)*trotx(deg2rad(90));
+                TH(:,:,6) = transl(.192,.017,.117)*trotx(deg2rad(90));
+                TH(:,:,7) = transl(.167,.017,.098)*trotx(deg2rad(90));
+                figure();
+                R.plot(q_ini,'scale',0.6,'trail', {'g'});
+                hold on;
+                qqC=q_ini; % inicial
+                for i=1:6
+                    N = 100;
+                    TC = ctraj(TH(:,:,i), TH(:,:,i+1), N);
+
+                    for j=1:N
+                        aux = cinv_geometrica(dh,qqC(j,:), TC(:,:,j),Base,Tool, Offset, lim);
+                        qqC=[qqC; aux];
+                    end
+
+                end
+                R.plot(qqC,'delay',0.01,'trail', {'g'});
+                hold off
+                close all;
+                scalar = 600/t; %1/(tiempo/n.ptos)
+                qqCV = rad2deg(diff(qqC));   
+                qqCA = rad2deg(diff(qqCV));
+            case 4
+                %% PLACE
+                TH = zeros(4,4,5); % maniobra de place
+                TH(:,:,1) = transl(.252,.017,.092)*trotx(deg2rad(90));
+                TH(:,:,2) = transl(.288,.017,.128)*trotx(deg2rad(90));
+                TH(:,:,3) = transl(.301,.017,.151)*trotx(deg2rad(90));
+                TH(:,:,4) = transl(.310,.017,.175)*trotx(deg2rad(90));
+                TH(:,:,5) = transl(.316,.017,.133)*trotx(deg2rad(90));
+                figure();
+                R.plot(q_ini,'scale',0.6,'trail', {'m'});
+                hold on;
+                qqC=q_ini; % inicial
+                for i=1:4
+                    N = 100;
+                    TC = ctraj(TH(:,:,i), TH(:,:,i+1), N);
+
+                    for j=1:N
+                        aux = cinv_geometrica(dh,qqC(j,:), TC(:,:,j),Base,Tool, Offset, lim);
+                        qqC=[qqC; aux];
+                    end
+
+                end
+                R.plot(qqC,'delay',0.01,'trail', {'m'});
+                hold off
+                close all;
+                scalar = 400/t; %1/(tiempo/n.ptos)
+                qqCV = rad2deg(diff(qqC));   
+                qqCA = rad2deg(diff(qqCV));
+        end
+        %         
+        %         %% Ctraj: DEMO
+        %         N = 100;
+        %         TC = ctraj(T_2, T_1, N);
+        %         qqC=q_ini; % inicial
+        %         for i=1:N
+        %             aux = cinv_geometrica(dh,qqC(i,:), TC(:,:,i),Base,Tool, Offset, lim);
+        %             qqC=[qqC; aux];
+        %         end
+        %         figure();
+        %         R.plot(q_ini,'scale',0.6,'trail', {'b'});
+        %         hold on;
+        %         R.plot(qqC,'delay',0.01,'trail', {'b'});
+        %         close all;
+        %         qqCV = diff(qqC) * 100/20;  % diff/(tiempo/n.ptos)
+        %Para ctraj
         
+        figure(1)
+        subplot(3,1,1)
+        plot(rad2deg(qqC));
+        title('Posiciones articulares (ctraj)');
+        subplot(3,1,2)
+        plot(qqCV);
+        title('Velocidades articulares (ctraj)');
+        subplot(3,1,3)
+        plot(qqCA);
+        title('Aceleraciones articulares (ctraj)');
+        writematrix(qqC, 'traj_ang.csv');  % Guarda en el archivo 'datos.csv'
     case 6
         figure()
         R.plot(q_ini,'trail', {'r'})

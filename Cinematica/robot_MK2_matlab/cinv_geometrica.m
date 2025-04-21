@@ -50,5 +50,7 @@ q4 = pi - gamma;
 
 qf = real([q1 q2 q3 q4]) - offset;
 rad2deg(qf)
+theta_m2 = q2; %despues referenciar eje y sentido
+theta_m3 = q2 - phi; %despues referenciar eje y sentido
 flag = valida_angulos(qf,lim); %en uC: salida; qf en memoria (angulos) --> modificar ang. motor
 end
