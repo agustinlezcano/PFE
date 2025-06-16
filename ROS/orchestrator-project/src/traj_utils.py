@@ -66,79 +66,6 @@ class TrajectoryUtils:
             raise ValueError("Time is out of range")
         return s, sd, sdd
     
-    # def generateLSPBProfileDerivative(self, maxSpeed, maxAcc, time, accTime, totalTime, distance) -> float:
-    #     """
-    #     Generates a Linear Segment with Parabolic Blends (LSPB) profile derivative.
-    #     :param maxSpeed: Maximum speed     
-    #     :param maxAcc: Maximum acceleration
-    #     :param totalTime: Total time for the motion
-    #     :param time: Current time for the motion
-    #     :param accTime: Acceleration time
-    #     :return: float containing S(t) value [0,1]
-    #     """
-    #     if time < 0:
-    #         raise ValueError("Time must be greater than 0")
-    #     if accTime <= 0 or accTime >= totalTime:
-    #         raise ValueError("Acceleration time must be greater than 0 and less than total time")
-
-    #     # If the distance is less than twice the needed distance to accelerate,
-    #     # then the speed is recalculated.
-    #     if (not self.__isValidSpeed(maxSpeed, maxAcc, distance)):
-    #         # TODO: warning message with speed
-    #         #print("Distance is too short for the given max speed. Recalculating max speed.")
-    #         (maxSpeed, timeAcc, maxAcc) = self.__calculateSpeed(distance, maxAcc, totalTime, accTime)
-    #         #print(f"New max speed: {maxSpeed}")
-    #     else:
-    #         timeAcc = accTime
-
-    #     tAcc = min(totalTime / 2, timeAcc)
-    #     #print(f"New time acc: {tAcc}")
-        
-    #     if (time >= 0 and time <= tAcc):
-    #         sd = maxAcc * time
-    #     elif (time > tAcc and time <= totalTime - tAcc):
-    #         sd = maxSpeed
-    #     elif (time > totalTime - tAcc and time <= totalTime):
-    #         tDec = time - (totalTime - tAcc)
-    #         sd = maxSpeed - maxAcc * tDec
-    #     else:
-    #         raise ValueError("Time is out of range")
-        
-    #     return sd
-    
-    # def generateLSPBProfileDoubleDerivative(self, maxSpeed, maxAcc, time, accTime, totalTime, distance) -> float:
-    #     """
-    #     Generates a Linear Segment with Parabolic Blends (LSPB) profile derivative.
-    #     :param maxSpeed: Maximum speed     
-    #     :param maxAcc: Maximum acceleration
-    #     :param totalTime: Total time for the motion
-    #     :param time: Current time for the motion
-    #     :param accTime: Acceleration time
-    #     :return: float containing S(t) value [0,1]
-    #     """
-    #     if time < 0:
-    #         raise ValueError("Time must be greater than 0")
-    #     if accTime <= 0 or accTime >= totalTime:
-    #         raise ValueError("Acceleration time must be greater than 0 and less than total time")
-
-    #     if (not self.__isValidSpeed(maxSpeed, maxAcc, distance)):
-    #         # TODO: warning message with speed
-    #         (maxSpeed, timeAcc, maxAcc) = self.__calculateSpeed(distance, maxAcc, totalTime, accTime)
-    #     else:
-    #         timeAcc = accTime
-
-    #     tAcc = min(totalTime / 2, timeAcc)
-        
-    #     if (time >= 0 and time <= tAcc):
-    #         sdd = maxAcc
-    #     elif (time > tAcc and time <= totalTime - tAcc):
-    #         sdd = 0
-    #     elif (time > totalTime - tAcc and time <= totalTime):
-    #         sdd = - maxAcc
-    #     else:
-    #         raise ValueError("Time is out of range")
-        
-    #     return sdd
 
     def __isValidSpeed(self, maxSpeed: float, maxAcc: float, distance: float) -> bool:
         """
@@ -216,27 +143,6 @@ class TrajectoryUtils:
         :return: True if feasible, False otherwise
         """
         return (maxSpeed / maxAcc <= timeAcc)
-
-    # def factorizeTime(self, maxSpeed: float, maxAcc: float) -> tuple[float, float, float]:
-    #         """
-    #         Factorizes the distance based on the maximum speed and acceleration.
-    #         :param maxSpeed: Maximum speed
-    #         :param maxAcc: Maximum acceleration
-    #         :return: Tuple containing the factorized distance, maximum speed, and maximum acceleration
-    #         """
-
-    #         if maxSpeed < 0:
-    #             raise ValueError("Max speed must be non-negative")
-    #         if maxAcc < 0:
-    #             raise ValueError("Max acceleration must be non-negative")
-
-    #         factor = 1 / abs(distance) if distance != 0 else 1
-    #         # Factorize the distance based on the maximum speed and acceleration
-    #         factorizedDistance = distance / factor
-    #         maxSpeed = maxSpeed * factor
-    #         maxAcc = maxAcc * factor
-
-    #         return (factorizedDistance, maxSpeed, maxAcc)
     
     def setMaxParams(self, maxSpeed: float, maxAcc: float, timeAcc: float, distance: float) -> None:
         """
@@ -295,3 +201,26 @@ class TrajectoryUtils:
         self.setPointTime = kwargs.get("time", None)
         self.setPointDistance = kwargs.get("distance", 1.0)
         self.setPointTimeAcc = kwargs.get("timeAcc", None)
+
+    @staticmethod
+    def interpolate(s: float, thetaIni: float, thetaFin: float) -> float:
+        """
+        Interpolates the trajectory based on the given parameters.
+        :param s: S
+        :param thetaIni: Initial Position
+        :param thetaFin: Final Position
+        :return: Tuple containing the interpolated values
+        :raises: ValueError: If s is not between 0 and 1
+        
+        thetaIni - thetaIni * s + thetaFin * s = theta
+        theta = thetaIni + (thetaFin - thetaIni) * s
+        """
+        # Aca sería ángulo o posición. Si la cinemática se define en el robot, pasar posición
+        # Tener en cuenta consigna de homing (paso ángulos)
+        if s < 0 or s > 1:
+            raise ValueError("s must be between 0 and 1")
+        
+        theta = (1 - s) * thetaIni + s * thetaFin
+        return theta
+    
+    
