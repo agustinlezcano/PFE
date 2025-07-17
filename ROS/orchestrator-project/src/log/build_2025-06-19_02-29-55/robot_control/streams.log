@@ -1,0 +1,29 @@
+[2.808s] Invoking command in '/home/agustin/pfe/PFE/ROS/orchestrator-project/src/robot_control': PYTHONPATH=/home/agustin/pfe/PFE/ROS/orchestrator-project/src/build/robot_control/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/agustin/pfe/PFE/ROS/orchestrator-project/src/install/robot_control/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py egg_info --egg-base ../build/robot_control build --build-base /home/agustin/pfe/PFE/ROS/orchestrator-project/src/build/robot_control/build install --record /home/agustin/pfe/PFE/ROS/orchestrator-project/src/build/robot_control/install.log --single-version-externally-managed install_data
+[3.740s] running egg_info
+[3.745s] writing ../build/robot_control/robot_control.egg-info/PKG-INFO
+[3.750s] writing dependency_links to ../build/robot_control/robot_control.egg-info/dependency_links.txt
+[3.750s] writing entry points to ../build/robot_control/robot_control.egg-info/entry_points.txt
+[3.750s] writing requirements to ../build/robot_control/robot_control.egg-info/requires.txt
+[3.750s] writing top-level names to ../build/robot_control/robot_control.egg-info/top_level.txt
+[3.764s] reading manifest file '../build/robot_control/robot_control.egg-info/SOURCES.txt'
+[3.770s] adding license file 'LICENSE'
+[3.783s] writing manifest file '../build/robot_control/robot_control.egg-info/SOURCES.txt'
+[3.784s] running build
+[3.785s] running build_py
+[3.791s] copying robot_control/publisher.py -> /home/agustin/pfe/PFE/ROS/orchestrator-project/src/build/robot_control/build/lib/robot_control
+[3.795s] copying robot_control/testCommunication.py -> /home/agustin/pfe/PFE/ROS/orchestrator-project/src/build/robot_control/build/lib/robot_control
+[3.797s] running install
+[3.801s] running install_lib
+[3.806s] copying /home/agustin/pfe/PFE/ROS/orchestrator-project/src/build/robot_control/build/lib/robot_control/publisher.py -> /home/agustin/pfe/PFE/ROS/orchestrator-project/src/install/robot_control/lib/python3.10/site-packages/robot_control
+[3.813s] copying /home/agustin/pfe/PFE/ROS/orchestrator-project/src/build/robot_control/build/lib/robot_control/testCommunication.py -> /home/agustin/pfe/PFE/ROS/orchestrator-project/src/install/robot_control/lib/python3.10/site-packages/robot_control
+[3.820s] byte-compiling /home/agustin/pfe/PFE/ROS/orchestrator-project/src/install/robot_control/lib/python3.10/site-packages/robot_control/publisher.py to publisher.cpython-310.pyc
+[3.827s] byte-compiling /home/agustin/pfe/PFE/ROS/orchestrator-project/src/install/robot_control/lib/python3.10/site-packages/robot_control/testCommunication.py to testCommunication.cpython-310.pyc
+[3.838s] running install_data
+[3.839s] running install_egg_info
+[3.878s] removing '/home/agustin/pfe/PFE/ROS/orchestrator-project/src/install/robot_control/lib/python3.10/site-packages/robot_control-0.0.0-py3.10.egg-info' (and everything under it)
+[3.878s] Copying ../build/robot_control/robot_control.egg-info to /home/agustin/pfe/PFE/ROS/orchestrator-project/src/install/robot_control/lib/python3.10/site-packages/robot_control-0.0.0-py3.10.egg-info
+[3.904s] running install_scripts
+[4.137s] Installing listener script to /home/agustin/pfe/PFE/ROS/orchestrator-project/src/install/robot_control/lib/robot_control
+[4.137s] Installing talker script to /home/agustin/pfe/PFE/ROS/orchestrator-project/src/install/robot_control/lib/robot_control
+[4.148s] writing list of installed files to '/home/agustin/pfe/PFE/ROS/orchestrator-project/src/build/robot_control/install.log'
+[4.427s] Invoked command in '/home/agustin/pfe/PFE/ROS/orchestrator-project/src/robot_control' returned '0': PYTHONPATH=/home/agustin/pfe/PFE/ROS/orchestrator-project/src/build/robot_control/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/agustin/pfe/PFE/ROS/orchestrator-project/src/install/robot_control/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py egg_info --egg-base ../build/robot_control build --build-base /home/agustin/pfe/PFE/ROS/orchestrator-project/src/build/robot_control/build install --record /home/agustin/pfe/PFE/ROS/orchestrator-project/src/build/robot_control/install.log --single-version-externally-managed install_data

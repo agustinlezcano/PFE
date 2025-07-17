@@ -1,0 +1,119 @@
+[0.000000] (-) TimerEvent: {}
+[0.000962] (robot_control) JobQueued: {'identifier': 'robot_control', 'dependencies': OrderedDict()}
+[0.001108] (robot_control) JobStarted: {'identifier': 'robot_control'}
+[0.097819] (-) TimerEvent: {}
+[0.201278] (-) TimerEvent: {}
+[0.301827] (-) TimerEvent: {}
+[0.404313] (-) TimerEvent: {}
+[0.506792] (-) TimerEvent: {}
+[0.608292] (-) TimerEvent: {}
+[0.710794] (-) TimerEvent: {}
+[0.813217] (-) TimerEvent: {}
+[0.914761] (-) TimerEvent: {}
+[1.016258] (-) TimerEvent: {}
+[1.119490] (-) TimerEvent: {}
+[1.221221] (-) TimerEvent: {}
+[1.323710] (-) TimerEvent: {}
+[1.425214] (-) TimerEvent: {}
+[1.526769] (-) TimerEvent: {}
+[1.629168] (-) TimerEvent: {}
+[1.730720] (-) TimerEvent: {}
+[1.833190] (-) TimerEvent: {}
+[1.934702] (-) TimerEvent: {}
+[2.036205] (-) TimerEvent: {}
+[2.138684] (-) TimerEvent: {}
+[2.240223] (-) TimerEvent: {}
+[2.341674] (-) TimerEvent: {}
+[2.444213] (-) TimerEvent: {}
+[2.482268] (robot_control) Command: {'cmd': ['/usr/bin/python3', '-W', 'ignore:setup.py install is deprecated', '-W', 'ignore:easy_install command is deprecated', 'setup.py', 'egg_info', '--egg-base', '../build/robot_control', 'build', '--build-base', '/home/agustin/pfe/PFE/ROS/orchestrator-project/src/build/robot_control/build', 'install', '--record', '/home/agustin/pfe/PFE/ROS/orchestrator-project/src/build/robot_control/install.log', '--single-version-externally-managed', 'install_data'], 'cwd': '/home/agustin/pfe/PFE/ROS/orchestrator-project/src/robot_control', 'env': {'LESSOPEN': '| /usr/bin/lesspipe %s', 'USER': 'agustin', 'LC_TIME': 'es_AR.UTF-8', 'XDG_SESSION_TYPE': 'wayland', 'SHLVL': '1', 'LD_LIBRARY_PATH': '/opt/ros/humble/opt/rviz_ogre_vendor/lib:/opt/ros/humble/lib/x86_64-linux-gnu:/opt/ros/humble/lib', 'HOME': '/home/agustin', 'OLDPWD': '/home/agustin/pfe/PFE/ROS/orchestrator-project/src/robot_control', 'DESKTOP_SESSION': 'ubuntu', 'ROS_PYTHON_VERSION': '3', 'GNOME_SHELL_SESSION_MODE': 'ubuntu', 'GTK_MODULES': 'gail:atk-bridge', 'LC_MONETARY': 'es_AR.UTF-8', 'SYSTEMD_EXEC_PID': '1913', 'DBUS_SESSION_BUS_ADDRESS': 'unix:path=/run/user/1000/bus', 'COLORTERM': 'truecolor', '_colcon_cd_root': '/opt/ros/humble/', 'IM_CONFIG_PHASE': '1', 'WAYLAND_DISPLAY': 'wayland-0', 'COLCON_PREFIX_PATH': '/home/agustin/pfe/PFE/ROS/orchestrator-project/src/robot_control/install', 'ROS_DISTRO': 'humble', 'LOGNAME': 'agustin', '_': '/usr/bin/colcon', 'ROS_VERSION': '2', 'XDG_SESSION_CLASS': 'user', 'USERNAME': 'agustin', 'TERM': 'xterm-256color', 'GNOME_DESKTOP_SESSION_ID': 'this-is-deprecated', 'ROS_LOCALHOST_ONLY': '0', 'PATH': '/opt/ros/humble/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/snap/bin', 'SESSION_MANAGER': 'local/agustin-VirtualBox:@/tmp/.ICE-unix/1672,unix/agustin-VirtualBox:/tmp/.ICE-unix/1672', 'XDG_MENU_PREFIX': 'gnome-', 'LC_ADDRESS': 'es_AR.UTF-8', 'GNOME_TERMINAL_SCREEN': '/org/gnome/Terminal/screen/a3ed9286_1740_4f40_8015_d0fd8d43080e', 'GNOME_SETUP_DISPLAY': ':1', 'XDG_RUNTIME_DIR': '/run/user/1000', 'DISPLAY': ':0', 'LANG': 'en_US.UTF-8', 'XDG_CURRENT_DESKTOP': 'ubuntu:GNOME', 'LC_TELEPHONE': 'es_AR.UTF-8', 'XMODIFIERS': '@im=ibus', 'XDG_SESSION_DESKTOP': 'ubuntu', 'XAUTHORITY': '/run/user/1000/.mutter-Xwaylandauth.7DOI82', 'LS_COLORS': 'rs=0:di=01;34:ln=01;36:mh=00:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:mi=00:su=37;41:sg=30;43:ca=30;41:tw=30;42:ow=34;42:st=37;44:ex=01;32:*.tar=01;31:*.tgz=01;31:*.arc=01;31:*.arj=01;31:*.taz=01;31:*.lha=01;31:*.lz4=01;31:*.lzh=01;31:*.lzma=01;31:*.tlz=01;31:*.txz=01;31:*.tzo=01;31:*.t7z=01;31:*.zip=01;31:*.z=01;31:*.dz=01;31:*.gz=01;31:*.lrz=01;31:*.lz=01;31:*.lzo=01;31:*.xz=01;31:*.zst=01;31:*.tzst=01;31:*.bz2=01;31:*.bz=01;31:*.tbz=01;31:*.tbz2=01;31:*.tz=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.war=01;31:*.ear=01;31:*.sar=01;31:*.rar=01;31:*.alz=01;31:*.ace=01;31:*.zoo=01;31:*.cpio=01;31:*.7z=01;31:*.rz=01;31:*.cab=01;31:*.wim=01;31:*.swm=01;31:*.dwm=01;31:*.esd=01;31:*.jpg=01;35:*.jpeg=01;35:*.mjpg=01;35:*.mjpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.svg=01;35:*.svgz=01;35:*.mng=01;35:*.pcx=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.m2v=01;35:*.mkv=01;35:*.webm=01;35:*.webp=01;35:*.ogm=01;35:*.mp4=01;35:*.m4v=01;35:*.mp4v=01;35:*.vob=01;35:*.qt=01;35:*.nuv=01;35:*.wmv=01;35:*.asf=01;35:*.rm=01;35:*.rmvb=01;35:*.flc=01;35:*.avi=01;35:*.fli=01;35:*.flv=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.yuv=01;35:*.cgm=01;35:*.emf=01;35:*.ogv=01;35:*.ogx=01;35:*.aac=00;36:*.au=00;36:*.flac=00;36:*.m4a=00;36:*.mid=00;36:*.midi=00;36:*.mka=00;36:*.mp3=00;36:*.mpc=00;36:*.ogg=00;36:*.ra=00;36:*.wav=00;36:*.oga=00;36:*.opus=00;36:*.spx=00;36:*.xspf=00;36:', 'GNOME_TERMINAL_SERVICE': ':1.113', 'SSH_AGENT_LAUNCHER': 'gnome-keyring', 'SSH_AUTH_SOCK': '/run/user/1000/keyring/ssh', 'ROS_DOMAIN_ID': '1', 'AMENT_PREFIX_PATH': '/opt/ros/humble', 'SHELL': '/bin/bash', 'LC_NAME': 'es_AR.UTF-8', 'QT_ACCESSIBILITY': '1', 'GDMSESSION': 'ubuntu', 'LESSCLOSE': '/usr/bin/lesspipe %s %s', 'LC_MEASUREMENT': 'es_AR.UTF-8', 'LC_IDENTIFICATION': 'es_AR.UTF-8', 'QT_IM_MODULE': 'ibus', 'PWD': '/home/agustin/pfe/PFE/ROS/orchestrator-project/src/build/robot_control', 'LC_ALL': 'en_US.UTF-8', 'XDG_CONFIG_DIRS': '/etc/xdg/xdg-ubuntu:/etc/xdg', 'XDG_DATA_DIRS': '/usr/share/ubuntu:/usr/local/share/:/usr/share/:/var/lib/snapd/desktop', 'PYTHONPATH': '/home/agustin/pfe/PFE/ROS/orchestrator-project/src/build/robot_control/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/agustin/pfe/PFE/ROS/orchestrator-project/src/install/robot_control/lib/python3.10/site-packages:/opt/ros/humble/lib/python3.10/site-packages:/opt/ros/humble/local/lib/python3.10/dist-packages', 'LC_NUMERIC': 'es_AR.UTF-8', 'LC_PAPER': 'es_AR.UTF-8', 'COLCON': '1', 'VTE_VERSION': '6800'}, 'shell': False}
+[2.544746] (-) TimerEvent: {}
+[2.648179] (-) TimerEvent: {}
+[2.749669] (-) TimerEvent: {}
+[2.851192] (-) TimerEvent: {}
+[2.953681] (-) TimerEvent: {}
+[3.055191] (-) TimerEvent: {}
+[3.156688] (-) TimerEvent: {}
+[3.259219] (-) TimerEvent: {}
+[3.360763] (-) TimerEvent: {}
+[3.434998] (robot_control) StdoutLine: {'line': b'running egg_info\n'}
+[3.439979] (robot_control) StdoutLine: {'line': b'creating ../build/robot_control/robot_control.egg-info\n'}
+[3.445645] (robot_control) StdoutLine: {'line': b'writing ../build/robot_control/robot_control.egg-info/PKG-INFO\n'}
+[3.445961] (robot_control) StdoutLine: {'line': b'writing dependency_links to ../build/robot_control/robot_control.egg-info/dependency_links.txt\n'}
+[3.446711] (robot_control) StdoutLine: {'line': b'writing entry points to ../build/robot_control/robot_control.egg-info/entry_points.txt\n'}
+[3.447249] (robot_control) StdoutLine: {'line': b'writing requirements to ../build/robot_control/robot_control.egg-info/requires.txt\n'}
+[3.450599] (robot_control) StdoutLine: {'line': b'writing top-level names to ../build/robot_control/robot_control.egg-info/top_level.txt\n'}
+[3.450861] (robot_control) StdoutLine: {'line': b"writing manifest file '../build/robot_control/robot_control.egg-info/SOURCES.txt'\n"}
+[3.460926] (robot_control) StdoutLine: {'line': b"reading manifest file '../build/robot_control/robot_control.egg-info/SOURCES.txt'\n"}
+[3.461273] (-) TimerEvent: {}
+[3.466269] (robot_control) StdoutLine: {'line': b"adding license file 'LICENSE'\n"}
+[3.470166] (robot_control) StdoutLine: {'line': b"writing manifest file '../build/robot_control/robot_control.egg-info/SOURCES.txt'\n"}
+[3.473398] (robot_control) StdoutLine: {'line': b'running build\n'}
+[3.473688] (robot_control) StdoutLine: {'line': b'running build_py\n'}
+[3.476559] (robot_control) StdoutLine: {'line': b'creating /home/agustin/pfe/PFE/ROS/orchestrator-project/src/build/robot_control/build\n'}
+[3.481842] (robot_control) StdoutLine: {'line': b'creating /home/agustin/pfe/PFE/ROS/orchestrator-project/src/build/robot_control/build/lib\n'}
+[3.482254] (robot_control) StdoutLine: {'line': b'creating /home/agustin/pfe/PFE/ROS/orchestrator-project/src/build/robot_control/build/lib/robot_control\n'}
+[3.482452] (robot_control) StdoutLine: {'line': b'copying robot_control/path_planner.py -> /home/agustin/pfe/PFE/ROS/orchestrator-project/src/build/robot_control/build/lib/robot_control\n'}
+[3.483673] (robot_control) StdoutLine: {'line': b'copying robot_control/database_manager.py -> /home/agustin/pfe/PFE/ROS/orchestrator-project/src/build/robot_control/build/lib/robot_control\n'}
+[3.483900] (robot_control) StdoutLine: {'line': b'copying robot_control/motor.py -> /home/agustin/pfe/PFE/ROS/orchestrator-project/src/build/robot_control/build/lib/robot_control\n'}
+[3.484075] (robot_control) StdoutLine: {'line': b'copying robot_control/traj_utils.py -> /home/agustin/pfe/PFE/ROS/orchestrator-project/src/build/robot_control/build/lib/robot_control\n'}
+[3.484246] (robot_control) StdoutLine: {'line': b'copying robot_control/communication.py -> /home/agustin/pfe/PFE/ROS/orchestrator-project/src/build/robot_control/build/lib/robot_control\n'}
+[3.484416] (robot_control) StdoutLine: {'line': b'copying robot_control/subscriber.py -> /home/agustin/pfe/PFE/ROS/orchestrator-project/src/build/robot_control/build/lib/robot_control\n'}
+[3.484586] (robot_control) StdoutLine: {'line': b'copying robot_control/orchestrator.py -> /home/agustin/pfe/PFE/ROS/orchestrator-project/src/build/robot_control/build/lib/robot_control\n'}
+[3.486427] (robot_control) StdoutLine: {'line': b'copying robot_control/__init__.py -> /home/agustin/pfe/PFE/ROS/orchestrator-project/src/build/robot_control/build/lib/robot_control\n'}
+[3.488115] (robot_control) StdoutLine: {'line': b'copying robot_control/publisher.py -> /home/agustin/pfe/PFE/ROS/orchestrator-project/src/build/robot_control/build/lib/robot_control\n'}
+[3.491689] (robot_control) StdoutLine: {'line': b'copying robot_control/robot.py -> /home/agustin/pfe/PFE/ROS/orchestrator-project/src/build/robot_control/build/lib/robot_control\n'}
+[3.492003] (robot_control) StdoutLine: {'line': b'copying robot_control/main.py -> /home/agustin/pfe/PFE/ROS/orchestrator-project/src/build/robot_control/build/lib/robot_control\n'}
+[3.492190] (robot_control) StdoutLine: {'line': b'copying robot_control/testCommunication.py -> /home/agustin/pfe/PFE/ROS/orchestrator-project/src/build/robot_control/build/lib/robot_control\n'}
+[3.492371] (robot_control) StdoutLine: {'line': b'copying robot_control/user.py -> /home/agustin/pfe/PFE/ROS/orchestrator-project/src/build/robot_control/build/lib/robot_control\n'}
+[3.498750] (robot_control) StdoutLine: {'line': b'copying robot_control/image_manager.py -> /home/agustin/pfe/PFE/ROS/orchestrator-project/src/build/robot_control/build/lib/robot_control\n'}
+[3.504507] (robot_control) StdoutLine: {'line': b'running install\n'}
+[3.509176] (robot_control) StdoutLine: {'line': b'running install_lib\n'}
+[3.514495] (robot_control) StdoutLine: {'line': b'creating /home/agustin/pfe/PFE/ROS/orchestrator-project/src/install/robot_control/lib/python3.10/site-packages/robot_control\n'}
+[3.517410] (robot_control) StdoutLine: {'line': b'copying /home/agustin/pfe/PFE/ROS/orchestrator-project/src/build/robot_control/build/lib/robot_control/path_planner.py -> /home/agustin/pfe/PFE/ROS/orchestrator-project/src/install/robot_control/lib/python3.10/site-packages/robot_control\n'}
+[3.523213] (robot_control) StdoutLine: {'line': b'copying /home/agustin/pfe/PFE/ROS/orchestrator-project/src/build/robot_control/build/lib/robot_control/database_manager.py -> /home/agustin/pfe/PFE/ROS/orchestrator-project/src/install/robot_control/lib/python3.10/site-packages/robot_control\n'}
+[3.523532] (robot_control) StdoutLine: {'line': b'copying /home/agustin/pfe/PFE/ROS/orchestrator-project/src/build/robot_control/build/lib/robot_control/motor.py -> /home/agustin/pfe/PFE/ROS/orchestrator-project/src/install/robot_control/lib/python3.10/site-packages/robot_control\n'}
+[3.526389] (robot_control) StdoutLine: {'line': b'copying /home/agustin/pfe/PFE/ROS/orchestrator-project/src/build/robot_control/build/lib/robot_control/traj_utils.py -> /home/agustin/pfe/PFE/ROS/orchestrator-project/src/install/robot_control/lib/python3.10/site-packages/robot_control\n'}
+[3.529780] (robot_control) StdoutLine: {'line': b'copying /home/agustin/pfe/PFE/ROS/orchestrator-project/src/build/robot_control/build/lib/robot_control/communication.py -> /home/agustin/pfe/PFE/ROS/orchestrator-project/src/install/robot_control/lib/python3.10/site-packages/robot_control\n'}
+[3.530026] (robot_control) StdoutLine: {'line': b'copying /home/agustin/pfe/PFE/ROS/orchestrator-project/src/build/robot_control/build/lib/robot_control/subscriber.py -> /home/agustin/pfe/PFE/ROS/orchestrator-project/src/install/robot_control/lib/python3.10/site-packages/robot_control\n'}
+[3.530210] (robot_control) StdoutLine: {'line': b'copying /home/agustin/pfe/PFE/ROS/orchestrator-project/src/build/robot_control/build/lib/robot_control/orchestrator.py -> /home/agustin/pfe/PFE/ROS/orchestrator-project/src/install/robot_control/lib/python3.10/site-packages/robot_control\n'}
+[3.532079] (robot_control) StdoutLine: {'line': b'copying /home/agustin/pfe/PFE/ROS/orchestrator-project/src/build/robot_control/build/lib/robot_control/__init__.py -> /home/agustin/pfe/PFE/ROS/orchestrator-project/src/install/robot_control/lib/python3.10/site-packages/robot_control\n'}
+[3.532332] (robot_control) StdoutLine: {'line': b'copying /home/agustin/pfe/PFE/ROS/orchestrator-project/src/build/robot_control/build/lib/robot_control/publisher.py -> /home/agustin/pfe/PFE/ROS/orchestrator-project/src/install/robot_control/lib/python3.10/site-packages/robot_control\n'}
+[3.535634] (robot_control) StdoutLine: {'line': b'copying /home/agustin/pfe/PFE/ROS/orchestrator-project/src/build/robot_control/build/lib/robot_control/robot.py -> /home/agustin/pfe/PFE/ROS/orchestrator-project/src/install/robot_control/lib/python3.10/site-packages/robot_control\n'}
+[3.535851] (robot_control) StdoutLine: {'line': b'copying /home/agustin/pfe/PFE/ROS/orchestrator-project/src/build/robot_control/build/lib/robot_control/main.py -> /home/agustin/pfe/PFE/ROS/orchestrator-project/src/install/robot_control/lib/python3.10/site-packages/robot_control\n'}
+[3.536032] (robot_control) StdoutLine: {'line': b'copying /home/agustin/pfe/PFE/ROS/orchestrator-project/src/build/robot_control/build/lib/robot_control/testCommunication.py -> /home/agustin/pfe/PFE/ROS/orchestrator-project/src/install/robot_control/lib/python3.10/site-packages/robot_control\n'}
+[3.538113] (robot_control) StdoutLine: {'line': b'copying /home/agustin/pfe/PFE/ROS/orchestrator-project/src/build/robot_control/build/lib/robot_control/user.py -> /home/agustin/pfe/PFE/ROS/orchestrator-project/src/install/robot_control/lib/python3.10/site-packages/robot_control\n'}
+[3.538473] (robot_control) StdoutLine: {'line': b'copying /home/agustin/pfe/PFE/ROS/orchestrator-project/src/build/robot_control/build/lib/robot_control/image_manager.py -> /home/agustin/pfe/PFE/ROS/orchestrator-project/src/install/robot_control/lib/python3.10/site-packages/robot_control\n'}
+[3.542337] (robot_control) StdoutLine: {'line': b'byte-compiling /home/agustin/pfe/PFE/ROS/orchestrator-project/src/install/robot_control/lib/python3.10/site-packages/robot_control/path_planner.py to path_planner.cpython-310.pyc\n'}
+[3.544201] (robot_control) StdoutLine: {'line': b'byte-compiling /home/agustin/pfe/PFE/ROS/orchestrator-project/src/install/robot_control/lib/python3.10/site-packages/robot_control/database_manager.py to database_manager.cpython-310.pyc\n'}
+[3.547224] (robot_control) StdoutLine: {'line': b'byte-compiling /home/agustin/pfe/PFE/ROS/orchestrator-project/src/install/robot_control/lib/python3.10/site-packages/robot_control/motor.py to motor.cpython-310.pyc\n'}
+[3.549469] (robot_control) StdoutLine: {'line': b'byte-compiling /home/agustin/pfe/PFE/ROS/orchestrator-project/src/install/robot_control/lib/python3.10/site-packages/robot_control/traj_utils.py to traj_utils.cpython-310.pyc\n'}
+[3.556022] (robot_control) StdoutLine: {'line': b'byte-compiling /home/agustin/pfe/PFE/ROS/orchestrator-project/src/install/robot_control/lib/python3.10/site-packages/robot_control/communication.py to communication.cpython-310.pyc\n'}
+[3.561984] (robot_control) StdoutLine: {'line': b'byte-compiling /home/agustin/pfe/PFE/ROS/orchestrator-project/src/install/robot_control/lib/python3.10/site-packages/robot_control/subscriber.py to subscriber.cpython-310.pyc\n'}
+[3.562322] (-) TimerEvent: {}
+[3.567688] (robot_control) StdoutLine: {'line': b'byte-compiling /home/agustin/pfe/PFE/ROS/orchestrator-project/src/install/robot_control/lib/python3.10/site-packages/robot_control/orchestrator.py to orchestrator.cpython-310.pyc\n'}
+[3.571601] (robot_control) StdoutLine: {'line': b'byte-compiling /home/agustin/pfe/PFE/ROS/orchestrator-project/src/install/robot_control/lib/python3.10/site-packages/robot_control/__init__.py to __init__.cpython-310.pyc\n'}
+[3.571891] (robot_control) StdoutLine: {'line': b'byte-compiling /home/agustin/pfe/PFE/ROS/orchestrator-project/src/install/robot_control/lib/python3.10/site-packages/robot_control/publisher.py to publisher.cpython-310.pyc\n'}
+[3.576567] (robot_control) StdoutLine: {'line': b'byte-compiling /home/agustin/pfe/PFE/ROS/orchestrator-project/src/install/robot_control/lib/python3.10/site-packages/robot_control/robot.py to robot.cpython-310.pyc\n'}
+[3.580452] (robot_control) StdoutLine: {'line': b'byte-compiling /home/agustin/pfe/PFE/ROS/orchestrator-project/src/install/robot_control/lib/python3.10/site-packages/robot_control/main.py to main.cpython-310.pyc\n'}
+[3.582640] (robot_control) StdoutLine: {'line': b'byte-compiling /home/agustin/pfe/PFE/ROS/orchestrator-project/src/install/robot_control/lib/python3.10/site-packages/robot_control/testCommunication.py to testCommunication.cpython-310.pyc\n'}
+[3.588216] (robot_control) StdoutLine: {'line': b'byte-compiling /home/agustin/pfe/PFE/ROS/orchestrator-project/src/install/robot_control/lib/python3.10/site-packages/robot_control/user.py to user.cpython-310.pyc\n'}
+[3.588733] (robot_control) StdoutLine: {'line': b'byte-compiling /home/agustin/pfe/PFE/ROS/orchestrator-project/src/install/robot_control/lib/python3.10/site-packages/robot_control/image_manager.py to image_manager.cpython-310.pyc\n'}
+[3.592099] (robot_control) StdoutLine: {'line': b'running install_data\n'}
+[3.597962] (robot_control) StdoutLine: {'line': b'creating /home/agustin/pfe/PFE/ROS/orchestrator-project/src/install/robot_control/share/ament_index\n'}
+[3.598278] (robot_control) StdoutLine: {'line': b'creating /home/agustin/pfe/PFE/ROS/orchestrator-project/src/install/robot_control/share/ament_index/resource_index\n'}
+[3.598467] (robot_control) StdoutLine: {'line': b'creating /home/agustin/pfe/PFE/ROS/orchestrator-project/src/install/robot_control/share/ament_index/resource_index/packages\n'}
+[3.598645] (robot_control) StdoutLine: {'line': b'copying resource/robot_control -> /home/agustin/pfe/PFE/ROS/orchestrator-project/src/install/robot_control/share/ament_index/resource_index/packages\n'}
+[3.605798] (robot_control) StdoutLine: {'line': b'copying package.xml -> /home/agustin/pfe/PFE/ROS/orchestrator-project/src/install/robot_control/share/robot_control\n'}
+[3.607655] (robot_control) StdoutLine: {'line': b'running install_egg_info\n'}
+[3.627290] (robot_control) StdoutLine: {'line': b'Copying ../build/robot_control/robot_control.egg-info to /home/agustin/pfe/PFE/ROS/orchestrator-project/src/install/robot_control/lib/python3.10/site-packages/robot_control-0.0.0-py3.10.egg-info\n'}
+[3.634014] (robot_control) StdoutLine: {'line': b'running install_scripts\n'}
+[3.664256] (-) TimerEvent: {}
+[3.764937] (robot_control) StdoutLine: {'line': b'Installing listener script to /home/agustin/pfe/PFE/ROS/orchestrator-project/src/install/robot_control/lib/robot_control\n'}
+[3.765234] (-) TimerEvent: {}
+[3.768754] (robot_control) StdoutLine: {'line': b'Installing talker script to /home/agustin/pfe/PFE/ROS/orchestrator-project/src/install/robot_control/lib/robot_control\n'}
+[3.769324] (robot_control) StdoutLine: {'line': b"writing list of installed files to '/home/agustin/pfe/PFE/ROS/orchestrator-project/src/build/robot_control/install.log'\n"}
+[3.865363] (-) TimerEvent: {}
+[3.898923] (robot_control) CommandEnded: {'returncode': 0}
+[3.967866] (robot_control) JobEnded: {'identifier': 'robot_control', 'rc': 0}
+[3.970180] (-) TimerEvent: {}
+[3.971732] (-) EventReactorShutdown: {}

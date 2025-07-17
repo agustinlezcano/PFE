@@ -1,0 +1,4 @@
+[console_scripts]
+listener = robot_control.subscriber:main
+talker = robot_control.publisher:main
+

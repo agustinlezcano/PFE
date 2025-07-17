@@ -1,14 +1,14 @@
-from orchestrator import Orchestrator
-import traj_utils
+from .orchestrator import Orchestrator
+from .traj_utils import TrajectoryUtils as traj_utils#impor w/ as
 import matplotlib.pyplot as plt
-import numpy as np
+import numpy as nps
 
 def initialize_and_generate_trajectory():
     # Initialize the orchestrator and start the system
     orchestrator = Orchestrator()
     print("System initialized.")
 
-    traj_utils_instance = traj_utils.TrajectoryUtils("LSPB")
+    traj_utils_instance = traj_utils("LSPB")
     traj_utils_instance.setMaxParams(4.0, 2.0, 0.5, 1.0)
 
     # Set trajectory parameters
@@ -27,7 +27,7 @@ def initialize_and_generate_trajectory():
     t = totalTime - accTime
 
     (v, a) = traj_utils_instance.calculateParams(accTime, t)
-    print(f"Calculated velocity: {v}, acceleration: {a}")
+    #print(f"Calculated velocity: {v}, acceleration: {a}")
 
     # Validate trajectory parameters
     validate = traj_utils_instance.validateParams(maxSpeed, maxAcc)
@@ -51,7 +51,7 @@ def generate_trajectory_profile(traj_utils_instance, totalTime, accTime, maxSpee
         sdArray.append(sd)
         sddArray.append(sdd)
         t.append(time)
-    print(f"Generated LSPB profile with S(t) values ranging from {sArray[0]} to {sArray[-1]}")
+    #print(f"Generated LSPB profile with S(t) values ranging from {sArray[0]} to {sArray[-1]}")
     return sArray, sdArray, sddArray, t
 
 def plot_trajectory(t, sArray, sdArray, sddArray):
