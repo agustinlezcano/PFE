@@ -19,8 +19,8 @@ dh = [0 L1 0 pi/2 0;
 R=SerialLink(dh,'name','Brazo Principal MK2'); %se asumen articulaciones R
 %LIMITES ARTICULARES
 R.qlim(1,1:2) = [-185,  185]*pi/180;
-R.qlim(2,1:2) = [-45,  25]*pi/180;
-R.qlim(3,1:2) = [-50, 0]*pi/180;
+R.qlim(2,1:2) = [-65,  45]*pi/180;
+R.qlim(3,1:2) = [-70, 20]*pi/180;
 R.qlim(4,1:2) = [-90, 90]*pi/180;
 
 L1a = 0.0694;
@@ -98,10 +98,10 @@ switch x
         % Cinematica Inversa --> Comparacion
         fprintf('Se parte de una posición deseada, obteniendo una matriz de transformación homogénea: \n')
         q_ini = deg2rad([45 -10 -10 20]); % 30    -10 1  -45    20
-        %T_obj = double(R.fkine(q_ini));
-%         T_obj = transl(0.187, 0, 0.14)
-%         T_obj = transl(0.143, -0.154, 0.177)
-        T_obj = transl(2, 2, 2)
+        T_obj = double(R.fkine(q_ini));
+          %T_obj = transl(0.187, 0, 0.14)       %Valor realizable
+          %T_obj = transl(0.143, -0.154, 0.177) %Valor realizable
+          %T_obj = transl(2, 2, 2)              %Valor imposible
         T_obj1 = transl(0.187, 0, 0.14) * trotx(pi/2);
         % La rotacion es por la herramienta
         fprintf('Mediante la Matriz de Transformación Homogénea del ejemplo, se llega a las posiciones articulares deseadas: \n')
