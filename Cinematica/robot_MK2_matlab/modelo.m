@@ -1,4 +1,6 @@
-clc;clear;
+clc;clear;close all;
+%----------------------------------------
+
 %% Modelo del robot
 %Matriz DENAVIT-HARTEMBERG
 %Parametros
@@ -6,10 +8,10 @@ clc;clear;
 %------------------Robot 1--------------------
 %---------------------------------------------
 %Longitudes de los eslabones
-L1 =0.11715; %[m]
-L2 =0.13525; %[m]
-L3 =0.147; %[m]
-L4 =0.07223; %[m]
+L1 = 0.078; %0.11715; %[m] //SOLID_EDGE 0.078
+L2 = 0.135; %0.13525; %[m] //SOLID_EDGE 0.135
+L3 = 0.147; %0.147; %[m]   //SOLID_EDGE 0.147
+L4 = 0.07192; %0.07223; %[m] //SOLID_EDGE 0.07192
 
 dh = [0 L1 0 pi/2 0;
       0 0 L2  0 0;
@@ -31,16 +33,18 @@ Xa = 0.025;
 
 
 % Funciona con offset = 0  --> revisar ángulos
-R.offset = [0 pi/2 -pi/2 0]%[pi/12 -pi/12 -pi/12 0]; % [pi -pi/2 -pi/2 0]
+R.offset = [0 pi/2 -pi/2 0]; %[pi/12 -pi/12 -pi/12 0]; % [pi -pi/2 -pi/2 0]
 Offset = R.offset;
 %cambiar las dimensiones de tool
 % R.tool = transl(.0817, 0, 0) * trotz(-pi/2) * transl(0.0419, 0, 0);
-R.tool = transl(0, 0, 0.0);% * trotz(-pi/2);
-% R.tool = eye(4);
-Tool = R.tool.double;
-% Herramienta: corregir segun altura del efector final
-R.base = transl(0, 0.017, 0.0); % Desplazamiento, no cambio de orientación (no necesario)
-Base = R.base.double;
+R.tool = transl(0, 0, 0); % * trotz(-pi/2); %---------------------------------TOOL ES (0, -0.04361, 0)
+Tool = R.tool.double
+
+R.base = transl(0, 0, 0);
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%R.base = transl(0, 0.017, 0.0); % Desplazamiento, no cambio de orientación (no necesario)
+Base = R.base.double
+R
 %------------------Robot 2--------------------
 %
 dh_2 = [0 L1a  0 pi/2   0;
@@ -63,7 +67,17 @@ Base2 = R2.base.double;
 
 %% ANGULOS INICIALES
 q_ini=[0 0 0 0]; % tiene referencia virtual
+%T_ini = double(R.fkine(q_ini));
 
+%q_obj = deg2rad([45 -10 -10 20]);
+%T_obj = double(R.fkine(q_obj));
+
+%delta_matlab = (T_obj(1:3,4) - T_ini(1:3,4)) *100; %En cm
+%pos_ini_medida = [12.4; 0; 17.0]; %en cm
+%pos_obj_medida = [12.4; 0; 17.0]; %en cm
+%delta_medido = pos_obj_medida - pos_ini_medida;
+
+%error_real = delta_medido - delta_matlab;
 %% Menu principal 
 fprintf('Bienvenido a nuestro Proecto Final de Estudios\n')
 fprintf('Realizado sobre brazo MK2 de 3 gdl\n\n')

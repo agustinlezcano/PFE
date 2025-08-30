@@ -2,11 +2,9 @@
 %transformación deseada y devuelve el set de posiciones articulares q (no
 %motor)
 
-function [qf, flag] = cinv_geometrica(dh,q_ini,T_obj,Base,Tool, offset, lim)
-%q_ini: arreglo de angulos inciales
-
+function [qf, flag] = cinv_geometrica(dh,q_obj,T_obj_in,Base,Tool, offset, lim)
 % Desacopar herramienta y base
-T_obj = Base \ T_obj * inv(Tool);
+T_obj = inv(Base) * T_obj_in * inv(Tool);
 
 fprintf('Matriz Homogénea usando función de Toolbox: \n')
 
@@ -48,10 +46,14 @@ r = sqrt(p2f(1)^2 + p2f(2)^2); %distancia euclidea entre p2 y Extremo
 gamma = acos((dh(4,3)^2 + dh(3,3)^2 - r^2) / (2*dh(4,3)*dh(3,3)));
 q4 = pi - gamma;
 
+%% Salida
 qf = real([q1 q2 q3 q4]) - offset;
-rad2deg(qf)
-theta_m2 = pi/2 - q2;   %Eje horizontal hacia la izquierda 
-theta_m3 = - (q2 + q3); %Eje horizontal hacia la izquierda 
+
+qf_deg = rad2deg(qf)
+theta_m1 = rad2deg(qf(1));
+theta_m2 = rad2deg(pi/2 - qf(2));   %Eje horizontal hacia la izquierda 
+theta_m3 = rad2deg(- (qf(2) + qf(3))); %Eje horizontal hacia la izquierda 
+q_motores = [theta_m1 theta_m2 theta_m3]
 
 flag = valida_angulos(qf,lim); %en uC: salida; qf en memoria (angulos) --> modificar ang. motor
 end
