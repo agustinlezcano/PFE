@@ -1,1 +1,62 @@
 env/
+# === STM32CubeIDE / Eclipse ===
+.settings/
+.metadata/
+*.launch
+*.log
+*.tmp
+*.bak
+*.swp
+*.swo
+*.o
+*.d
+*.elf
+*.map
+*.list
+
+# === Build artifacts ===
+Debug/
+Release/
+build/
+*.bin
+*.hex
+*.elf
+*.axf
+
+# === OS / Editor files ===
+.DS_Store
+Thumbs.db
+*.user
+*.idea/
+*.vscode/
+
+# === auto-generated STM32CubeMX files ===
+*.ioc-backup
+MX_Config/
+Core/Inc/stm32*.h
+Drivers/CMSIS/Device/ST/*
+Drivers/STM32*/Include/*
+
+# === Optional: Ignore binaries, keep sources ===
+*.a
+*.so
+*.exe
+
+# === micro-ROS build artifacts ===
+micro_ros_build/
+firmware/
+uros_ws/
+
+# === FreeRTOS trace / debug ===
+tracealyzer/
+*.csv
+*.trc
+
+# === CMake cache if present ===
+CMakeCache.txt
+CMakeFiles/
+
+# === Backup files ===
+*~
+*.orig
+
