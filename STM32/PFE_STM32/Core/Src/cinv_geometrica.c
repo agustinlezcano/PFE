@@ -124,11 +124,14 @@ static void apply_T_point(const float* T, const float v[3], float out[3]) {
 int cinv_geometrica_f32(const float dh[4][4],
                         const float T_obj_in[4][4],
                         const float Base[4][4], const float Tool[4][4],
-                        const float offset[4], const float lim[4][2],
-                        float qf[4]) {
+                        const float offset[4], const float lim[3][2],
+                        float qm[3]) {
 
     // Buffers (alineados por conveniencia)
     float T_obj[16], Ttmp1[16], Ttmp2[16], Binv[16], Toinv[16];
+
+    //Valores de angulos de articulaciones robot
+    float qf[4];
 
     // Copias de entrada a buffers lineales row-major
     memcpy(T_obj, (const float*)T_obj_in,  sizeof(T_obj));
@@ -221,18 +224,27 @@ int cinv_geometrica_f32(const float dh[4][4],
     float q4 = PI_F - gamma;
 
     // Resultado con offset
-    qf[0] = q1 - offset[0];
-    qf[1] = q2 - offset[1];
-    qf[2] = q3 - offset[2];
-    qf[3] = q4 - offset[3];
+	qf[0] = q1 - offset[0];
+	qf[1] = q2 - offset[1];
+	qf[2] = q3 - offset[2];
+	qf[3] = q4 - offset[3];
 
-    // Validación contra límites
-    int flag = 1;
-    for (int i = 0; i < 4; i++) {
-        if (qf[i] < lim[i][0] || qf[i] > lim[i][1]) {
-            flag = 0;
-        }
-    }
+	for(int i=0;i<4;i++){
+		printf("%.2f\r\n",qf[i]*180/PI);
+	}
 
-    return flag;
+	//q Motores
+	qm[0] = qf[0];
+	qm[1] = (PI/2 - qf[1]);
+	qm[2] = (-(qf[1] + qf[2]));
+
+	// Validación contra límites
+	int flag = 1;
+	for (int i = 0; i < 3; i++) {
+		if (qm[i] < lim[i][0] || qm[i] > lim[i][1]) {
+			flag = 0;
+		}
+	}
+
+	return flag;
 }

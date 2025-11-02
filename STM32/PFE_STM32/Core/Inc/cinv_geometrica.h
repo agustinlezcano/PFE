@@ -13,8 +13,8 @@ extern "C" {
 int cinv_geometrica_f32(const float dh[4][4],
                         const float T_obj_in[4][4],
                         const float Base[4][4], const float Tool[4][4],
-                        const float offset[4], const float lim[4][2],
-                        float qf[4]);
+                        const float offset[4], const float lim[3][2],
+                        float qm[3]);
 
 #ifdef __cplusplus
 }
