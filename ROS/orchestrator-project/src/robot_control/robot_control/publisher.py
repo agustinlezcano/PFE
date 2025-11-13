@@ -37,7 +37,11 @@ class MinimalPublisher(Node):
         timer_period = 0.5  # seconds [0.01]
         # self.sArray, self.sdArray, self.sddArray, self.t = initialize_and_generate_trajectory()
         self.doHoming()
+        time.sleep(1)
         self.doCmd(0.5, 0.5, 0.5)
+        time.sleep(1)
+        self.doInvKin(0.5, 0.5, 0.5)
+        
         # Two timers logic - just testing
         # self.timer = self.create_timer(timer_period, self.timer_callback)
         # self.timer = self.create_timer(timer_period, self.test_callback) 
@@ -146,7 +150,13 @@ class MinimalPublisher(Node):
         self.cmd_publisher_.publish(cmd_msg)
         self.get_logger().info(f'Publicado CMD: x={cmd_msg.x}, y={cmd_msg.y}, z={cmd_msg.z}')
 
-    
+    def doInvKin(self, x, y, z):
+        cmd_msg = Point()
+        cmd_msg.x = x
+        cmd_msg.y = y
+        cmd_msg.z = z
+        self.inv_publisher_.publish(cmd_msg)
+        self.get_logger().info(f'Publicado INV: x={cmd_msg.x}, y={cmd_msg.y}, z={cmd_msg.z}')
 
 
 def main(args=None):
