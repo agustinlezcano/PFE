@@ -37,8 +37,9 @@ class MinimalPublisher(Node):
         timer_period = 0.5  # seconds [0.01]
         # self.sArray, self.sdArray, self.sddArray, self.t = initialize_and_generate_trajectory()
         self.doHoming()
+        self.doCmd(0.5, 0.5, 0.5)
         # Two timers logic - just testing
-        self.timer = self.create_timer(timer_period, self.timer_callback)
+        # self.timer = self.create_timer(timer_period, self.timer_callback)
         # self.timer = self.create_timer(timer_period, self.test_callback) 
 
         # self.inv_timer = self.create_timer(5, self.inv_timer_callback)  
@@ -136,6 +137,14 @@ class MinimalPublisher(Node):
         do_homing.data = False
         self.homing_publisher_.publish(do_homing)
         self.get_logger().info(f'Publicado homing = {do_homing.data}')
+
+    def doCmd(self, x, y, z):
+        cmd_msg = Point()
+        cmd_msg.x = x
+        cmd_msg.y = y
+        cmd_msg.z = z
+        self.cmd_publisher_.publish(cmd_msg)
+        self.get_logger().info(f'Publicado CMD: x={cmd_msg.x}, y={cmd_msg.y}, z={cmd_msg.z}')
 
     
 
