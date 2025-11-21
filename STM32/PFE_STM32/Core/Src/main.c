@@ -38,12 +38,7 @@
 #include <example_interfaces/msg/string.h>
 #include <example_interfaces/msg/w_string.h>
 #include <extra_interfaces/extra_interfaces/msg/trama.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <arm_math.h>
-#include <math.h>
-#include <motors.h>
-#include <tasks.h>
+
 
 /* USER CODE END Includes */
 
@@ -65,11 +60,38 @@
 /* USER CODE END PM */
 
 /* Private variables ---------------------------------------------------------*/
+I2C_HandleTypeDef hi2c1;
+
+TIM_HandleTypeDef htim2;
+TIM_HandleTypeDef htim3;
+TIM_HandleTypeDef htim13;
+
 UART_HandleTypeDef huart2;
 UART_HandleTypeDef huart3;
 DMA_HandleTypeDef hdma_usart2_rx;
 DMA_HandleTypeDef hdma_usart2_tx;
 
+/* Definitions for defaultTask */
+osThreadId_t defaultTaskHandle;
+const osThreadAttr_t defaultTask_attributes = {
+  .name = "defaultTask",
+  .stack_size = 7150 * 4,
+  .priority = (osPriority_t) osPriorityNormal,
+};
+/* Definitions for mControlTask */
+osThreadId_t mControlTaskHandle;
+const osThreadAttr_t mControlTask_attributes = {
+  .name = "mControlTask",
+  .stack_size = 128 * 4,
+  .priority = (osPriority_t) osPriorityHigh,
+};
+/* Definitions for KinematicsTask */
+osThreadId_t KinematicsTaskHandle;
+const osThreadAttr_t KinematicsTask_attributes = {
+  .name = "KinematicsTask",
+  .stack_size = 200 * 4,
+  .priority = (osPriority_t) osPriorityAboveNormal,
+};
 /* Definitions for xMotorCmd */
 osMessageQueueId_t xMotorCmdHandle;
 const osMessageQueueAttr_t xMotorCmd_attributes = {
@@ -79,62 +101,52 @@ const osMessageQueueAttr_t xMotorCmd_attributes = {
 // micro-ROS publisher
 rcl_publisher_t publisher;
 std_msgs__msg__String pub_msg;
-// TODO: check if use buffer
-typedef struct {
-	double x;
-	double y;
-	double z;
-} CARTESIAN_POS_t;									// Point position
 
-extern osMessageQueueId_t mid_JointQueue[N_MOTORS];				// motor cmd (1 each DOF)
-extern osMessageQueueId_t mid_PositionQueue;                	// message queue id (QueueHandle_t CMSIS wrapper)
+osMessageQueueId_t mid_JointQueue[N_MOTORS];				// motor cmd (1 each DOF)
+osMessageQueueId_t mid_PositionQueue;                	// message queue id (QueueHandle_t CMSIS wrapper)
 
 osThreadId_t tid_Thread_MsgQueue1;              	// thread id 1
 osThreadId_t tid_Thread_MsgQueue2;              	// thread id 2
 
-// TODO: make utils class with macros
-// Gear Ratios
-const float i1 = 108.0 / 19.0;
-const float i2 = 47.0 / 19.0;
-const float i3 = 47.0 / 19.0;
-const int microSteps = 32;
-const int stepsPerRev = 200 * microSteps;			// Transmission Constants
+// Constantes de transmisión
+const int STEPS_PER_REV = 200*8; // 8 micropasos
 
-// Angles
-float currentAngle1 = 0;
-float currentAngle2 = 90;
-float currentAngle3 = 0;
-float targetAngle1;
-float targetAngle2;
-float targetAngle3;
-const float angleHoming1 = 0;
-const float angleHoming2 = 90;
-const float angleHoming3 = 0;
-
-// Robot Parameters
-float Tool[4][4] = { { 1, 0, 0, 0 }, { 0, 1, 0, 0 }, { 0, 0, 1, 0 }, { 0, 0, 0,
-		1 } };
-
-float tool_z = 0.04115;
-
-float Base[4][4] = { { 1, 0, 0, 0 }, { 0, 1, 0, 0 }, { 0, 0, 1, 0 }, { 0, 0, 0,
-		1 } };
-
+//CONSTANTES CINEMATICAS DEL ROBOT
 const float L1 = 0.078;   //[m]
 const float L2 = 0.135;   //[m]
 const float L3 = 0.147;   //[m]
 const float L4 = 0.0253;  //[m]
 
 // DH: [theta, d, a, alpha] por fila
-float dh[4][4] = { { 0, L1, 0, PI / 2 }, { 0, 0, L2, 0.0f },   // L2
-		{ 0, 0, L3, 0.0f },   // L3
-		{ 0, 0, L4, 0.0f }    // L4
+float dh[4][4] = {
+	{0, L1,  0,   PI/2},
+	{0, 0,  L2,   0.0f},   // L2
+	{0, 0,  L3,   0.0f},   // L3
+	{0, 0,  L4,   0.0f}    // L4
 };
 
-float offset[4] = { 0, PI / 2, -PI / 2, 0 };
-float lim[4][2] = { { -185 * PI / 180, 185 * PI / 180 }, { -65 * PI / 180, 45
-		* PI / 180 }, { -70 * PI / 180, 20 * PI / 180 }, { -90 * PI / 180, 90
-		* PI / 180 } };
+float Tool[4][4] = {
+            {1,0,0,0},
+            {0,1,0,0},
+            {0,0,1,0},
+            {0,0,0,1}
+};
+
+float tool_z = 0.04115;
+
+float Base[4][4] = {
+		{1,0,0,0},
+		{0,1,0,0},
+		{0,0,1,0},
+		{0,0,0,1}
+};
+
+float offset[4] = {0, PI/2, -PI/2, 0};
+float lim[3][2] = {
+	{ -90*PI/180, 90*PI/180},
+	{ 60*PI/180, 157*PI/180},
+	{ -25*PI/180, 65*PI/180}
+};
 
 /* USER CODE END PV */
 
@@ -144,23 +156,20 @@ static void MX_GPIO_Init(void);
 static void MX_DMA_Init(void);
 static void MX_USART2_UART_Init(void);
 static void MX_USART3_UART_Init(void);
+static void MX_TIM2_Init(void);
+static void MX_TIM3_Init(void);
+static void MX_TIM13_Init(void);
+static void MX_I2C1_Init(void);
+void StartDefaultTask(void *argument);
+void StartMotorControlTask(void *argument);
+void StartKinematicsTask(void *argument);
 
 /* USER CODE BEGIN PFP */
-bool cubemx_transport_open(struct uxrCustomTransport * transport);
-bool cubemx_transport_close(struct uxrCustomTransport * transport);
-size_t cubemx_transport_write(struct uxrCustomTransport* transport, const uint8_t * buf, size_t len, uint8_t * err);
-size_t cubemx_transport_read(struct uxrCustomTransport* transport, uint8_t* buf, size_t len, int timeout, uint8_t* err);
-void inverseKinematics(const float x, const float y, const float z);
 void subscription_callback(const void * msgin);
 void homing_callback(const void * msgin);
 void inverse_kinematics_callback(const void * msgin);
 void cmd_callback(const void * msgin);
 
-// TODO: check
-float readAngle_AS5600(int motor);
-HAL_StatusTypeDef TCA9548A_SelectChannel(uint8_t channel);
-void electromagnetOn(bool turn_on);
-void Stepper_SetSpeed(TIM_HandleTypeDef *htim, uint32_t channel, uint32_t freq_hz);
 /* USER CODE END PFP */
 
 /* Private user code ---------------------------------------------------------*/
@@ -200,6 +209,10 @@ int main(void)
   MX_DMA_Init();
   MX_USART2_UART_Init();
   MX_USART3_UART_Init();
+  MX_TIM2_Init();
+  MX_TIM3_Init();
+  MX_TIM13_Init();
+  MX_I2C1_Init();
   /* USER CODE BEGIN 2 */
   //Measure motors 2 & 3
   //	motor2.currentAngle = readAngle_AS5600(2);
@@ -242,7 +255,7 @@ int main(void)
   }
   // 3 mailbox or 1 queue 3 values --> must be individual queues
   for(int i = 0; i<N_MOTORS; i++){
-	  mid_JointQueue[i] = osMessageQueueNew(1, sizeof(int), NULL);
+	  mid_JointQueue[i] = osMessageQueueNew(1, sizeof(float), NULL);
 	    if (mid_JointQueue[i] == NULL) {
 	  	printf("Could not create mid_JointQueue %d queue.\r\n",i); // Message Queue object not created, handle failure
 	    }
@@ -250,6 +263,16 @@ int main(void)
 
 
   /* USER CODE END RTOS_QUEUES */
+
+  /* Create the thread(s) */
+  /* creation of defaultTask */
+  defaultTaskHandle = osThreadNew(StartDefaultTask, NULL, &defaultTask_attributes);
+
+  /* creation of mControlTask */
+  mControlTaskHandle = osThreadNew(StartMotorControlTask, NULL, &mControlTask_attributes);
+
+  /* creation of KinematicsTask */
+  KinematicsTaskHandle = osThreadNew(StartKinematicsTask, NULL, &KinematicsTask_attributes);
 
   /* USER CODE BEGIN RTOS_THREADS */
   /* add threads, ... */
@@ -321,6 +344,204 @@ void SystemClock_Config(void)
   {
     Error_Handler();
   }
+}
+
+/**
+  * @brief I2C1 Initialization Function
+  * @param None
+  * @retval None
+  */
+static void MX_I2C1_Init(void)
+{
+
+  /* USER CODE BEGIN I2C1_Init 0 */
+
+  /* USER CODE END I2C1_Init 0 */
+
+  /* USER CODE BEGIN I2C1_Init 1 */
+
+  /* USER CODE END I2C1_Init 1 */
+  hi2c1.Instance = I2C1;
+  hi2c1.Init.ClockSpeed = 100000;
+  hi2c1.Init.DutyCycle = I2C_DUTYCYCLE_2;
+  hi2c1.Init.OwnAddress1 = 0;
+  hi2c1.Init.AddressingMode = I2C_ADDRESSINGMODE_7BIT;
+  hi2c1.Init.DualAddressMode = I2C_DUALADDRESS_DISABLE;
+  hi2c1.Init.OwnAddress2 = 0;
+  hi2c1.Init.GeneralCallMode = I2C_GENERALCALL_DISABLE;
+  hi2c1.Init.NoStretchMode = I2C_NOSTRETCH_DISABLE;
+  if (HAL_I2C_Init(&hi2c1) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  /* USER CODE BEGIN I2C1_Init 2 */
+
+  /* USER CODE END I2C1_Init 2 */
+
+}
+
+/**
+  * @brief TIM2 Initialization Function
+  * @param None
+  * @retval None
+  */
+static void MX_TIM2_Init(void)
+{
+
+  /* USER CODE BEGIN TIM2_Init 0 */
+
+  /* USER CODE END TIM2_Init 0 */
+
+  TIM_ClockConfigTypeDef sClockSourceConfig = {0};
+  TIM_MasterConfigTypeDef sMasterConfig = {0};
+  TIM_OC_InitTypeDef sConfigOC = {0};
+
+  /* USER CODE BEGIN TIM2_Init 1 */
+
+  /* USER CODE END TIM2_Init 1 */
+  htim2.Instance = TIM2;
+  htim2.Init.Prescaler = 83;
+  htim2.Init.CounterMode = TIM_COUNTERMODE_UP;
+  htim2.Init.Period = 999;
+  htim2.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
+  htim2.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_ENABLE;
+  if (HAL_TIM_Base_Init(&htim2) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  sClockSourceConfig.ClockSource = TIM_CLOCKSOURCE_INTERNAL;
+  if (HAL_TIM_ConfigClockSource(&htim2, &sClockSourceConfig) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  if (HAL_TIM_PWM_Init(&htim2) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  sMasterConfig.MasterOutputTrigger = TIM_TRGO_UPDATE;
+  sMasterConfig.MasterSlaveMode = TIM_MASTERSLAVEMODE_DISABLE;
+  if (HAL_TIMEx_MasterConfigSynchronization(&htim2, &sMasterConfig) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  sConfigOC.OCMode = TIM_OCMODE_PWM1;
+  sConfigOC.Pulse = 0;
+  sConfigOC.OCPolarity = TIM_OCPOLARITY_HIGH;
+  sConfigOC.OCFastMode = TIM_OCFAST_DISABLE;
+  if (HAL_TIM_PWM_ConfigChannel(&htim2, &sConfigOC, TIM_CHANNEL_2) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  /* USER CODE BEGIN TIM2_Init 2 */
+
+  /* USER CODE END TIM2_Init 2 */
+  HAL_TIM_MspPostInit(&htim2);
+
+}
+
+/**
+  * @brief TIM3 Initialization Function
+  * @param None
+  * @retval None
+  */
+static void MX_TIM3_Init(void)
+{
+
+  /* USER CODE BEGIN TIM3_Init 0 */
+
+  /* USER CODE END TIM3_Init 0 */
+
+  TIM_ClockConfigTypeDef sClockSourceConfig = {0};
+  TIM_MasterConfigTypeDef sMasterConfig = {0};
+  TIM_OC_InitTypeDef sConfigOC = {0};
+
+  /* USER CODE BEGIN TIM3_Init 1 */
+
+  /* USER CODE END TIM3_Init 1 */
+  htim3.Instance = TIM3;
+  htim3.Init.Prescaler = 83;
+  htim3.Init.CounterMode = TIM_COUNTERMODE_UP;
+  htim3.Init.Period = 999;
+  htim3.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
+  htim3.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_ENABLE;
+  if (HAL_TIM_Base_Init(&htim3) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  sClockSourceConfig.ClockSource = TIM_CLOCKSOURCE_INTERNAL;
+  if (HAL_TIM_ConfigClockSource(&htim3, &sClockSourceConfig) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  if (HAL_TIM_PWM_Init(&htim3) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  sMasterConfig.MasterOutputTrigger = TIM_TRGO_UPDATE;
+  sMasterConfig.MasterSlaveMode = TIM_MASTERSLAVEMODE_DISABLE;
+  if (HAL_TIMEx_MasterConfigSynchronization(&htim3, &sMasterConfig) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  sConfigOC.OCMode = TIM_OCMODE_PWM1;
+  sConfigOC.Pulse = 0;
+  sConfigOC.OCPolarity = TIM_OCPOLARITY_HIGH;
+  sConfigOC.OCFastMode = TIM_OCFAST_DISABLE;
+  if (HAL_TIM_PWM_ConfigChannel(&htim3, &sConfigOC, TIM_CHANNEL_2) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  /* USER CODE BEGIN TIM3_Init 2 */
+
+  /* USER CODE END TIM3_Init 2 */
+  HAL_TIM_MspPostInit(&htim3);
+
+}
+
+/**
+  * @brief TIM13 Initialization Function
+  * @param None
+  * @retval None
+  */
+static void MX_TIM13_Init(void)
+{
+
+  /* USER CODE BEGIN TIM13_Init 0 */
+
+  /* USER CODE END TIM13_Init 0 */
+
+  TIM_OC_InitTypeDef sConfigOC = {0};
+
+  /* USER CODE BEGIN TIM13_Init 1 */
+
+  /* USER CODE END TIM13_Init 1 */
+  htim13.Instance = TIM13;
+  htim13.Init.Prescaler = 83;
+  htim13.Init.CounterMode = TIM_COUNTERMODE_UP;
+  htim13.Init.Period = 999;
+  htim13.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
+  htim13.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_ENABLE;
+  if (HAL_TIM_Base_Init(&htim13) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  if (HAL_TIM_PWM_Init(&htim13) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  sConfigOC.OCMode = TIM_OCMODE_PWM1;
+  sConfigOC.Pulse = 0;
+  sConfigOC.OCPolarity = TIM_OCPOLARITY_HIGH;
+  sConfigOC.OCFastMode = TIM_OCFAST_DISABLE;
+  if (HAL_TIM_PWM_ConfigChannel(&htim13, &sConfigOC, TIM_CHANNEL_1) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  /* USER CODE BEGIN TIM13_Init 2 */
+
+  /* USER CODE END TIM13_Init 2 */
+  HAL_TIM_MspPostInit(&htim13);
+
 }
 
 /**
@@ -427,10 +648,13 @@ static void MX_GPIO_Init(void)
   __HAL_RCC_GPIOB_CLK_ENABLE();
 
   /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(GPIOA, LD2_Pin|GPIO_PIN_6|GPIO_PIN_8|GPIO_PIN_10, GPIO_PIN_RESET);
+  HAL_GPIO_WritePin(GPIOC, GPIO_PIN_3, GPIO_PIN_RESET);
 
   /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(GPIOB, GPIO_PIN_10|GPIO_PIN_3|GPIO_PIN_4|GPIO_PIN_5, GPIO_PIN_RESET);
+  HAL_GPIO_WritePin(GPIOA, GPIO_PIN_5|GPIO_PIN_8, GPIO_PIN_RESET);
+
+  /*Configure GPIO pin Output Level */
+  HAL_GPIO_WritePin(GPIOB, GPIO_PIN_10, GPIO_PIN_RESET);
 
   /*Configure GPIO pin : B1_Pin */
   GPIO_InitStruct.Pin = B1_Pin;
@@ -438,21 +662,22 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   HAL_GPIO_Init(B1_GPIO_Port, &GPIO_InitStruct);
 
-  /*Configure GPIO pins : LD2_Pin PA6 PA8 PA10 */
-  GPIO_InitStruct.Pin = LD2_Pin|GPIO_PIN_6|GPIO_PIN_8|GPIO_PIN_10;
+  /*Configure GPIO pin : PC3 */
+  GPIO_InitStruct.Pin = GPIO_PIN_3;
+  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+  GPIO_InitStruct.Pull = GPIO_NOPULL;
+  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
+  HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
+
+  /*Configure GPIO pins : PA5 PA8 */
+  GPIO_InitStruct.Pin = GPIO_PIN_5|GPIO_PIN_8;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
   HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
 
-  /*Configure GPIO pin : PA7 */
-  GPIO_InitStruct.Pin = GPIO_PIN_7;
-  GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
-  GPIO_InitStruct.Pull = GPIO_NOPULL;
-  HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
-
-  /*Configure GPIO pins : PB10 PB3 PB4 PB5 */
-  GPIO_InitStruct.Pin = GPIO_PIN_10|GPIO_PIN_3|GPIO_PIN_4|GPIO_PIN_5;
+  /*Configure GPIO pin : PB10 */
+  GPIO_InitStruct.Pin = GPIO_PIN_10;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
@@ -468,14 +693,6 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Pin = GPIO_PIN_6;
   GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
-  HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
-
-  /*Configure GPIO pins : PB8 PB9 */
-  GPIO_InitStruct.Pin = GPIO_PIN_8|GPIO_PIN_9;
-  GPIO_InitStruct.Mode = GPIO_MODE_AF_OD;
-  GPIO_InitStruct.Pull = GPIO_NOPULL;
-  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_VERY_HIGH;
-  GPIO_InitStruct.Alternate = GPIO_AF4_I2C1;
   HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
 
   /* USER CODE BEGIN MX_GPIO_Init_2 */
@@ -500,8 +717,8 @@ void parseCmd(const geometry_msgs__msg__Point *msg,
 
 void sendJointCmd(osMessageQueueId_t mid_PositionQueue, CARTESIAN_POS_t xSetpointToSend) {
 	// put message type Point in queue
-	BaseType_t xStatus;	// container for Overwrite wrapper
-	float dummy;
+	osStatus_t xStatus;	// container for Overwrite wrapper
+	CARTESIAN_POS_t dummy;
 
 	// mailbox: populate message one by one Point - CARTESIAN_POS_t TODO: check for requirements/control
 	if (osMessageQueueGetSpace(mid_PositionQueue) == 0) {
@@ -511,15 +728,6 @@ void sendJointCmd(osMessageQueueId_t mid_PositionQueue, CARTESIAN_POS_t xSetpoin
 	if (xStatus != osOK) {
 		printf( "Could not send to the queue.\r\n" );
 	}
-
-//	float dummy;
-//	// mailbox: populate message one by one Point - CARTESIAN_POS_t TODO: check for requirements/control
-//	if (osMessageQueueGetSpace(mid_PositionQueue) == 0) {
-//		osMessageQueueGet(mid_PositionQueue, &dummy, NULL, 0); // eliminar el más antiguo
-//	}
-//	xStatus = osMessageQueuePut(mid_PositionQueue, &xSetpointToSend,
-//			osPriorityNormal, 10); // Used for only one position in queue
-
 
 }
 
@@ -534,11 +742,11 @@ void cmd_callback(const void * msgin) {
 	// Publicar respuesta
 	RCSOFTCHECK(rcl_publish(&publisher, &pub_msg, NULL));
 
-	double cmd[3];
+	float cmd[3];
 	osStatus_t status;
-	cmd[0] = msg->x;
-	cmd[1] = msg->y;
-	cmd[2] = msg->z;
+	cmd[0] = (float) msg->x;
+	cmd[1] = (float) msg->y;
+	cmd[2] = (float) msg->z;
 
 	printf("cmd_callback\r\n");
 //	char data[] = "cmd_callback\r\n";
@@ -597,49 +805,182 @@ void homing_callback(const void * msgin)
     RCSOFTCHECK(rcl_publish(&publisher, &pub_msg, NULL));
 }
 
-void inverseKinematics(const float x, const float y, const float z) {
-	float T_obj[4][4] = { { 1, 0, 0, x }, { 0, 1, 0, y }, { 0, 0, 1, z }, { 0,
-			0, 0, 1 } };
 
-	float qf[4];
-	int ok = cinv_geometrica_f32(dh, T_obj, Base, Tool, offset, lim, qf);
-	if (ok) {
+//### Configura PWM de los motores ###
+void Stepper_SetSpeed(TIM_HandleTypeDef *htim, uint32_t channel, uint32_t freq_hz) {
+    uint32_t timer_clk = HAL_RCC_GetPCLK1Freq() * 2; // Depende del bus/timer *2 xq PCLK1 es 42 MHz
+    uint32_t prescaler = htim->Instance->PSC + 1;
+    uint32_t arr = (timer_clk / (prescaler * freq_hz)) - 1;
+
+    __HAL_TIM_SET_AUTORELOAD(htim, arr);
+    __HAL_TIM_SET_COMPARE(htim, channel, arr / 2);
+}
+
+//### Selecciona canal en TCA9548A ###
+HAL_StatusTypeDef TCA9548A_SelectChannel(uint8_t channel) {
+    uint8_t data = 1 << channel;  // Ej: canal 0 = 0x01, canal 1 = 0x02
+    return HAL_I2C_Master_Transmit(&hi2c1, TCA9548A_ADDR, &data, 1, HAL_MAX_DELAY);
+}
+
+//### Lee angulos del multiplexor AS5600 ###
+float readAngle_AS5600(int motor) { //Lee el angulo del sensor AS5600 en la I2C1
+    uint8_t data[2];
+    bool invert;
+
+    if (motor == 2){
+      TCA9548A_SelectChannel(1); // Seleccionar canal 1 → leer sensor 1
+      invert = true;
+    }
+    else if(motor == 3){
+      TCA9548A_SelectChannel(0); // Seleccionar canal 0 → leer sensor 2
+      invert = false;
+    }
+    else{
+      return 0.0;
+    }
+    //HAL_Delay(2); // tiempo corto de estabilización
+
+    HAL_I2C_Mem_Read(&hi2c1, AS5600_ADDR, ANGLE_REG_HIGH, I2C_MEMADD_SIZE_8BIT, &data[0], 1, HAL_MAX_DELAY);
+    HAL_I2C_Mem_Read(&hi2c1, AS5600_ADDR, ANGLE_REG_LOW,  I2C_MEMADD_SIZE_8BIT, &data[1], 1, HAL_MAX_DELAY);
+    uint16_t angle = ((uint16_t)data[0] << 8) | data[1];
+
+    uint16_t rawAngle = angle & 0x0FFF;
+    if (invert){
+    	rawAngle = (4096 - rawAngle) & 0x0FFF;
+    	//Inversion de direccion, porque en I2C no se invierte la direccion al escribir el registro, solo ocurre eso leyendo el valor analogico
+    	//La direccion adoptada para motores 2 y 3 es creciente sentido horario, visto desde motor 2
+    }
+    float currentAngle = (rawAngle * 360.0f) / 4096.0f; // El ángulo es de 12 bits -> 4096 en 360°
+    if (currentAngle > 270){
+    	currentAngle -= 360;
+    }
+
+    return currentAngle;
+}
+
+bool inverseKinematics(const float x, const float y, const float z) {
+    float T_obj[4][4] = {
+            {1, 0,  0, x},
+            {0, 1,  0, y},
+            {0, 0,  1, z},
+            {0, 0,  0, 1}
+            };
+
+    float qm[3];
+	bool ok = cinv_geometrica_f32(dh, T_obj, Base, Tool, offset, lim, qm);
+
+	if(ok){
 		printf("C_Inv OK\r\n");
 
-		for (int i = 0; i < 4; i++) {
-			printf("%.2f\r\n", qf[i] * 180 / PI);
-		}
+		motor1.targetAngle = qm[0]*180/PI;
+		motor2.targetAngle = qm[1]*180/PI;
+		motor3.targetAngle = qm[2]*180/PI;
+	}
+	else{
+		printf("C_Inv NO OK\r\n");
+	}
+	return ok;
+}
 
-		motor1.targetAngle = qf[0] * 180 / PI;
-		motor2.targetAngle = (PI / 2 - qf[1]) * 180 / PI;
-		motor3.targetAngle = (-(qf[1] + qf[2])) * 180 / PI;
-	} else {
-		printf("C_Inn NO OK\r\n");
+void moveToAbsAngle(int motor, float angulo_abs, int velocidad){ //La logica podria ser: mover motor X pasos, leer angulo, si le falta/sobra compensar
+	//velocidad [steps/s] = freq [Hz]  xq 1 paso es 1 periodo de PWM
+	float angulo_actual;
+	float relacion;
+
+	switch (motor) {
+	  case 1: angulo_actual = motor1.currentAngle; motor1.targetAngle = angulo_abs; relacion = motor1.i; Stepper_SetSpeed(&htim13, TIM_CHANNEL_1, velocidad); break;
+	  case 2: angulo_actual = motor2.currentAngle; motor2.targetAngle = angulo_abs; relacion = motor2.i; Stepper_SetSpeed(&htim2, TIM_CHANNEL_2, velocidad); break;
+	  case 3: angulo_actual = motor3.currentAngle; motor3.targetAngle = angulo_abs; relacion = motor3.i; Stepper_SetSpeed(&htim3, TIM_CHANNEL_2, velocidad); break;
+	  default: return;
+	}
+
+	float angulo_rel = angulo_abs - (angulo_actual);
+	printf("Motor %d targetAngle %.2f relativeAngle %.2f\r\n", motor, angulo_abs, angulo_rel);
+	GPIO_PinState direccion = (angulo_rel >= 0) ? GPIO_PIN_SET : GPIO_PIN_RESET;
+	float pasos = (fabs(angulo_rel) / 360.0) * STEPS_PER_REV * relacion;
+	moveMotor(motor, (int)pasos, (int)velocidad, direccion);
+}
+
+void angleCompensation(int motor, float angulo_abs, float angulo_actual, float relacion){
+	printf("Falta compensar %.2f\r\n", angulo_abs - angulo_actual);
+	float angulo_rel = angulo_abs - angulo_actual;
+
+	GPIO_PinState direccion = (angulo_rel >= 0) ? GPIO_PIN_SET : GPIO_PIN_RESET;
+	float pasos = (fabs(angulo_rel) / 360.0) * STEPS_PER_REV * relacion;
+	printf("Pasos a realizar motor %d = %d\r\n", motor, (int)pasos);
+	moveMotor(motor, (int)pasos, 200, direccion);
+}
+
+void electromagnetOn(bool turn_on){
+	if(turn_on){
+		HAL_GPIO_WritePin(ELECTROMAGNET_GPIO, ELECTROMAGNET_PIN, GPIO_PIN_SET);
+	}
+	else {
+		HAL_GPIO_WritePin(ELECTROMAGNET_GPIO, ELECTROMAGNET_PIN, GPIO_PIN_RESET);
 	}
 }
 
+void doHoming(int motor, GPIO_PinState dir) {
+  GPIO_TypeDef* dirPort;
+  uint16_t dirPin;
+  float angleHoming;
+
+  switch (motor) {
+    case 1: dirPort = motor1.dirPort; dirPin = motor1.dirPin; break;
+    case 2: dirPort = motor2.dirPort; dirPin = motor2.dirPin; angleHoming = motor2.angleHoming; break;
+    case 3: dirPort = motor3.dirPort; dirPin = motor3.dirPin; angleHoming = motor3.angleHoming; break;
+    default: return;
+  }
+
+  if (motor == 1){
+	  HAL_GPIO_WritePin(dirPort, dirPin, dir); // 1. Configurar dirección hacia el fin de carrera
+	  Stepper_SetSpeed(&htim13, TIM_CHANNEL_1, 250); // 2. Configurar velocidad lenta para homing
+
+	  motor1.homing = true;
+	  motor1.totalSteps = 0; // 3. Inicializar contadores
+	  motor1.currentStep = 0;
+
+	  HAL_TIM_Base_Start_IT(&htim13);
+	  HAL_TIM_PWM_Start(&htim13, TIM_CHANNEL_1); // 4. Iniciar PWM
+  }
+  else if(motor == 2 || motor == 3){
+	  moveToAbsAngle(motor, angleHoming, 500);
+  }
+
+}
+
+void moveMotor(int motor, int pasos, int velocidad, GPIO_PinState dir) {
+  switch (motor) {
+      case 1:
+    	  HAL_GPIO_WritePin(motor1.dirPort, motor1.dirPin, dir);
+    	  motor1.currentStep = 0;
+    	  motor1.targetStep = pasos;
+    	  motor1.angleDone = false;
+    	  motor1.dir = dir;
+    	  HAL_TIM_Base_Start_IT(&htim13);
+    	  HAL_TIM_PWM_Start(&htim13, TIM_CHANNEL_1);
+    	  break;
+      case 2:
+    	  HAL_GPIO_WritePin(motor2.dirPort, motor2.dirPin, dir);
+    	  motor2.currentStep = 0;
+    	  motor2.targetStep = pasos;
+    	  motor2.angleDone = false;
+    	  HAL_TIM_Base_Start_IT(&htim2);
+		  HAL_TIM_PWM_Start(&htim2, TIM_CHANNEL_2);
+    	  break;
+      case 3:
+    	  HAL_GPIO_WritePin(motor3.dirPort, motor3.dirPin, dir);
+    	  motor3.currentStep = 0;
+    	  motor3.targetStep = pasos;
+    	  motor3.angleDone = false;
+    	  HAL_TIM_Base_Start_IT(&htim3);
+		  HAL_TIM_PWM_Start(&htim3, TIM_CHANNEL_2);
+    	  break;
+      default: return;
+    }
+}
+
 /* USER CODE END 4 */
-
-/* USER CODE BEGIN Header_StartDefaultTask */
-	/** * @brief Function implementing the defaultTask thread. * @param argument: Not used * @retval None */
-/* USER CODE END Header_StartDefaultTask */
-
-/* USER CODE BEGIN Header_StartMotorControlTask */
-/**
-* @brief Function implementing the mControlTask thread.
-* @param argument: Not used
-* @retval None
-*/
-/* USER CODE END Header_StartMotorControlTask */
-
-
-/* USER CODE BEGIN Header_StartKinematicsTask */
-/**
-* @brief Function implementing the KinematicsTask thread.
-* @param argument: Not used
-* @retval None
-*/
-/* USER CODE END Header_StartKinematicsTask */
 
 /**
   * @brief  Period elapsed callback in non blocking mode
@@ -652,6 +993,63 @@ void inverseKinematics(const float x, const float y, const float z) {
 void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 {
   /* USER CODE BEGIN Callback 0 */
+
+  // Motor 1 → TIM1 (PWM13/1)
+  if (htim->Instance == TIM13){
+	  if(motor1.homing){ // Hace el homing
+		  if (!HAL_GPIO_ReadPin(HALL_SENSOR_GPIO, HALL_SENSOR_PIN)){
+			  motor1.homing = false;
+			  motor1.totalSteps = 0;
+			  motor1.currentStep = 0;
+			  motor1.currentAngle = motor1.angleHoming;
+			  motor1.angleDone = true;
+
+		      HAL_TIM_Base_Stop_IT(&htim13);
+		      HAL_TIM_PWM_Stop(&htim13, TIM_CHANNEL_1);
+		  }
+	  }
+	  else{ // Mueve el motor 1 con normalidad
+		  motor1.currentStep++;
+
+		  if (motor1.dir == CW){
+			  motor1.totalSteps++;
+		  }
+		  else{
+			  motor1.totalSteps--;
+		  }
+
+		  if (motor1.currentStep >= motor1.targetStep){
+			  motor1.angleDone = true;
+			  HAL_TIM_Base_Stop_IT(&htim13);
+			  HAL_TIM_PWM_Stop(&htim13, TIM_CHANNEL_1);
+		  }
+
+		  motor1.currentAngle = (motor1.totalSteps * 360.0f / STEPS_PER_REV) / motor1.i;
+  }}
+
+  // Motor 2 → TIM2 (PWM2/2)
+  else if (htim->Instance == TIM2){
+	  motor2.currentStep++;
+	  motor2.currentAngle = readAngle_AS5600(2);
+
+	  if (motor2.currentStep >= motor2.targetStep){
+		  motor2.angleDone = true;
+		  HAL_TIM_Base_Stop_IT(&htim2);
+		  HAL_TIM_PWM_Stop(&htim2, TIM_CHANNEL_2);
+	  }
+  }
+
+  // Motor 3 → TIM3 (PWM3/2)
+  else if (htim->Instance == TIM3){
+	  motor3.currentStep++;
+	  motor3.currentAngle = readAngle_AS5600(3);
+
+	  if (motor3.currentStep >= motor3.targetStep){
+		  motor3.angleDone = true;
+		  HAL_TIM_Base_Stop_IT(&htim3);
+		  HAL_TIM_PWM_Stop(&htim3, TIM_CHANNEL_2);
+	  }
+  }
 
   /* USER CODE END Callback 0 */
   if (htim->Instance == TIM1)

@@ -31,7 +31,12 @@ extern "C" {
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
+#include <stdio.h>
+#include <stdlib.h>
+#include <arm_math.h>
+#include <math.h>
 #include <motors.h>
+#include <tasks.h>
 /* USER CODE END Includes */
 
 /* Exported types ------------------------------------------------------------*/
@@ -49,9 +54,10 @@ extern "C" {
 
 /* USER CODE END EM */
 
+void HAL_TIM_MspPostInit(TIM_HandleTypeDef *htim);
+
 /* Exported functions prototypes ---------------------------------------------*/
 void Error_Handler(void);
-
 
 /* USER CODE BEGIN EFP */
 int __io_putchar(int ch);
@@ -59,7 +65,16 @@ void cmd_callback(const void * msgin);
 void inverse_kinematics_callback(const void * msgin);
 void subscription_callback(const void * msgin);
 void homing_callback(const void * msgin);
-void inverseKinematics(const float x, const float y, const float z);
+
+void Stepper_SetSpeed(TIM_HandleTypeDef *htim, uint32_t channel, uint32_t freq_hz);
+HAL_StatusTypeDef TCA9548A_SelectChannel(uint8_t channel);
+float readAngle_AS5600(int motor);
+bool inverseKinematics(const float x, const float y, const float z);
+void moveToAbsAngle(int motor, float angulo_abs, int velocidad);
+void angleCompensation(int motor, float angulo_abs, float angulo_actual, float relacion);
+void electromagnetOn(bool turn_on);
+void doHoming(int motor, GPIO_PinState dir);
+void moveMotor(int motor, int pasos, int velocidad, GPIO_PinState dir);
 
 /* USER CODE END EFP */
 
@@ -70,8 +85,6 @@ void inverseKinematics(const float x, const float y, const float z);
 #define USART_TX_GPIO_Port GPIOA
 #define USART_RX_Pin GPIO_PIN_3
 #define USART_RX_GPIO_Port GPIOA
-#define LD2_Pin GPIO_PIN_5
-#define LD2_GPIO_Port GPIOA
 #define TMS_Pin GPIO_PIN_13
 #define TMS_GPIO_Port GPIOA
 #define TCK_Pin GPIO_PIN_14
@@ -109,6 +122,12 @@ void inverseKinematics(const float x, const float y, const float z);
 #define RCSOFTCHECK(fn) { rcl_ret_t temp_rc = fn; if((temp_rc != RCL_RET_OK)){printf("Failed status on line %d: %d. Continuing.\n",__LINE__,(int)temp_rc);}}
 #define MSGQUEUE_OBJECTS 1                     // number of Message Queue Objects
 #define N_MOTORS 3
+
+typedef struct {
+	double x;
+	double y;
+	double z;
+} CARTESIAN_POS_t;
 /* USER CODE END Private defines */
 
 #ifdef __cplusplus

@@ -16,8 +16,13 @@
 #include <math.h>
 #include <stdbool.h>
 
+//Estructura para los motores
 typedef struct {
-    GPIO_TypeDef *dirPort;
+	const uint8_t id;
+	const float i;
+	const float angleHoming;
+
+	GPIO_TypeDef *dirPort;
     uint16_t dirPin;
 
     float currentAngle;
@@ -27,11 +32,8 @@ typedef struct {
     uint16_t totalSteps;
     bool dir;
 
-    const float i;
     bool angleDone;
     bool homing;
-
-    const float angleHoming;
 } Motor;
 
 

@@ -30,9 +30,9 @@ extern UART_HandleTypeDef huart3;
 
 typedef struct {
 	// Point position
-	double x;
-	double y;
-	double z;} MSGQUEUE_OBJ_t;
+	float angle1;
+	float angle2;
+	float angle3;} MOTORQUEUE_t;
 extern float tool_z;
 extern float currentAngle1;
 extern float currentAngle2;
@@ -40,33 +40,11 @@ extern float currentAngle3;
 extern float targetAngle1;
 extern float targetAngle2;
 extern float targetAngle3;
-osMessageQueueId_t mid_JointQueue[N_MOTORS];				// motor cmd (1 each DOF)
-osMessageQueueId_t mid_PositionQueue;
+extern osMessageQueueId_t mid_JointQueue[N_MOTORS];				// motor cmd (1 each DOF)
+extern osMessageQueueId_t mid_PositionQueue;
 
 extern rcl_publisher_t publisher;
 extern std_msgs__msg__String pub_msg;
-
-/* Definitions for defaultTask */
-osThreadId_t defaultTaskHandle;
-const osThreadAttr_t defaultTask_attributes = {
-  .name = "defaultTask",
-  .stack_size = 7150 * 4,
-  .priority = (osPriority_t) osPriorityNormal,
-};
-/* Definitions for mControlTask */
-osThreadId_t mControlTaskHandle;
-const osThreadAttr_t mControlTask_attributes = {
-  .name = "mControlTask",
-  .stack_size = 128 * 4,
-  .priority = (osPriority_t) osPriorityHigh,
-};
-/* Definitions for KinematicsTask */
-osThreadId_t KinematicsTaskHandle;
-const osThreadAttr_t KinematicsTask_attributes = {
-  .name = "KinematicsTask",
-  .stack_size = 200 * 4,
-  .priority = (osPriority_t) osPriorityAboveNormal,
-};
 
 void StartDefaultTask(void *argument)
 {
@@ -171,12 +149,23 @@ void StartDefaultTask(void *argument)
 void StartMotorControlTask(void *argument) {
 	/* USER CODE BEGIN StartMotorControlTask */
 	/* Infinite loop */
-	MSGQUEUE_OBJ_t xReceivedStructure;
-	BaseType_t xStatus;
+	MOTORQUEUE_t xReceivedStructure;
+	osStatus_t xStatus;
+
+	float joint_value[3] = {
+	    xReceivedStructure.angle1,
+	    xReceivedStructure.angle2,
+	    xReceivedStructure.angle3
+	};
+
 	for (;;) {
 		for (int i=0; i<N_MOTORS; i++){
-			xStatus = osMessageQueueGet(mid_JointQueue, &xReceivedStructure, osPriorityAboveNormal,
+			xStatus = osMessageQueueGet(mid_JointQueue[i], &joint_value[i], osPriorityAboveNormal,
 					portMAX_DELAY);
+		}
+		for (int j = 0; j<N_MOTORS; j++){
+			// TODO: moveToAbsAngle(int motor, float angulo_abs, int velocidad){ //La logica podria ser: mover motor X pasos, leer angulo, si le falta/sobra compensar
+			moveToAbsAngle(j,joint_value[j],1);
 		}
 		vTaskDelay(pdMS_TO_TICKS(1));	//osDelay(1);
 	}
@@ -187,9 +176,9 @@ void StartKinematicsTask(void *argument)
 {
   /* USER CODE BEGIN StartKinematicsTask */
 	/* Infinite loop */
-	MSGQUEUE_OBJ_t xReceivedStructure;
-	BaseType_t xStatus;
-	BaseType_t status;
+	CARTESIAN_POS_t xReceivedStructure;
+	osStatus_t xStatus;
+	osStatus_t status;
 
 	for (;;) {
 //		xStatus = xQueueReceive(mid_PositionQueue, &xReceivedStructure,
@@ -203,19 +192,30 @@ void StartKinematicsTask(void *argument)
 					xReceivedStructure.z);
 			// TODO: parse queue values
 			////Resolve kinematics and assign to global variables
-			inverseKinematics(xReceivedStructure.x, xReceivedStructure.y, xReceivedStructure.z + tool_z);
+			// Parse
+			const float x = (float) xReceivedStructure.x;
+			const float y = (float) xReceivedStructure.y;
+			const float z = (float) xReceivedStructure.z;
+
+			bool ok = inverseKinematics(x, y, z + tool_z);
 			//Send command to queues - to be consumed by Motor Task
 			// TODO: check for variable or struct atttribute
-			status = osMessageQueuePut(mid_JointQueue[0], &motor1.targetAngle, osPriorityAboveNormal, 0);
-			if(status != 0) printf("Error creating xCmdQueue element 1 in cmd_callback\r\n");
+			if(ok){
+				status = osMessageQueuePut(mid_JointQueue[0], &motor1.targetAngle, osPriorityAboveNormal, 0);
+				if(status != 0) printf("Error creating xCmdQueue element 1 in cmd_callback\r\n");
 
-			status = osMessageQueuePut(mid_JointQueue[1], &motor2.targetAngle, osPriorityAboveNormal, 0);
-			if(status != 0) printf("Error creating xCmdQueue element 2 in cmd_callback\r\n");
+				status = osMessageQueuePut(mid_JointQueue[1], &motor2.targetAngle, osPriorityAboveNormal, 0);
+				if(status != 0) printf("Error creating xCmdQueue element 2 in cmd_callback\r\n");
 
-			status = osMessageQueuePut(mid_JointQueue[2], &motor3.targetAngle, osPriorityAboveNormal, 0);
-			if(status != 0) printf("Error creating xCmdQueue element 3 in cmd_callback\r\n");
+				status = osMessageQueuePut(mid_JointQueue[2], &motor3.targetAngle, osPriorityAboveNormal, 0);
+				if(status != 0) printf("Error creating xCmdQueue element 3 in cmd_callback\r\n");
 
-			printf("Kinematics: angles to make: [%f; %f; %f]", targetAngle1, targetAngle2, targetAngle3);
+				printf("Kinematics: angles to make: [%f; %f; %f]", motor1.targetAngle, motor2.targetAngle, motor3.targetAngle);
+			}
+			else{
+				printf("Failed to do Inv. Kinematics computation.\r\n");
+			}
+
 		}
 		else{
 			printf("Failed queue reception.\r\n");
