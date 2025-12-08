@@ -58,7 +58,7 @@ xyz_filtered = xyz( xyz(:,3) >= -tol & xyz(:,3) <= tol , : );
 min_radius = min(xyz_filtered(:,1));
 max_radius = max(xyz_filtered(:,1));
 fprintf("Radio minimo = %.5f\nRadio maximo = %.5f\n", min_radius, max_radius);
-fprintf("La ecuacion de estos arcos seria:\nx^2 + y^2 = %.5f\nx^2 + y^2 = %.5f\n",min_radius^2, max_radius^2);
+fprintf("La ecuacion de estos arcos seria:\nx^2 + y^2 = %.5f\nx^2 + y^2 = %.5f\n",min_radius.^2, max_radius.^2);
 %% Ploteos
 
 %Ploteo de arcos que representan el area de trabajo del robot
