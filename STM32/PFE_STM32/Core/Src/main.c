@@ -75,27 +75,27 @@ DMA_HandleTypeDef hdma_usart2_tx;
 osThreadId_t defaultTaskHandle;
 const osThreadAttr_t defaultTask_attributes = {
   .name = "defaultTask",
-  .stack_size = 7150 * 4,
+  .stack_size = 7100 * 4,
   .priority = (osPriority_t) osPriorityNormal,
 };
 /* Definitions for mControlTask */
 osThreadId_t mControlTaskHandle;
 const osThreadAttr_t mControlTask_attributes = {
   .name = "mControlTask",
-  .stack_size = 128 * 4,
+  .stack_size = 180 * 4,
   .priority = (osPriority_t) osPriorityHigh,
 };
 /* Definitions for KinematicsTask */
 osThreadId_t KinematicsTaskHandle;
 const osThreadAttr_t KinematicsTask_attributes = {
   .name = "KinematicsTask",
-  .stack_size = 200 * 4,
+  .stack_size = 220 * 4,
   .priority = (osPriority_t) osPriorityAboveNormal,
 };
-/* Definitions for xMotorCmd */
-osMessageQueueId_t xMotorCmdHandle;
-const osMessageQueueAttr_t xMotorCmd_attributes = {
-  .name = "xMotorCmd"
+/* Definitions for xPubMutex */
+osMutexId_t xPubMutexHandle;
+const osMutexAttr_t xPubMutex_attributes = {
+  .name = "xPubMutex"
 };
 /* USER CODE BEGIN PV */
 // micro-ROS publisher
@@ -103,10 +103,10 @@ rcl_publisher_t publisher;
 std_msgs__msg__String pub_msg;
 
 osMessageQueueId_t mid_JointQueue[N_MOTORS];				// motor cmd (1 each DOF)
-osMessageQueueId_t mid_PositionQueue;                	// message queue id (QueueHandle_t CMSIS wrapper)
+osMessageQueueId_t mid_PositionQueue;                		// message queue id (QueueHandle_t CMSIS wrapper)
 
-osThreadId_t tid_Thread_MsgQueue1;              	// thread id 1
-osThreadId_t tid_Thread_MsgQueue2;              	// thread id 2
+osThreadId_t tid_Thread_MsgQueue1;              			// thread id 1
+osThreadId_t tid_Thread_MsgQueue2;              			// thread id 2
 
 // Constantes de transmisión
 const int STEPS_PER_REV = 200*8; // 8 micropasos
@@ -229,6 +229,9 @@ int main(void)
 
   /* Init scheduler */
   osKernelInitialize();
+  /* Create the mutex(es) */
+  /* creation of xPubMutex */
+  xPubMutexHandle = osMutexNew(&xPubMutex_attributes);
 
   /* USER CODE BEGIN RTOS_MUTEX */
   /* add mutexes, ... */
@@ -241,10 +244,6 @@ int main(void)
   /* USER CODE BEGIN RTOS_TIMERS */
   /* start timers, add new ones, ... */
   /* USER CODE END RTOS_TIMERS */
-
-  /* Create the queue(s) */
-  /* creation of xMotorCmd */
-  xMotorCmdHandle = osMessageQueueNew (3, sizeof(uint16_t), &xMotorCmd_attributes);
 
   /* USER CODE BEGIN RTOS_QUEUES */
   /* add queues, ... */
@@ -266,13 +265,6 @@ int main(void)
 
   /* Create the thread(s) */
   /* creation of defaultTask */
-  defaultTaskHandle = osThreadNew(StartDefaultTask, NULL, &defaultTask_attributes);
-
-  /* creation of mControlTask */
-  mControlTaskHandle = osThreadNew(StartMotorControlTask, NULL, &mControlTask_attributes);
-
-  /* creation of KinematicsTask */
-  KinematicsTaskHandle = osThreadNew(StartKinematicsTask, NULL, &KinematicsTask_attributes);
 
   /* USER CODE BEGIN RTOS_THREADS */
   /* add threads, ... */
@@ -735,20 +727,17 @@ void cmd_callback(const void * msgin) {
 	// TODO: make and cast direct kinematics cmd
 	const geometry_msgs__msg__Point *msg = (const geometry_msgs__msg__Point *)msgin;
 	char buffer[100];
-	char data[] = "Ingreso a Callback\r\n";
-	snprintf(buffer, sizeof(buffer), "ACK: %s");
+//	char data[] = "Ingreso a Callback\r\n";
+//	snprintf(buffer, sizeof(buffer), "ACK: %s");
 	// Asignar al mensaje global
-	rosidl_runtime_c__String__assign(&pub_msg.data, "Recibido Cmd");
-	// Publicar respuesta
-	RCSOFTCHECK(rcl_publish(&publisher, &pub_msg, NULL));
-
+	publish_text("CMD-ACK");
 	float cmd[3];
 	osStatus_t status;
 	cmd[0] = (float) msg->x;
 	cmd[1] = (float) msg->y;
 	cmd[2] = (float) msg->z;
 
-	printf("cmd_callback\r\n");
+//	printf("cmd_callback\r\n");
 //	char data[] = "cmd_callback\r\n";
 //	HAL_UART_Transmit(&huart3, &data, sizeof(data), 10);
 
@@ -763,14 +752,11 @@ void cmd_callback(const void * msgin) {
 void inverse_kinematics_callback(const void * msgin)
 {
 	CARTESIAN_POS_t xSetpointToSend;
-	char data2[] = "Ingreso a Callback\r\n";
-	HAL_UART_Transmit(&huart3, &data2, sizeof(data2), 10);
+//	char data2[] = "Ingreso a Callback\r\n";
+//	HAL_UART_Transmit(&huart3, &data2, sizeof(data2), 10);
 	const geometry_msgs__msg__Point *msg = (const geometry_msgs__msg__Point *)msgin;
 	// Asignar al mensaje global
-	rosidl_runtime_c__String__assign(&pub_msg.data, "Recibido Kinematics");
-	// Publicar respuesta
-	RCSOFTCHECK(rcl_publish(&publisher, &pub_msg, NULL));
-
+	publish_text("CMD-KIN");
 	// Callback managed by executor
 	parseCmd(msg, &xSetpointToSend);						// parse geometry_msgs__msg__Point to CARTESIAN_POS_t
 	sendJointCmd(mid_PositionQueue, xSetpointToSend);		// put setpoint in Position Queue
@@ -778,31 +764,24 @@ void inverse_kinematics_callback(const void * msgin)
 
 void subscription_callback(const void * msgin)
 {
-	char data2[] = "Ingreso a Callback\r\n";
-	HAL_UART_Transmit(&huart3, &data2, sizeof(data2), 10);
+//	char data2[] = "Ingreso a Callback\r\n";
+//	HAL_UART_Transmit(&huart3, &data2, sizeof(data2), 10);
 	const geometry_msgs__msg__Point *msg = (const geometry_msgs__msg__Point *)msgin;
-	char buffer[100];
-	snprintf(buffer, sizeof(buffer), "ACK: ");
-	char data[50];
-	snprintf(data, sizeof(data), "PRE-ASSIGN");
-	HAL_UART_Transmit(&huart3, &data, sizeof(data), 10);
+//	char buffer[100];
+//	snprintf(buffer, sizeof(buffer), "ACK: ");
+//	char data[50];
+//	snprintf(data, sizeof(data), "PRE-ASSIGN");
+//	HAL_UART_Transmit(&huart3, &data, sizeof(data), 10);
 	// Asignar al mensaje global
-	rosidl_runtime_c__String__assign(&pub_msg.data, "ACK");
-	snprintf(data, sizeof(data), "POST-ASSIGN");
-	HAL_UART_Transmit(&huart3, &data, sizeof(data), 10);
-	// Publicar respuesta
-	RCSOFTCHECK(rcl_publish(&publisher, &pub_msg, NULL));
+	publish_text("CMD-SUB");
 }
 
 void homing_callback(const void * msgin)
 {
 	const std_msgs__msg__Bool * msg = (const std_msgs__msg__Bool *) msgin;
 	char buffer[100];
-	snprintf(buffer, sizeof(buffer), "ACK: %d", msg->data);
-    // Asignar al mensaje global
-    rosidl_runtime_c__String__assign(&pub_msg.data, "Recibido Homing");
-    // Publicar respuesta
-    RCSOFTCHECK(rcl_publish(&publisher, &pub_msg, NULL));
+	snprintf(buffer, sizeof(buffer), "HOM: %d", msg->data);
+    publish_text(buffer);
 }
 
 
@@ -981,6 +960,60 @@ void moveMotor(int motor, int pasos, int velocidad, GPIO_PinState dir) {
 }
 
 /* USER CODE END 4 */
+
+/* USER CODE BEGIN Header_StartDefaultTask */
+/**
+  * @brief  Function implementing the defaultTask thread.
+  * @param  argument: Not used
+  * @retval None
+  */
+/* USER CODE END Header_StartDefaultTask */
+//void StartDefaultTask(void *argument)
+//{
+//  /* USER CODE BEGIN 5 */
+//////  /* Infinite loop */
+//////  for(;;)
+//////  {
+//////    osDelay(1);
+//////  }
+//  /* USER CODE END 5 */
+//}
+
+/* USER CODE BEGIN Header_StartMotorControlTask */
+/**
+* @brief Function implementing the mControlTask thread.
+* @param argument: Not used
+* @retval None
+*/
+/* USER CODE END Header_StartMotorControlTask */
+//void StartMotorControlTask(void *argument)
+//{
+//  /* USER CODE BEGIN StartMotorControlTask */
+//////  /* Infinite loop */
+//////  for(;;)
+//////  {
+//////    osDelay(1);
+//////  }
+//  /* USER CODE END StartMotorControlTask */
+//}
+
+/* USER CODE BEGIN Header_StartKinematicsTask */
+/**
+* @brief Function implementing the KinematicsTask thread.
+* @param argument: Not used
+* @retval None
+*/
+/* USER CODE END Header_StartKinematicsTask */
+//void StartKinematicsTask(void *argument)
+//{
+//  /* USER CODE BEGIN StartKinematicsTask */
+//////  /* Infinite loop */
+//////  for(;;)
+//////  {
+//////    osDelay(1);
+//////  }
+//  /* USER CODE END StartKinematicsTask */
+//}
 
 /**
   * @brief  Period elapsed callback in non blocking mode

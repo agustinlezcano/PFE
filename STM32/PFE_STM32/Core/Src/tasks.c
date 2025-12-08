@@ -42,9 +42,36 @@ extern float targetAngle2;
 extern float targetAngle3;
 extern osMessageQueueId_t mid_JointQueue[N_MOTORS];				// motor cmd (1 each DOF)
 extern osMessageQueueId_t mid_PositionQueue;
+extern osMutexId_t xPubMutexHandle;
 
 extern rcl_publisher_t publisher;
 extern std_msgs__msg__String pub_msg;
+char pub_buffer[12];										// buffer para memoria estatica en mensajes
+
+
+//extern rcl_publisher_t cmd_publisher;
+//extern std_msgs__msg__String pub_cmd_msg;
+
+
+void init_publisher_message()
+{
+    pub_msg.data.data = pub_buffer;
+    pub_msg.data.capacity = sizeof(pub_buffer);
+    pub_msg.data.size = 0;
+}
+
+void publish_text(const char *txt)
+{
+    osMutexAcquire(xPubMutexHandle, osWaitForever);
+
+    snprintf(pub_buffer, sizeof(pub_buffer), "%s", txt);
+    pub_msg.data.size = strlen(pub_buffer);
+
+    RCSOFTCHECK(rcl_publish(&publisher, &pub_msg, NULL));
+
+    osMutexRelease(xPubMutexHandle);
+}
+
 
 void StartDefaultTask(void *argument)
 {
@@ -90,6 +117,10 @@ void StartDefaultTask(void *argument)
 	// Start Publisher/Subscriber msgs
 	// TODO: check if init is necessary for all msg types
 	std_msgs__msg__Bool__init(&homing_msg);
+	geometry_msgs__msg__Point__init(&sub_msg);
+	geometry_msgs__msg__Point__init(&cmd_msg);
+	geometry_msgs__msg__Point__init(&inverse_msg);
+	std_msgs__msg__String__init(&pub_msg);
 
 	char data[] = "Configured\r\n";
 	HAL_UART_Transmit(&huart3, &data, sizeof(data), 10);
@@ -111,6 +142,8 @@ void StartDefaultTask(void *argument)
 	// create publisher
 	RCCHECK(
 			rclc_publisher_init_default( &publisher, &node, ROSIDL_GET_MSG_TYPE_SUPPORT(std_msgs, msg, String), "/microROS/string_publisher"));
+
+	init_publisher_message();		// init message definition used in publisher
 
 	// create executor
 	// TODO: update number of callbacks
@@ -160,12 +193,12 @@ void StartMotorControlTask(void *argument) {
 
 	for (;;) {
 		for (int i=0; i<N_MOTORS; i++){
-			xStatus = osMessageQueueGet(mid_JointQueue[i], &joint_value[i], osPriorityAboveNormal,
-					portMAX_DELAY);
+			xStatus = osMessageQueueGet(mid_JointQueue[i], &joint_value[i], NULL,
+					osWaitForever);
 		}
 		for (int j = 0; j<N_MOTORS; j++){
 			// TODO: moveToAbsAngle(int motor, float angulo_abs, int velocidad){ //La logica podria ser: mover motor X pasos, leer angulo, si le falta/sobra compensar
-			moveToAbsAngle(j,joint_value[j],1);
+			moveToAbsAngle(j,joint_value[j],100);
 		}
 		vTaskDelay(pdMS_TO_TICKS(1));	//osDelay(1);
 	}
@@ -183,10 +216,10 @@ void StartKinematicsTask(void *argument)
 	for (;;) {
 //		xStatus = xQueueReceive(mid_PositionQueue, &xReceivedStructure,
 //				portMAX_DELAY);
-		xStatus = osMessageQueueGet(mid_PositionQueue, &xReceivedStructure, osPriorityAboveNormal,
-						portMAX_DELAY);
+		xStatus = osMessageQueueGet(mid_PositionQueue, &xReceivedStructure, NULL,
+				osWaitForever);
 
-		if (xStatus == pdPASS) {
+		if (xStatus == osOK) {
 			printf("Received Kinematics setpoint: [%lf %lf %lf].\r\n",
 					xReceivedStructure.x, xReceivedStructure.y,
 					xReceivedStructure.z);
@@ -231,4 +264,3 @@ void MX_Tasks_Init(void)
   mControlTaskHandle = osThreadNew(StartMotorControlTask, NULL, &mControlTask_attributes);
   KinematicsTaskHandle = osThreadNew(StartKinematicsTask, NULL, &KinematicsTask_attributes);
 }
-

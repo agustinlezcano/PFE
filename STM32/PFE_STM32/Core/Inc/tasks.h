@@ -57,8 +57,5 @@ extern const osThreadAttr_t mControlTask_attributes;
 extern const osThreadAttr_t KinematicsTask_attributes;
 
 void MX_Tasks_Init(void);  // Init tasks
-void StartKinematicsTask(void *argument);
-void StartMotorControlTask(void *argument);
-void StartDefaultTask(void *argument);
 
 #endif /* INC_TASKS_H_ */
