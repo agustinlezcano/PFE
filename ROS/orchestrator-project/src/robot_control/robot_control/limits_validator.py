@@ -17,10 +17,27 @@ class JointLimits:
         Inicializa límites articulares para un robot 3DOF.
         Ajusta estos valores según las especificaciones de tu robot.
         """
+
+        # Límites articulares separados para Q1, Q2, Q3 (en grados)
+        self.q1_min = -90
+        self.q1_max = 90
+        self.q2_min = 60
+        self.q2_max = 157
+        self.q3_min = -25
+        self.q3_max = 65
+        
+        
+        # Límites Cartesianos separados para X, Y, Z (en metros)
+        self.x_min = 0.0
+        self.x_max = 0.5
+        self.y_min = 0.0
+        self.y_max = 0.5
+        self.z_min = 0.0
+        self.z_max = 0.5
         # Límites articulares en radianes
         # Q1, Q2, Q3
-        self.q_min = [-3.14159, -3.14159, -3.14159]  # -180°
-        self.q_max = [3.14159, 3.14159, 3.14159]     # +180°
+        self.q_min = [-90, 60, -25]  # -180°
+        self.q_max = [90, 157, 65]     # +180°
         
         # Velocidad angular máxima (rad/s)
         self.q_vel_max = [1.57, 1.57, 1.57]  # ~90°/s
