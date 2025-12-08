@@ -29,13 +29,20 @@ typedef struct {
     float targetAngle;
     uint16_t currentStep;
     uint16_t targetStep;
-    uint16_t totalSteps;
+    int16_t totalSteps;
     bool dir;
 
     bool angleDone;
     bool homing;
-} Motor;
 
+    const uint16_t minSpeed;     // Hz
+    const uint16_t maxSpeed;    // Hz
+    uint16_t currentSpeed;
+    float nextAccelPoint;
+    float startAngle;
+
+    float syncedMaxSpeed;
+} Motor;
 
 extern Motor motor1;
 extern Motor motor2;

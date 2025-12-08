@@ -21,7 +21,10 @@ Motor motor1 = {
 	.totalSteps = 0,
 	.dir = CW,
 	.homing = false,
-	.angleDone = false
+	.angleDone = false,
+
+	.minSpeed = 200,    // Hz
+	.maxSpeed = 500     // Hz
 };
 
 Motor motor2 = {
@@ -32,9 +35,10 @@ Motor motor2 = {
     .dirPin = DIR2_PIN,
     .currentAngle = 0.0f,
     .targetAngle = 0.0f,
-	.currentStep = 0,
-	.targetStep = 0,
-	.angleDone = false
+	.angleDone = false,
+
+	.minSpeed = 200,    // Hz
+	.maxSpeed = 500     // Hz
 };
 
 Motor motor3 = {
@@ -45,9 +49,10 @@ Motor motor3 = {
     .dirPin = DIR3_PIN,
     .currentAngle = 0.0f,
     .targetAngle = 0.0f,
-	.currentStep = 0,
-	.targetStep = 0,
-	.angleDone = false
+	.angleDone = false,
+
+	.minSpeed = 200,    // Hz
+	.maxSpeed = 500     // Hz
 };
 
 // TODO: define methods to init and update motors

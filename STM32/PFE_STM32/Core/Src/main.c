@@ -75,21 +75,21 @@ DMA_HandleTypeDef hdma_usart2_tx;
 osThreadId_t defaultTaskHandle;
 const osThreadAttr_t defaultTask_attributes = {
   .name = "defaultTask",
-  .stack_size = 7100 * 4,
+  .stack_size = 5500 * 4,
   .priority = (osPriority_t) osPriorityNormal,
 };
 /* Definitions for mControlTask */
 osThreadId_t mControlTaskHandle;
 const osThreadAttr_t mControlTask_attributes = {
   .name = "mControlTask",
-  .stack_size = 180 * 4,
+  .stack_size = 980 * 4,
   .priority = (osPriority_t) osPriorityHigh,
 };
 /* Definitions for KinematicsTask */
 osThreadId_t KinematicsTaskHandle;
 const osThreadAttr_t KinematicsTask_attributes = {
   .name = "KinematicsTask",
-  .stack_size = 220 * 4,
+  .stack_size = 1020 * 4,
   .priority = (osPriority_t) osPriorityAboveNormal,
 };
 /* Definitions for xPubMutex */
@@ -144,8 +144,8 @@ float Base[4][4] = {
 float offset[4] = {0, PI/2, -PI/2, 0};
 float lim[3][2] = {
 	{ -90*PI/180, 90*PI/180},
-	{ 60*PI/180, 157*PI/180},
-	{ -25*PI/180, 65*PI/180}
+	{ 60*PI/180, 143*PI/180},
+	{ -20*PI/180, 60*PI/180}
 };
 
 /* USER CODE END PV */
@@ -215,8 +215,8 @@ int main(void)
   MX_I2C1_Init();
   /* USER CODE BEGIN 2 */
   //Measure motors 2 & 3
-  //	motor2.currentAngle = readAngle_AS5600(2);
-  //	motor3.currentAngle = readAngle_AS5600(3);
+  motor2.currentAngle = readAngle_AS5600(2);
+  motor3.currentAngle = readAngle_AS5600(3);
 
   //	HAL_TIM_Base_Start_IT(&htim13);
   //	HAL_TIM_Base_Start_IT(&htim2);
@@ -224,7 +224,9 @@ int main(void)
   printf("System ready.\r\n");
   printf("Angle2 = %.2f ---- Angle3 = %.2f\r\n", motor2.currentAngle,
   			motor3.currentAngle);
-
+  //doHoming(1, GPIO_PIN_RESET);
+  //doHoming(2, GPIO_PIN_RESET);
+  //doHoming(3, GPIO_PIN_RESET);
   /* USER CODE END 2 */
 
   /* Init scheduler */
@@ -782,6 +784,27 @@ void homing_callback(const void * msgin)
 	char buffer[100];
 	snprintf(buffer, sizeof(buffer), "HOM: %d", msg->data);
     publish_text(buffer);
+    // TODO: implementar homing --> cola o if el de motorCmd, o en una task nueva 
+  // TODO: hacer cola homing o flag global pero para Joint en vez de Position
+  
+  // *****************************
+  // OPCION 2: mas bloqueante callback
+  // flagHoming = true;
+  // doHoming()
+  // *****************************
+  float cmd[3];
+	osStatus_t status;
+	cmd[0] = (float) 0;
+	cmd[1] = (float) 0;
+	cmd[2] = (float) 0;
+
+
+    for (int i=0; i<N_MOTORS; i++) {
+    	status = osMessageQueuePut(mid_JointQueue[i], &cmd[i], 0, 0);	//TODO: validate inner fields
+    	if(status != 0){
+    		printf("Error creating mid_JointQueue element in homing_callback\r\n");
+    	}
+    }
 }
 
 
@@ -829,12 +852,22 @@ float readAngle_AS5600(int motor) { //Lee el angulo del sensor AS5600 en la I2C1
     	//Inversion de direccion, porque en I2C no se invierte la direccion al escribir el registro, solo ocurre eso leyendo el valor analogico
     	//La direccion adoptada para motores 2 y 3 es creciente sentido horario, visto desde motor 2
     }
+
     float currentAngle = (rawAngle * 360.0f) / 4096.0f; // El ángulo es de 12 bits -> 4096 en 360°
-    if (currentAngle > 270){
-    	currentAngle -= 360;
-    }
+
+    //Para pasar al rango (-180, 180]
+    if (currentAngle > 180.0f) currentAngle -= 360.0f;
 
     return currentAngle;
+}
+
+float filterAngle(float angleReaded, float lastAngle){
+	if (fabs(angleReaded - lastAngle) > ANGLE_REJECT_DEG){
+		return lastAngle; //se descarta el ultimo angulo leido
+	}
+	else {
+		return angleReaded; //se considera el ultimo angulo leido
+	}
 }
 
 bool inverseKinematics(const float x, const float y, const float z) {
@@ -861,41 +894,71 @@ bool inverseKinematics(const float x, const float y, const float z) {
 	return ok;
 }
 
-void moveToAbsAngle(int motor, float angulo_abs, int velocidad){ //La logica podria ser: mover motor X pasos, leer angulo, si le falta/sobra compensar
+void moveToAbsAngle(int motor, float angulo_abs, int velocidad){
 	//velocidad [steps/s] = freq [Hz]  xq 1 paso es 1 periodo de PWM
 	float angulo_actual;
 	float relacion;
 
 	switch (motor) {
 	  case 1: angulo_actual = motor1.currentAngle; motor1.targetAngle = angulo_abs; relacion = motor1.i; Stepper_SetSpeed(&htim13, TIM_CHANNEL_1, velocidad); break;
-	  case 2: angulo_actual = motor2.currentAngle; motor2.targetAngle = angulo_abs; relacion = motor2.i; Stepper_SetSpeed(&htim2, TIM_CHANNEL_2, velocidad); break;
-	  case 3: angulo_actual = motor3.currentAngle; motor3.targetAngle = angulo_abs; relacion = motor3.i; Stepper_SetSpeed(&htim3, TIM_CHANNEL_2, velocidad); break;
+	  case 2:
+		  angulo_actual = motor2.currentAngle;
+		  motor2.targetAngle = angulo_abs;
+		  relacion = motor2.i;
+		  Stepper_SetSpeed(&htim2, TIM_CHANNEL_2, motor2.minSpeed);
+		  motor2.startAngle = motor2.currentAngle;
+		  motor2.currentSpeed = motor2.minSpeed;
+		  motor2.nextAccelPoint = 0.5;
+		  break;
+	  case 3:
+		  angulo_actual = motor3.currentAngle;
+		  motor3.targetAngle = angulo_abs;
+		  relacion = motor3.i;
+		  Stepper_SetSpeed(&htim3, TIM_CHANNEL_2, motor3.minSpeed);
+		  motor3.startAngle = motor3.currentAngle;
+		  motor3.currentSpeed = motor3.minSpeed;
+		  motor3.nextAccelPoint = 0.5;
+		  break;
 	  default: return;
 	}
 
-	float angulo_rel = angulo_abs - (angulo_actual);
-	printf("Motor %d targetAngle %.2f relativeAngle %.2f\r\n", motor, angulo_abs, angulo_rel);
-	GPIO_PinState direccion = (angulo_rel >= 0) ? GPIO_PIN_SET : GPIO_PIN_RESET;
-	float pasos = (fabs(angulo_rel) / 360.0) * STEPS_PER_REV * relacion;
-	moveMotor(motor, (int)pasos, (int)velocidad, direccion);
-}
-
-void angleCompensation(int motor, float angulo_abs, float angulo_actual, float relacion){
-	printf("Falta compensar %.2f\r\n", angulo_abs - angulo_actual);
 	float angulo_rel = angulo_abs - angulo_actual;
-
-	GPIO_PinState direccion = (angulo_rel >= 0) ? GPIO_PIN_SET : GPIO_PIN_RESET;
+	printf("Motor %d targetAngle %.2f relativeAngle %.2f\r\n", motor, angulo_abs, angulo_rel);
+	GPIO_PinState dir = (angulo_rel >= 0) ? GPIO_PIN_SET : GPIO_PIN_RESET;
 	float pasos = (fabs(angulo_rel) / 360.0) * STEPS_PER_REV * relacion;
-	printf("Pasos a realizar motor %d = %d\r\n", motor, (int)pasos);
-	moveMotor(motor, (int)pasos, 200, direccion);
+
+	switch (motor) {
+	      case 1:
+	    	  HAL_GPIO_WritePin(motor1.dirPort, motor1.dirPin, dir);
+	    	  motor1.currentStep = 0;
+	    	  motor1.targetStep = pasos;
+	    	  motor1.dir = dir;
+	    	  motor1.angleDone = false;
+	    	  HAL_TIM_Base_Start_IT(&htim13);
+	    	  HAL_TIM_PWM_Start(&htim13, TIM_CHANNEL_1);
+	    	  break;
+	      case 2:
+	    	  HAL_GPIO_WritePin(motor2.dirPort, motor2.dirPin, dir);
+	    	  motor2.angleDone = false;
+	    	  HAL_TIM_Base_Start_IT(&htim2);
+			    HAL_TIM_PWM_Start(&htim2, TIM_CHANNEL_2);
+	    	  break;
+	      case 3:
+	    	  HAL_GPIO_WritePin(motor3.dirPort, motor3.dirPin, dir);
+	    	  motor3.angleDone = false;
+	    	  HAL_TIM_Base_Start_IT(&htim3);
+			    HAL_TIM_PWM_Start(&htim3, TIM_CHANNEL_2);
+	    	  break;
+	      default: return;
+	    }
 }
 
 void electromagnetOn(bool turn_on){
 	if(turn_on){
-		HAL_GPIO_WritePin(ELECTROMAGNET_GPIO, ELECTROMAGNET_PIN, GPIO_PIN_SET);
+		HAL_GPIO_WritePin(ELECTROMAGNET_GPIO, ELECTROMAGNET_PIN, GPIO_PIN_RESET);
 	}
 	else {
-		HAL_GPIO_WritePin(ELECTROMAGNET_GPIO, ELECTROMAGNET_PIN, GPIO_PIN_RESET);
+		HAL_GPIO_WritePin(ELECTROMAGNET_GPIO, ELECTROMAGNET_PIN, GPIO_PIN_SET);
 	}
 }
 
@@ -928,35 +991,45 @@ void doHoming(int motor, GPIO_PinState dir) {
 
 }
 
-void moveMotor(int motor, int pasos, int velocidad, GPIO_PinState dir) {
-  switch (motor) {
-      case 1:
-    	  HAL_GPIO_WritePin(motor1.dirPort, motor1.dirPin, dir);
-    	  motor1.currentStep = 0;
-    	  motor1.targetStep = pasos;
-    	  motor1.angleDone = false;
-    	  motor1.dir = dir;
-    	  HAL_TIM_Base_Start_IT(&htim13);
-    	  HAL_TIM_PWM_Start(&htim13, TIM_CHANNEL_1);
-    	  break;
-      case 2:
-    	  HAL_GPIO_WritePin(motor2.dirPort, motor2.dirPin, dir);
-    	  motor2.currentStep = 0;
-    	  motor2.targetStep = pasos;
-    	  motor2.angleDone = false;
-    	  HAL_TIM_Base_Start_IT(&htim2);
-		  HAL_TIM_PWM_Start(&htim2, TIM_CHANNEL_2);
-    	  break;
-      case 3:
-    	  HAL_GPIO_WritePin(motor3.dirPort, motor3.dirPin, dir);
-    	  motor3.currentStep = 0;
-    	  motor3.targetStep = pasos;
-    	  motor3.angleDone = false;
-    	  HAL_TIM_Base_Start_IT(&htim3);
-		  HAL_TIM_PWM_Start(&htim3, TIM_CHANNEL_2);
-    	  break;
-      default: return;
+void syncSpeeds(Motor *m1, Motor *m2, Motor *m3)
+{
+    // 1. Distancias de movimiento
+    float d1 = fabsf(m1->targetAngle - m1->currentAngle);
+    float d2 = fabsf(m2->targetAngle - m2->currentAngle);
+    float d3 = fabsf(m3->targetAngle - m3->currentAngle);
+
+    // 2. Encontrar el máximo
+    float dmax = fmaxf(d1, fmaxf(d2, d3));
+
+    if (dmax < 0.01f) {
+        // Movimiento despreciable: evitar divisiones
+        m1->syncedMaxSpeed = m1->minSpeed;
+        m2->syncedMaxSpeed = m2->minSpeed;
+        m3->syncedMaxSpeed = m3->minSpeed;
+        return;
     }
+
+    // 3. Calcular velocidades sincronizadas
+    // El motor con dmax usará MAX_SPEED_HZ
+    // Los demás usarán velocidad proporcional a su distancia
+    m1->syncedMaxSpeed = MAX_SPEED_HZ * (d1 / dmax);
+    m2->syncedMaxSpeed = MAX_SPEED_HZ * (d2 / dmax);
+    m3->syncedMaxSpeed = MAX_SPEED_HZ * (d3 / dmax);
+
+    printf("Proportions %.3f %.3f %.3f\r\n", (d1 / dmax), (d2 / dmax), (d3 / dmax));
+    printf("Max speeds sin correccion synced %.3f %.3f %.3f\r\n", m1->syncedMaxSpeed,m2->syncedMaxSpeed,m3->syncedMaxSpeed);
+
+    // 4. Aplicar límites mínimos
+    //if (m1->syncedMaxSpeed < m1->minSpeed) m1->syncedMaxSpeed = m1->minSpeed;
+    //if (m2->syncedMaxSpeed < m2->minSpeed) m2->syncedMaxSpeed = m2->minSpeed;
+    //if (m3->syncedMaxSpeed < m3->minSpeed) m3->syncedMaxSpeed = m3->minSpeed;
+
+    // 5. Aplicar límites máximos propios del motor
+    if (m1->syncedMaxSpeed > m1->maxSpeed) m1->syncedMaxSpeed = m1->maxSpeed;
+    if (m2->syncedMaxSpeed > m2->maxSpeed) m2->syncedMaxSpeed = m2->maxSpeed;
+    if (m3->syncedMaxSpeed > m3->maxSpeed) m3->syncedMaxSpeed = m3->maxSpeed;
+
+    printf("Max speeds synced %.2f %.2f %.2f\r\n", m1->syncedMaxSpeed,m2->syncedMaxSpeed,m3->syncedMaxSpeed);
 }
 
 /* USER CODE END 4 */
@@ -1058,31 +1131,130 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 		  }
 
 		  motor1.currentAngle = (motor1.totalSteps * 360.0f / STEPS_PER_REV) / motor1.i;
-  }}
+	  }
+  }
 
-  // Motor 2 → TIM2 (PWM2/2)
+  // Motor 2 → TIM2 (PWM2/2) //FUNCION VIEJA
+//  else if (htim->Instance == TIM2){
+//	  motor2.currentStep++;
+//	  //motor2.currentAngle = readAngle_AS5600(2);
+//
+//	  if (motor2.currentStep >= motor2.targetStep){
+//		  motor2.angleDone = true;
+//		  HAL_TIM_Base_Stop_IT(&htim2);
+//		  HAL_TIM_PWM_Stop(&htim2, TIM_CHANNEL_2);
+//	  }
+//  }
+
+  // Motor 3 → TIM3 (PWM3/2) //FUNCION VIEJA con pasos
+//  else if (htim->Instance == TIM3){
+//	  motor3.currentStep++;
+//	  motor3.currentAngle = readAngle_AS5600(3);
+//
+//	  if (motor3.currentStep >= motor3.targetStep){
+//		  motor3.angleDone = true;
+//		  HAL_TIM_Base_Stop_IT(&htim3);
+//		  HAL_TIM_PWM_Stop(&htim3, TIM_CHANNEL_2);
+//	  }
+//  }
+
+
+//  else if (htim->Instance == TIM2){ // Funcion nueva con lectura de angulo
+//  	  float readedAngle = readAngle_AS5600(2);
+//    	  motor2.currentAngle = filterAngle(readedAngle, motor2.currentAngle);
+//
+//    	  if (fabs(motor2.currentAngle - motor2.targetAngle) <= ANGLE_TOLERANCE){
+//    		  HAL_TIM_Base_Stop_IT(&htim2);
+//    		  HAL_TIM_PWM_Stop(&htim2, TIM_CHANNEL_2);
+//    		  motor2.angleDone = true;
+//    	  }
+//      }
+//  else if (htim->Instance == TIM3){
+//  	  float readedAngle = readAngle_AS5600(3);
+//    	  motor3.currentAngle = filterAngle(readedAngle, motor3.currentAngle);
+//
+//    	  if (fabs(motor3.currentAngle - motor3.targetAngle) <= ANGLE_TOLERANCE){
+//    		  HAL_TIM_Base_Stop_IT(&htim3);
+//    		  HAL_TIM_PWM_Stop(&htim3, TIM_CHANNEL_2);
+//    		  motor3.angleDone = true;
+//    	  }
+//      }
+
   else if (htim->Instance == TIM2){
-	  motor2.currentStep++;
-	  motor2.currentAngle = readAngle_AS5600(2);
 
-	  if (motor2.currentStep >= motor2.targetStep){
-		  motor2.angleDone = true;
-		  HAL_TIM_Base_Stop_IT(&htim2);
-		  HAL_TIM_PWM_Stop(&htim2, TIM_CHANNEL_2);
-	  }
-  }
+          float readedAngle = readAngle_AS5600(2);
+          motor2.currentAngle = filterAngle(readedAngle, motor2.currentAngle);
 
-  // Motor 3 → TIM3 (PWM3/2)
+          float distRemaining = fabs(motor2.targetAngle - motor2.currentAngle);
+
+          // ---- LLEGÓ AL DESTINO ----
+          if (distRemaining <= ANGLE_TOLERANCE){
+              motor2.currentSpeed = motor2.minSpeed;
+              HAL_TIM_Base_Stop_IT(&htim2);
+              HAL_TIM_PWM_Stop(&htim2, TIM_CHANNEL_2);
+              motor2.angleDone = true;
+              return;
+          }
+
+          // ---- FASE DE ACELERACIÓN ----
+          float distTravelled = fabs(motor2.currentAngle - motor2.startAngle);
+
+          if (distTravelled >= motor2.nextAccelPoint && motor2.currentSpeed < motor2.syncedMaxSpeed){
+              motor2.currentSpeed *= 1.1; // subir 10%
+              if (motor2.currentSpeed > motor2.syncedMaxSpeed)
+                  motor2.currentSpeed = motor2.syncedMaxSpeed;
+
+              motor2.nextAccelPoint += 0.5;  // próximo punto de aceleración
+          }
+
+          // ---- FASE DE DESACELERACIÓN ----
+          if (distRemaining <= 10.0){
+              motor2.currentSpeed /= 1.1; // bajar 10%
+              if (motor2.currentSpeed < motor2.minSpeed)
+                  motor2.currentSpeed = motor2.minSpeed;
+          }
+
+          // ---- ACTUALIZAR PWM ----
+          Stepper_SetSpeed(&htim2, TIM_CHANNEL_2, motor2.currentSpeed);
+      }
+
   else if (htim->Instance == TIM3){
-	  motor3.currentStep++;
-	  motor3.currentAngle = readAngle_AS5600(3);
 
-	  if (motor3.currentStep >= motor3.targetStep){
-		  motor3.angleDone = true;
-		  HAL_TIM_Base_Stop_IT(&htim3);
-		  HAL_TIM_PWM_Stop(&htim3, TIM_CHANNEL_2);
-	  }
-  }
+            float readedAngle = readAngle_AS5600(3);
+            motor3.currentAngle = filterAngle(readedAngle, motor3.currentAngle);
+
+            float distRemaining = fabs(motor3.targetAngle - motor3.currentAngle);
+
+            // ---- LLEGÓ AL DESTINO ----
+            if (distRemaining <= ANGLE_TOLERANCE){
+                motor3.currentSpeed = motor3.minSpeed;
+                HAL_TIM_Base_Stop_IT(&htim3);
+                HAL_TIM_PWM_Stop(&htim3, TIM_CHANNEL_2);
+                motor3.angleDone = true;
+                return;
+            }
+
+            // ---- FASE DE ACELERACIÓN ----
+            float distTravelled = fabs(motor3.currentAngle - motor3.startAngle);
+
+            if (distTravelled >= motor3.nextAccelPoint && motor3.currentSpeed < motor3.syncedMaxSpeed){
+                motor3.currentSpeed *= 1.1; // subir 10%
+                if (motor3.currentSpeed > motor3.syncedMaxSpeed)
+                    motor3.currentSpeed = motor3.syncedMaxSpeed;
+
+                motor3.nextAccelPoint += 0.5;  // próximo punto de aceleración
+            }
+
+            // ---- FASE DE DESACELERACIÓN ----
+            if (distRemaining <= 10.0){
+                motor3.currentSpeed /= 1.1; // bajar 10%
+                if (motor3.currentSpeed < motor3.minSpeed)
+                    motor3.currentSpeed = motor3.minSpeed;
+            }
+
+            // ---- ACTUALIZAR PWM ----
+            Stepper_SetSpeed(&htim3, TIM_CHANNEL_2, motor3.currentSpeed);
+        }
 
   /* USER CODE END Callback 0 */
   if (htim->Instance == TIM1)

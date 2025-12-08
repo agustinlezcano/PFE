@@ -198,7 +198,11 @@ void StartMotorControlTask(void *argument) {
 		}
 		for (int j = 0; j<N_MOTORS; j++){
 			// TODO: moveToAbsAngle(int motor, float angulo_abs, int velocidad){ //La logica podria ser: mover motor X pasos, leer angulo, si le falta/sobra compensar
-			moveToAbsAngle(j,joint_value[j],100);
+			int motor = j + 1;
+			if(joint_value[j] == 0){
+				doHoming(motor, GPIO_PIN_RESET);
+			}
+			moveToAbsAngle(motor,joint_value[j],300);
 		}
 		vTaskDelay(pdMS_TO_TICKS(1));	//osDelay(1);
 	}

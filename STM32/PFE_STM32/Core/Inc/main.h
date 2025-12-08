@@ -69,12 +69,12 @@ void homing_callback(const void * msgin);
 void Stepper_SetSpeed(TIM_HandleTypeDef *htim, uint32_t channel, uint32_t freq_hz);
 HAL_StatusTypeDef TCA9548A_SelectChannel(uint8_t channel);
 float readAngle_AS5600(int motor);
+float filterAngle(float angleReaded, float lastAngle);
 bool inverseKinematics(const float x, const float y, const float z);
 void moveToAbsAngle(int motor, float angulo_abs, int velocidad);
-void angleCompensation(int motor, float angulo_abs, float angulo_actual, float relacion);
 void electromagnetOn(bool turn_on);
 void doHoming(int motor, GPIO_PinState dir);
-void moveMotor(int motor, int pasos, int velocidad, GPIO_PinState dir);
+//void syncSpeeds(Motor *m1, Motor *m2, Motor *m3);
 
 /* USER CODE END EFP */
 
@@ -122,6 +122,14 @@ void moveMotor(int motor, int pasos, int velocidad, GPIO_PinState dir);
 #define RCSOFTCHECK(fn) { rcl_ret_t temp_rc = fn; if((temp_rc != RCL_RET_OK)){printf("Failed status on line %d: %d. Continuing.\n",__LINE__,(int)temp_rc);}}
 #define MSGQUEUE_OBJECTS 1                     // number of Message Queue Objects
 #define N_MOTORS 3
+
+#define ANGLE_TOLERANCE     0.25f    // grados aceptables para considerar "llegado"
+#define ANGLE_REJECT_DEG   20.0f    // rechazo de saltos grandes (umbral de tu filtro original)
+#define MAX_SPEED_HZ   500.0f       //Velocidad maxima de todos los motores
+
+//extern Motor motor1;
+//extern Motor motor2;
+//extern Motor motor3;
 
 typedef struct {
 	double x;
