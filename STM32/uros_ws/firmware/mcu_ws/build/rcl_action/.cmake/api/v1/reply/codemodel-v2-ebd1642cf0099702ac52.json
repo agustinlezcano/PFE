@@ -1,0 +1,88 @@
+{
+	"configurations" : 
+	[
+		{
+			"directories" : 
+			[
+				{
+					"build" : ".",
+					"hasInstallRule" : true,
+					"jsonFile" : "directory-.-Debug-53ebf1713c2d3456d4cf.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.12"
+					},
+					"projectIndex" : 0,
+					"source" : ".",
+					"targetIndexes" : 
+					[
+						0,
+						1,
+						2,
+						3
+					]
+				}
+			],
+			"name" : "Debug",
+			"projects" : 
+			[
+				{
+					"directoryIndexes" : 
+					[
+						0
+					],
+					"name" : "rcl_action",
+					"targetIndexes" : 
+					[
+						0,
+						1,
+						2,
+						3
+					]
+				}
+			],
+			"targets" : 
+			[
+				{
+					"directoryIndex" : 0,
+					"id" : "ament_generate_version_header__rcl_action::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-ament_generate_version_header__rcl_action-Debug-8498a89fa58d1f9201b8.json",
+					"name" : "ament_generate_version_header__rcl_action",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "rcl_action::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-rcl_action-Debug-a519b8b0044b8e8fd462.json",
+					"name" : "rcl_action",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "rcl_action_uninstall::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-rcl_action_uninstall-Debug-a2f6f97f1cbc90a5f8a4.json",
+					"name" : "rcl_action_uninstall",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "uninstall::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-uninstall-Debug-8c83c1148a872d95c771.json",
+					"name" : "uninstall",
+					"projectIndex" : 0
+				}
+			]
+		}
+	],
+	"kind" : "codemodel",
+	"paths" : 
+	{
+		"build" : "/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/build/rcl_action",
+		"source" : "/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/uros/rcl/rcl_action"
+	},
+	"version" : 
+	{
+		"major" : 2,
+		"minor" : 3
+	}
+}

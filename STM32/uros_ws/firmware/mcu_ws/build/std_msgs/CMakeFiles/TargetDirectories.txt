@@ -1,0 +1,14 @@
+/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/build/std_msgs/CMakeFiles/uninstall.dir
+/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/build/std_msgs/CMakeFiles/std_msgs_uninstall.dir
+/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/build/std_msgs/CMakeFiles/std_msgs.dir
+/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/build/std_msgs/CMakeFiles/std_msgs__rosidl_generator_c.dir
+/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/build/std_msgs/CMakeFiles/std_msgs__rosidl_typesupport_microxrcedds_c.dir
+/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/build/std_msgs/CMakeFiles/std_msgs__rosidl_typesupport_introspection_c.dir
+/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/build/std_msgs/CMakeFiles/std_msgs__rosidl_typesupport_c.dir
+/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/build/std_msgs/CMakeFiles/test.dir
+/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/build/std_msgs/CMakeFiles/edit_cache.dir
+/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/build/std_msgs/CMakeFiles/rebuild_cache.dir
+/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/build/std_msgs/CMakeFiles/list_install_components.dir
+/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/build/std_msgs/CMakeFiles/install.dir
+/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/build/std_msgs/CMakeFiles/install/local.dir
+/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/build/std_msgs/CMakeFiles/install/strip.dir

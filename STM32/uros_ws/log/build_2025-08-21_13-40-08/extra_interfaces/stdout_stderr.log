@@ -1,0 +1,27 @@
+-- Found ament_cmake: 1.3.12 (/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/dev_ws/install/ament_cmake/share/ament_cmake/cmake)
+-- Found ament_lint_auto: 0.12.14 (/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/dev_ws/install/ament_lint_auto/share/ament_lint_auto/cmake)
+-- Found rosidl_adapter: 3.1.7 (/opt/ros/humble/share/rosidl_adapter/cmake)
+-- Found rosidl_default_generators: 1.2.0 (/opt/ros/humble/share/rosidl_default_generators/cmake)
+-- Using all available rosidl_typesupport_c: rosidl_typesupport_fastrtps_c;rosidl_typesupport_introspection_c
+-- Using all available rosidl_typesupport_cpp: rosidl_typesupport_fastrtps_cpp;rosidl_typesupport_introspection_cpp
+[31mCMake Error at CMakeLists.txt:29 (find_package):
+  By not providing "Findrosidl_typesupport_microxrcedds_c.cmake" in
+  CMAKE_MODULE_PATH this project has asked CMake to find a package
+  configuration file provided by "rosidl_typesupport_microxrcedds_c", but
+  CMake did not find one.
+
+  Could not find a package configuration file provided by
+  "rosidl_typesupport_microxrcedds_c" with any of the following names:
+
+    rosidl_typesupport_microxrcedds_cConfig.cmake
+    rosidl_typesupport_microxrcedds_c-config.cmake
+
+  Add the installation prefix of "rosidl_typesupport_microxrcedds_c" to
+  CMAKE_PREFIX_PATH or set "rosidl_typesupport_microxrcedds_c_DIR" to a
+  directory containing one of the above files.  If
+  "rosidl_typesupport_microxrcedds_c" provides a separate development package
+  or SDK, be sure it has been installed.
+
+[0m
+-- Configuring incomplete, errors occurred!
+See also "/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/build/extra_interfaces/CMakeFiles/CMakeOutput.log".

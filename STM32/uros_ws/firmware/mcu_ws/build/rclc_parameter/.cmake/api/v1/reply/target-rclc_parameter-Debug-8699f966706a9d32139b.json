@@ -1,0 +1,287 @@
+{
+	"archive" : {},
+	"artifacts" : 
+	[
+		{
+			"path" : "librclc_parameter.a"
+		}
+	],
+	"backtrace" : 1,
+	"backtraceGraph" : 
+	{
+		"commands" : 
+		[
+			"add_library",
+			"install",
+			"add_compile_options",
+			"target_compile_definitions",
+			"add_definitions",
+			"target_include_directories",
+			"ament_target_dependencies",
+			"target_link_libraries"
+		],
+		"files" : 
+		[
+			"CMakeLists.txt",
+			"/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/dev_ws/install/ament_cmake_target_dependencies/share/ament_cmake_target_dependencies/cmake/ament_target_dependencies.cmake"
+		],
+		"nodes" : 
+		[
+			{
+				"file" : 0
+			},
+			{
+				"command" : 0,
+				"file" : 0,
+				"line" : 44,
+				"parent" : 0
+			},
+			{
+				"command" : 1,
+				"file" : 0,
+				"line" : 80,
+				"parent" : 0
+			},
+			{
+				"command" : 2,
+				"file" : 0,
+				"line" : 25,
+				"parent" : 0
+			},
+			{
+				"command" : 3,
+				"file" : 0,
+				"line" : 75,
+				"parent" : 0
+			},
+			{
+				"command" : 4,
+				"file" : 0,
+				"line" : 8,
+				"parent" : 0
+			},
+			{
+				"command" : 5,
+				"file" : 0,
+				"line" : 49,
+				"parent" : 0
+			},
+			{
+				"command" : 6,
+				"file" : 0,
+				"line" : 59,
+				"parent" : 0
+			},
+			{
+				"command" : 5,
+				"file" : 1,
+				"line" : 141,
+				"parent" : 7
+			},
+			{
+				"command" : 7,
+				"file" : 1,
+				"line" : 145,
+				"parent" : 7
+			}
+		]
+	},
+	"compileGroups" : 
+	[
+		{
+			"compileCommandFragments" : 
+			[
+				{
+					"fragment" : "-std=c11 -mcpu=cortex-m4 -mthumb -mfpu=fpv4-sp-d16 -mfloat-abi=hard -DUSE_HAL_DRIVER -DSTM32F446xx -D_TIMEVAL_DEFINE -O0 -Wall -fdata-sections -ffunction-sections  -DCLOCK_MONOTONIC=0 -g"
+				},
+				{
+					"backtrace" : 3,
+					"fragment" : "-Wall"
+				},
+				{
+					"backtrace" : 3,
+					"fragment" : "-Wextra"
+				},
+				{
+					"backtrace" : 3,
+					"fragment" : "-Wpedantic"
+				}
+			],
+			"defines" : 
+			[
+				{
+					"backtrace" : 4,
+					"define" : "RCLC_PARAMETER_BUILDING_LIBRARY"
+				},
+				{
+					"backtrace" : 5,
+					"define" : "RCLC_PARAMETER_MAX_STRING_LENGTH=50"
+				}
+			],
+			"includes" : 
+			[
+				{
+					"backtrace" : 6,
+					"path" : "/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/uros/rclc/rclc_parameter/include"
+				},
+				{
+					"backtrace" : 6,
+					"path" : "/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/uros/rclc/rclc_parameter/src"
+				},
+				{
+					"backtrace" : 8,
+					"isSystem" : true,
+					"path" : "/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/install/rclc/include"
+				},
+				{
+					"backtrace" : 8,
+					"isSystem" : true,
+					"path" : "/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/install/rcl/include/rcl"
+				},
+				{
+					"backtrace" : 8,
+					"isSystem" : true,
+					"path" : "/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/install/rcl_interfaces/include/rcl_interfaces"
+				},
+				{
+					"backtrace" : 8,
+					"isSystem" : true,
+					"path" : "/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/install/builtin_interfaces/include/builtin_interfaces"
+				},
+				{
+					"backtrace" : 8,
+					"isSystem" : true,
+					"path" : "/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/install/rosidl_runtime_c/include/rosidl_runtime_c"
+				},
+				{
+					"backtrace" : 8,
+					"isSystem" : true,
+					"path" : "/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/install/rosidl_typesupport_interface/include/rosidl_typesupport_interface"
+				},
+				{
+					"backtrace" : 8,
+					"isSystem" : true,
+					"path" : "/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/install/rcutils/include/rcutils"
+				},
+				{
+					"backtrace" : 9,
+					"isSystem" : true,
+					"path" : "/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/install/rosidl_typesupport_introspection_c/include/rosidl_typesupport_introspection_c"
+				},
+				{
+					"backtrace" : 9,
+					"isSystem" : true,
+					"path" : "/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/install/rcl_logging_interface/include/rcl_logging_interface"
+				},
+				{
+					"backtrace" : 9,
+					"isSystem" : true,
+					"path" : "/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/install/rmw/include/rmw"
+				},
+				{
+					"backtrace" : 9,
+					"isSystem" : true,
+					"path" : "/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/install/rmw_microxrcedds/include"
+				},
+				{
+					"backtrace" : 9,
+					"isSystem" : true,
+					"path" : "/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/install/microxrcedds_client/include"
+				},
+				{
+					"backtrace" : 9,
+					"isSystem" : true,
+					"path" : "/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/install/microcdr/include"
+				},
+				{
+					"backtrace" : 9,
+					"isSystem" : true,
+					"path" : "/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/install/rosidl_typesupport_microxrcedds_c/include"
+				},
+				{
+					"backtrace" : 9,
+					"isSystem" : true,
+					"path" : "/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/install/tracetools/include/tracetools"
+				},
+				{
+					"backtrace" : 9,
+					"isSystem" : true,
+					"path" : "/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/install/rcl_action/include/rcl_action"
+				},
+				{
+					"backtrace" : 9,
+					"isSystem" : true,
+					"path" : "/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/install/action_msgs/include/action_msgs"
+				},
+				{
+					"backtrace" : 9,
+					"isSystem" : true,
+					"path" : "/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/install/unique_identifier_msgs/include/unique_identifier_msgs"
+				}
+			],
+			"language" : "C",
+			"languageStandard" : 
+			{
+				"backtraces" : 
+				[
+					1
+				],
+				"standard" : "11"
+			},
+			"sourceIndexes" : 
+			[
+				0,
+				1
+			]
+		}
+	],
+	"id" : "rclc_parameter::@6890427a1f51a3e7e1df",
+	"install" : 
+	{
+		"destinations" : 
+		[
+			{
+				"backtrace" : 2,
+				"path" : "lib"
+			}
+		],
+		"prefix" : 
+		{
+			"path" : "/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/install/rclc_parameter"
+		}
+	},
+	"name" : "rclc_parameter",
+	"nameOnDisk" : "librclc_parameter.a",
+	"paths" : 
+	{
+		"build" : ".",
+		"source" : "."
+	},
+	"sourceGroups" : 
+	[
+		{
+			"name" : "Source Files",
+			"sourceIndexes" : 
+			[
+				0,
+				1
+			]
+		}
+	],
+	"sources" : 
+	[
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "src/rclc_parameter/parameter_server.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "src/rclc_parameter/parameter_utils.c",
+			"sourceGroupIndex" : 0
+		}
+	],
+	"type" : "STATIC_LIBRARY"
+}

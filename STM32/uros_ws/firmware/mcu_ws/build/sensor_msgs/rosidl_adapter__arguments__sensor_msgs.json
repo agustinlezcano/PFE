@@ -1,0 +1,33 @@
+{
+  "package_name": "sensor_msgs",
+  "non_idl_tuples": [
+    "/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/ros2/common_interfaces/sensor_msgs:msg/BatteryState.msg",
+    "/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/ros2/common_interfaces/sensor_msgs:msg/CameraInfo.msg",
+    "/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/ros2/common_interfaces/sensor_msgs:msg/ChannelFloat32.msg",
+    "/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/ros2/common_interfaces/sensor_msgs:msg/CompressedImage.msg",
+    "/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/ros2/common_interfaces/sensor_msgs:msg/FluidPressure.msg",
+    "/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/ros2/common_interfaces/sensor_msgs:msg/Illuminance.msg",
+    "/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/ros2/common_interfaces/sensor_msgs:msg/Image.msg",
+    "/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/ros2/common_interfaces/sensor_msgs:msg/Imu.msg",
+    "/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/ros2/common_interfaces/sensor_msgs:msg/JointState.msg",
+    "/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/ros2/common_interfaces/sensor_msgs:msg/Joy.msg",
+    "/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/ros2/common_interfaces/sensor_msgs:msg/JoyFeedback.msg",
+    "/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/ros2/common_interfaces/sensor_msgs:msg/JoyFeedbackArray.msg",
+    "/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/ros2/common_interfaces/sensor_msgs:msg/LaserEcho.msg",
+    "/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/ros2/common_interfaces/sensor_msgs:msg/LaserScan.msg",
+    "/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/ros2/common_interfaces/sensor_msgs:msg/MagneticField.msg",
+    "/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/ros2/common_interfaces/sensor_msgs:msg/MultiDOFJointState.msg",
+    "/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/ros2/common_interfaces/sensor_msgs:msg/MultiEchoLaserScan.msg",
+    "/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/ros2/common_interfaces/sensor_msgs:msg/NavSatFix.msg",
+    "/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/ros2/common_interfaces/sensor_msgs:msg/NavSatStatus.msg",
+    "/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/ros2/common_interfaces/sensor_msgs:msg/PointCloud.msg",
+    "/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/ros2/common_interfaces/sensor_msgs:msg/PointCloud2.msg",
+    "/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/ros2/common_interfaces/sensor_msgs:msg/PointField.msg",
+    "/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/ros2/common_interfaces/sensor_msgs:msg/Range.msg",
+    "/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/ros2/common_interfaces/sensor_msgs:msg/RegionOfInterest.msg",
+    "/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/ros2/common_interfaces/sensor_msgs:msg/RelativeHumidity.msg",
+    "/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/ros2/common_interfaces/sensor_msgs:msg/Temperature.msg",
+    "/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/ros2/common_interfaces/sensor_msgs:msg/TimeReference.msg",
+    "/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/ros2/common_interfaces/sensor_msgs:srv/SetCameraInfo.srv"
+  ]
+}

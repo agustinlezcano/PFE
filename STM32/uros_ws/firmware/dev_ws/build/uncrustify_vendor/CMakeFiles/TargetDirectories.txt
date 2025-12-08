@@ -1,0 +1,9 @@
+/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/dev_ws/build/uncrustify_vendor/CMakeFiles/uninstall.dir
+/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/dev_ws/build/uncrustify_vendor/CMakeFiles/uncrustify_vendor_uninstall.dir
+/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/dev_ws/build/uncrustify_vendor/CMakeFiles/test.dir
+/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/dev_ws/build/uncrustify_vendor/CMakeFiles/edit_cache.dir
+/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/dev_ws/build/uncrustify_vendor/CMakeFiles/rebuild_cache.dir
+/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/dev_ws/build/uncrustify_vendor/CMakeFiles/list_install_components.dir
+/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/dev_ws/build/uncrustify_vendor/CMakeFiles/install.dir
+/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/dev_ws/build/uncrustify_vendor/CMakeFiles/install/local.dir
+/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/dev_ws/build/uncrustify_vendor/CMakeFiles/install/strip.dir

@@ -1,0 +1,20 @@
+CMakeFiles/microxrcedds_client.dir/src/c/profile/transport/custom/custom_transport.c.obj: \
+ /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/eProsima/Micro-XRCE-DDS-Client/src/c/profile/transport/custom/custom_transport.c \
+ /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/eProsima/Micro-XRCE-DDS-Client/include/uxr/client/profile/transport/custom/custom_transport.h \
+ /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/eProsima/Micro-XRCE-DDS-Client/include/uxr/client/core/communication/communication.h \
+ /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/build/microxrcedds_client/include/uxr/client/config.h \
+ /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/toolchain/lib/gcc/arm-none-eabi/8.3.1/include/stdint.h \
+ /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/toolchain/arm-none-eabi/include/stdint.h \
+ /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/toolchain/arm-none-eabi/include/machine/_default_types.h \
+ /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/toolchain/arm-none-eabi/include/sys/features.h \
+ /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/toolchain/arm-none-eabi/include/_newlib_version.h \
+ /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/toolchain/arm-none-eabi/include/sys/_intsup.h \
+ /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/toolchain/arm-none-eabi/include/sys/_stdint.h \
+ /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/toolchain/lib/gcc/arm-none-eabi/8.3.1/include/stddef.h \
+ /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/toolchain/lib/gcc/arm-none-eabi/8.3.1/include/stdbool.h \
+ /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/eProsima/Micro-XRCE-DDS-Client/include/uxr/client/profile/transport/stream_framing/stream_framing_protocol.h \
+ /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/eProsima/Micro-XRCE-DDS-Client/include/uxr/client/visibility.h \
+ /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/eProsima/Micro-XRCE-DDS-Client/include/uxr/client/profile/multithread/multithread.h \
+ /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/eProsima/Micro-XRCE-DDS-Client/include/uxr/client/core/session/stream/stream_id.h \
+ /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/eProsima/Micro-XRCE-DDS-Client/include/uxr/client/util/time.h \
+ /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/eProsima/Micro-XRCE-DDS-Client/src/c/profile/transport/custom/../stream_framing/stream_framing_protocol.h

@@ -1,0 +1,10 @@
+/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/build/rosidl_runtime_c/CMakeFiles/uninstall.dir
+/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/build/rosidl_runtime_c/CMakeFiles/rosidl_runtime_c_uninstall.dir
+/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/build/rosidl_runtime_c/CMakeFiles/rosidl_runtime_c.dir
+/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/build/rosidl_runtime_c/CMakeFiles/test.dir
+/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/build/rosidl_runtime_c/CMakeFiles/edit_cache.dir
+/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/build/rosidl_runtime_c/CMakeFiles/rebuild_cache.dir
+/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/build/rosidl_runtime_c/CMakeFiles/list_install_components.dir
+/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/build/rosidl_runtime_c/CMakeFiles/install.dir
+/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/build/rosidl_runtime_c/CMakeFiles/install/local.dir
+/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/build/rosidl_runtime_c/CMakeFiles/install/strip.dir

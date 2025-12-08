@@ -1,0 +1,2 @@
+/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/toolchain/bin/arm-none-eabi-ar qc librcl_logging_noop.a CMakeFiles/rcl_logging_noop.dir/src/rcl_logging_noop/rcl_logging_noop.cpp.obj
+/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/toolchain/bin/arm-none-eabi-ranlib librcl_logging_noop.a

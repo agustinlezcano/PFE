@@ -1,0 +1,24 @@
+[0.046s] Invoking command in '/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/build/micro_ros_setup': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/install/tracetools_test:/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/install/tracetools_launch:/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/install/ros2trace:/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/install/tracetools_trace:/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/install/tracetools_read:/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/install/rosidl_cli:/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/dev_ws/install/ament_uncrustify:/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/dev_ws/install/domain_coordinator:/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/dev_ws/install/ament_xmllint:/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/dev_ws/install/ament_pyflakes:/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/dev_ws/install/ament_pycodestyle:/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/dev_ws/install/ament_pep257:/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/dev_ws/install/ament_pclint:/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/dev_ws/install/ament_package:/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/dev_ws/install/ament_mypy:/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/dev_ws/install/ament_lint_cmake:/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/dev_ws/install/ament_flake8:/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/dev_ws/install/ament_copyright:/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/dev_ws/install/ament_lint:/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/dev_ws/install/ament_index_python:/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/dev_ws/install/ament_cpplint:/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/dev_ws/install/ament_cppcheck:/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/dev_ws/install/ament_clang_tidy:/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/dev_ws/install/ament_clang_format:/opt/ros/humble /usr/bin/cmake /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/src/micro_ros_setup -DCMAKE_INSTALL_PREFIX=/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/install/micro_ros_setup
+[0.241s] -- The C compiler identification is GNU 11.4.0
+[0.387s] -- The CXX compiler identification is GNU 11.4.0
+[0.414s] -- Detecting C compiler ABI info
+[0.599s] -- Detecting C compiler ABI info - done
+[0.626s] -- Check for working C compiler: /usr/bin/cc - skipped
+[0.627s] -- Detecting C compile features
+[0.628s] -- Detecting C compile features - done
+[0.637s] -- Detecting CXX compiler ABI info
+[0.894s] -- Detecting CXX compiler ABI info - done
+[0.923s] -- Check for working CXX compiler: /usr/bin/c++ - skipped
+[0.923s] -- Detecting CXX compile features
+[0.925s] -- Detecting CXX compile features - done
+[0.934s] -- Found ament_cmake: 1.3.12 (/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/dev_ws/install/ament_cmake/share/ament_cmake/cmake)
+[1.558s] -- Found Python3: /usr/bin/python3 (found version "3.10.12") found components: Interpreter 
+[1.850s] -- Found ament_lint_auto: 0.12.14 (/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/dev_ws/install/ament_lint_auto/share/ament_lint_auto/cmake)
+[2.057s] -- Added test 'copyright' to check source files copyright and LICENSE
+[2.117s] -- Added test 'flake8' to check Python code syntax and style conventions
+[2.130s] -- Added test 'lint_cmake' to check CMake code style
+[2.141s] -- Added test 'pep257' to check Python code against some of the docstring style conventions in PEP 257
+[2.176s] -- Added test 'xmllint' to check XML markup files
+[2.188s] -- Configuring done
+[2.194s] -- Generating done
+[2.197s] -- Build files have been written to: /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/build/micro_ros_setup

@@ -1,0 +1,8 @@
+/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/install/microcdr/lib/libmicrocdr.a
+/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/install/microcdr/include/ucdr/microcdr.h
+/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/install/microcdr/include/ucdr/visibility.h
+/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/install/microcdr/include/ucdr/config.h
+/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/install/microcdr/share/microcdr/cmake/microcdrTargets.cmake
+/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/install/microcdr/share/microcdr/cmake/microcdrTargets-debug.cmake
+/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/install/microcdr/share/microcdr/cmake/microcdrConfig.cmake
+/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/install/microcdr/share/microcdr/cmake/microcdrConfigVersion.cmake

@@ -1,0 +1,36 @@
+[2.391s] Invoking command in '/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/dev_ws/ament/ament_lint/ament_lint': PYTHONPATH=/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/dev_ws/build/ament_lint/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/dev_ws/install/ament_lint/lib/python3.10/site-packages: /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py egg_info --egg-base ../../../build/ament_lint build --build-base /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/dev_ws/build/ament_lint/build install --record /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/dev_ws/build/ament_lint/install.log --single-version-externally-managed install_data
+[3.164s] running egg_info
+[3.173s] creating ../../../build/ament_lint/ament_lint.egg-info
+[3.173s] writing ../../../build/ament_lint/ament_lint.egg-info/PKG-INFO
+[3.178s] writing dependency_links to ../../../build/ament_lint/ament_lint.egg-info/dependency_links.txt
+[3.178s] writing entry points to ../../../build/ament_lint/ament_lint.egg-info/entry_points.txt
+[3.179s] writing requirements to ../../../build/ament_lint/ament_lint.egg-info/requires.txt
+[3.179s] writing top-level names to ../../../build/ament_lint/ament_lint.egg-info/top_level.txt
+[3.183s] writing manifest file '../../../build/ament_lint/ament_lint.egg-info/SOURCES.txt'
+[3.184s] reading manifest file '../../../build/ament_lint/ament_lint.egg-info/SOURCES.txt'
+[3.184s] writing manifest file '../../../build/ament_lint/ament_lint.egg-info/SOURCES.txt'
+[3.184s] running build
+[3.185s] running build_py
+[3.189s] creating /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/dev_ws/build/ament_lint/build
+[3.189s] creating /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/dev_ws/build/ament_lint/build/lib
+[3.189s] creating /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/dev_ws/build/ament_lint/build/lib/ament_lint
+[3.190s] copying ament_lint/__init__.py -> /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/dev_ws/build/ament_lint/build/lib/ament_lint
+[3.190s] copying ament_lint/pytest_marker.py -> /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/dev_ws/build/ament_lint/build/lib/ament_lint
+[3.190s] running install
+[3.190s] running install_lib
+[3.191s] creating /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/dev_ws/install/ament_lint/lib/python3.10/site-packages/ament_lint
+[3.194s] copying /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/dev_ws/build/ament_lint/build/lib/ament_lint/__init__.py -> /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/dev_ws/install/ament_lint/lib/python3.10/site-packages/ament_lint
+[3.194s] copying /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/dev_ws/build/ament_lint/build/lib/ament_lint/pytest_marker.py -> /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/dev_ws/install/ament_lint/lib/python3.10/site-packages/ament_lint
+[3.194s] byte-compiling /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/dev_ws/install/ament_lint/lib/python3.10/site-packages/ament_lint/__init__.py to __init__.cpython-310.pyc
+[3.195s] byte-compiling /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/dev_ws/install/ament_lint/lib/python3.10/site-packages/ament_lint/pytest_marker.py to pytest_marker.cpython-310.pyc
+[3.195s] running install_data
+[3.195s] copying package.xml -> /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/dev_ws/install/ament_lint/share/ament_lint
+[3.195s] creating /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/dev_ws/install/ament_lint/share/ament_index
+[3.195s] creating /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/dev_ws/install/ament_lint/share/ament_index/resource_index
+[3.197s] creating /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/dev_ws/install/ament_lint/share/ament_index/resource_index/packages
+[3.198s] copying resource/ament_lint -> /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/dev_ws/install/ament_lint/share/ament_index/resource_index/packages
+[3.198s] running install_egg_info
+[3.201s] Copying ../../../build/ament_lint/ament_lint.egg-info to /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/dev_ws/install/ament_lint/lib/python3.10/site-packages/ament_lint-0.12.14-py3.10.egg-info
+[3.206s] running install_scripts
+[3.268s] writing list of installed files to '/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/dev_ws/build/ament_lint/install.log'
+[3.358s] Invoked command in '/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/dev_ws/ament/ament_lint/ament_lint' returned '0': PYTHONPATH=/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/dev_ws/build/ament_lint/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/dev_ws/install/ament_lint/lib/python3.10/site-packages: /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py egg_info --egg-base ../../../build/ament_lint build --build-base /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/dev_ws/build/ament_lint/build install --record /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/dev_ws/build/ament_lint/install.log --single-version-externally-managed install_data

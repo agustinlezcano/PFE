@@ -1,0 +1,80 @@
+[1.577s] Invoking command in '/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/ros2/rosidl/rosidl_cli': PYTHONPATH=/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/build/rosidl_cli/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/install/rosidl_cli/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py egg_info --egg-base ../../../build/rosidl_cli build --build-base /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/build/rosidl_cli/build install --record /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/build/rosidl_cli/install.log --single-version-externally-managed install_data
+[2.293s] running egg_info
+[2.295s] creating ../../../build/rosidl_cli/rosidl_cli.egg-info
+[2.295s] writing ../../../build/rosidl_cli/rosidl_cli.egg-info/PKG-INFO
+[2.298s] writing dependency_links to ../../../build/rosidl_cli/rosidl_cli.egg-info/dependency_links.txt
+[2.298s] writing entry points to ../../../build/rosidl_cli/rosidl_cli.egg-info/entry_points.txt
+[2.298s] writing requirements to ../../../build/rosidl_cli/rosidl_cli.egg-info/requires.txt
+[2.298s] writing top-level names to ../../../build/rosidl_cli/rosidl_cli.egg-info/top_level.txt
+[2.299s] writing manifest file '../../../build/rosidl_cli/rosidl_cli.egg-info/SOURCES.txt'
+[2.302s] reading manifest file '../../../build/rosidl_cli/rosidl_cli.egg-info/SOURCES.txt'
+[2.306s] writing manifest file '../../../build/rosidl_cli/rosidl_cli.egg-info/SOURCES.txt'
+[2.307s] running build
+[2.307s] running build_py
+[2.307s] creating /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/build/rosidl_cli/build
+[2.307s] creating /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/build/rosidl_cli/build/lib
+[2.308s] creating /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/build/rosidl_cli/build/lib/rosidl_cli
+[2.308s] copying rosidl_cli/cli.py -> /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/build/rosidl_cli/build/lib/rosidl_cli
+[2.311s] copying rosidl_cli/common.py -> /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/build/rosidl_cli/build/lib/rosidl_cli
+[2.311s] copying rosidl_cli/extensions.py -> /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/build/rosidl_cli/build/lib/rosidl_cli
+[2.311s] copying rosidl_cli/__init__.py -> /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/build/rosidl_cli/build/lib/rosidl_cli
+[2.312s] copying rosidl_cli/entry_points.py -> /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/build/rosidl_cli/build/lib/rosidl_cli
+[2.312s] creating /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/build/rosidl_cli/build/lib/rosidl_cli/command
+[2.312s] copying rosidl_cli/command/__init__.py -> /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/build/rosidl_cli/build/lib/rosidl_cli/command
+[2.312s] copying rosidl_cli/command/helpers.py -> /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/build/rosidl_cli/build/lib/rosidl_cli/command
+[2.312s] creating /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/build/rosidl_cli/build/lib/rosidl_cli/command/translate
+[2.313s] copying rosidl_cli/command/translate/api.py -> /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/build/rosidl_cli/build/lib/rosidl_cli/command/translate
+[2.313s] copying rosidl_cli/command/translate/extensions.py -> /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/build/rosidl_cli/build/lib/rosidl_cli/command/translate
+[2.313s] copying rosidl_cli/command/translate/__init__.py -> /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/build/rosidl_cli/build/lib/rosidl_cli/command/translate
+[2.313s] creating /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/build/rosidl_cli/build/lib/rosidl_cli/command/generate
+[2.313s] copying rosidl_cli/command/generate/api.py -> /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/build/rosidl_cli/build/lib/rosidl_cli/command/generate
+[2.319s] copying rosidl_cli/command/generate/extensions.py -> /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/build/rosidl_cli/build/lib/rosidl_cli/command/generate
+[2.323s] copying rosidl_cli/command/generate/__init__.py -> /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/build/rosidl_cli/build/lib/rosidl_cli/command/generate
+[2.323s] running install
+[2.323s] running install_lib
+[2.323s] creating /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/install/rosidl_cli/lib/python3.10/site-packages/rosidl_cli
+[2.324s] copying /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/build/rosidl_cli/build/lib/rosidl_cli/cli.py -> /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/install/rosidl_cli/lib/python3.10/site-packages/rosidl_cli
+[2.324s] copying /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/build/rosidl_cli/build/lib/rosidl_cli/common.py -> /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/install/rosidl_cli/lib/python3.10/site-packages/rosidl_cli
+[2.324s] copying /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/build/rosidl_cli/build/lib/rosidl_cli/extensions.py -> /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/install/rosidl_cli/lib/python3.10/site-packages/rosidl_cli
+[2.324s] creating /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/install/rosidl_cli/lib/python3.10/site-packages/rosidl_cli/command
+[2.325s] copying /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/build/rosidl_cli/build/lib/rosidl_cli/command/__init__.py -> /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/install/rosidl_cli/lib/python3.10/site-packages/rosidl_cli/command
+[2.326s] creating /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/install/rosidl_cli/lib/python3.10/site-packages/rosidl_cli/command/translate
+[2.326s] copying /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/build/rosidl_cli/build/lib/rosidl_cli/command/translate/api.py -> /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/install/rosidl_cli/lib/python3.10/site-packages/rosidl_cli/command/translate
+[2.326s] copying /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/build/rosidl_cli/build/lib/rosidl_cli/command/translate/extensions.py -> /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/install/rosidl_cli/lib/python3.10/site-packages/rosidl_cli/command/translate
+[2.326s] copying /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/build/rosidl_cli/build/lib/rosidl_cli/command/translate/__init__.py -> /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/install/rosidl_cli/lib/python3.10/site-packages/rosidl_cli/command/translate
+[2.327s] copying /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/build/rosidl_cli/build/lib/rosidl_cli/command/helpers.py -> /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/install/rosidl_cli/lib/python3.10/site-packages/rosidl_cli/command
+[2.327s] creating /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/install/rosidl_cli/lib/python3.10/site-packages/rosidl_cli/command/generate
+[2.327s] copying /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/build/rosidl_cli/build/lib/rosidl_cli/command/generate/api.py -> /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/install/rosidl_cli/lib/python3.10/site-packages/rosidl_cli/command/generate
+[2.327s] copying /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/build/rosidl_cli/build/lib/rosidl_cli/command/generate/extensions.py -> /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/install/rosidl_cli/lib/python3.10/site-packages/rosidl_cli/command/generate
+[2.330s] copying /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/build/rosidl_cli/build/lib/rosidl_cli/command/generate/__init__.py -> /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/install/rosidl_cli/lib/python3.10/site-packages/rosidl_cli/command/generate
+[2.330s] copying /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/build/rosidl_cli/build/lib/rosidl_cli/__init__.py -> /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/install/rosidl_cli/lib/python3.10/site-packages/rosidl_cli
+[2.331s] copying /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/build/rosidl_cli/build/lib/rosidl_cli/entry_points.py -> /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/install/rosidl_cli/lib/python3.10/site-packages/rosidl_cli
+[2.331s] byte-compiling /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/install/rosidl_cli/lib/python3.10/site-packages/rosidl_cli/cli.py to cli.cpython-310.pyc
+[2.331s] byte-compiling /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/install/rosidl_cli/lib/python3.10/site-packages/rosidl_cli/common.py to common.cpython-310.pyc
+[2.331s] byte-compiling /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/install/rosidl_cli/lib/python3.10/site-packages/rosidl_cli/extensions.py to extensions.cpython-310.pyc
+[2.332s] byte-compiling /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/install/rosidl_cli/lib/python3.10/site-packages/rosidl_cli/command/__init__.py to __init__.cpython-310.pyc
+[2.332s] byte-compiling /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/install/rosidl_cli/lib/python3.10/site-packages/rosidl_cli/command/translate/api.py to api.cpython-310.pyc
+[2.332s] byte-compiling /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/install/rosidl_cli/lib/python3.10/site-packages/rosidl_cli/command/translate/extensions.py to extensions.cpython-310.pyc
+[2.332s] byte-compiling /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/install/rosidl_cli/lib/python3.10/site-packages/rosidl_cli/command/translate/__init__.py to __init__.cpython-310.pyc
+[2.332s] byte-compiling /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/install/rosidl_cli/lib/python3.10/site-packages/rosidl_cli/command/helpers.py to helpers.cpython-310.pyc
+[2.337s] byte-compiling /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/install/rosidl_cli/lib/python3.10/site-packages/rosidl_cli/command/generate/api.py to api.cpython-310.pyc
+[2.337s] byte-compiling /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/install/rosidl_cli/lib/python3.10/site-packages/rosidl_cli/command/generate/extensions.py to extensions.cpython-310.pyc
+[2.338s] byte-compiling /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/install/rosidl_cli/lib/python3.10/site-packages/rosidl_cli/command/generate/__init__.py to __init__.cpython-310.pyc
+[2.338s] byte-compiling /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/install/rosidl_cli/lib/python3.10/site-packages/rosidl_cli/__init__.py to __init__.cpython-310.pyc
+[2.338s] byte-compiling /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/install/rosidl_cli/lib/python3.10/site-packages/rosidl_cli/entry_points.py to entry_points.cpython-310.pyc
+[2.339s] running install_data
+[2.341s] creating /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/install/rosidl_cli/share/ament_index
+[2.342s] creating /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/install/rosidl_cli/share/ament_index/resource_index
+[2.342s] creating /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/install/rosidl_cli/share/ament_index/resource_index/packages
+[2.342s] copying resource/rosidl_cli -> /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/install/rosidl_cli/share/ament_index/resource_index/packages
+[2.342s] copying package.xml -> /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/install/rosidl_cli/share/rosidl_cli
+[2.343s] copying resource/package.dsv -> /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/install/rosidl_cli/share/rosidl_cli
+[2.343s] creating /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/install/rosidl_cli/share/rosidl_cli/environment
+[2.343s] copying completion/rosidl-argcomplete.bash -> /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/install/rosidl_cli/share/rosidl_cli/environment
+[2.343s] copying completion/rosidl-argcomplete.zsh -> /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/install/rosidl_cli/share/rosidl_cli/environment
+[2.343s] running install_egg_info
+[2.347s] Copying ../../../build/rosidl_cli/rosidl_cli.egg-info to /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/install/rosidl_cli/lib/python3.10/site-packages/rosidl_cli-3.1.7-py3.10.egg-info
+[2.349s] running install_scripts
+[2.421s] Installing rosidl script to /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/install/rosidl_cli/bin
+[2.423s] writing list of installed files to '/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/build/rosidl_cli/install.log'
+[2.499s] Invoked command in '/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/ros2/rosidl/rosidl_cli' returned '0': PYTHONPATH=/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/build/rosidl_cli/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/install/rosidl_cli/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py egg_info --egg-base ../../../build/rosidl_cli build --build-base /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/build/rosidl_cli/build install --record /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/build/rosidl_cli/install.log --single-version-externally-managed install_data

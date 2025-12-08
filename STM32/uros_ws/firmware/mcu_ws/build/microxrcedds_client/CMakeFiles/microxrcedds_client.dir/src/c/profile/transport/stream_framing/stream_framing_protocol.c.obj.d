@@ -1,0 +1,29 @@
+CMakeFiles/microxrcedds_client.dir/src/c/profile/transport/stream_framing/stream_framing_protocol.c.obj: \
+ /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/eProsima/Micro-XRCE-DDS-Client/src/c/profile/transport/stream_framing/stream_framing_protocol.c \
+ /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/eProsima/Micro-XRCE-DDS-Client/include/uxr/client/util/time.h \
+ /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/eProsima/Micro-XRCE-DDS-Client/include/uxr/client/visibility.h \
+ /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/toolchain/lib/gcc/arm-none-eabi/8.3.1/include/stdint.h \
+ /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/toolchain/arm-none-eabi/include/stdint.h \
+ /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/toolchain/arm-none-eabi/include/machine/_default_types.h \
+ /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/toolchain/arm-none-eabi/include/sys/features.h \
+ /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/toolchain/arm-none-eabi/include/_newlib_version.h \
+ /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/toolchain/arm-none-eabi/include/sys/_intsup.h \
+ /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/toolchain/arm-none-eabi/include/sys/_stdint.h \
+ /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/eProsima/Micro-XRCE-DDS-Client/src/c/profile/transport/stream_framing/stream_framing_protocol.h \
+ /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/eProsima/Micro-XRCE-DDS-Client/include/uxr/client/profile/transport/stream_framing/stream_framing_protocol.h \
+ /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/toolchain/lib/gcc/arm-none-eabi/8.3.1/include/stddef.h \
+ /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/toolchain/lib/gcc/arm-none-eabi/8.3.1/include/stdbool.h \
+ /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/toolchain/arm-none-eabi/include/string.h \
+ /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/toolchain/arm-none-eabi/include/_ansi.h \
+ /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/toolchain/arm-none-eabi/include/newlib.h \
+ /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/toolchain/arm-none-eabi/include/sys/config.h \
+ /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/toolchain/arm-none-eabi/include/machine/ieeefp.h \
+ /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/toolchain/arm-none-eabi/include/sys/reent.h \
+ /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/toolchain/arm-none-eabi/include/_ansi.h \
+ /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/toolchain/arm-none-eabi/include/sys/_types.h \
+ /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/toolchain/arm-none-eabi/include/machine/_types.h \
+ /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/toolchain/arm-none-eabi/include/sys/lock.h \
+ /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/toolchain/arm-none-eabi/include/sys/cdefs.h \
+ /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/toolchain/arm-none-eabi/include/sys/_locale.h \
+ /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/toolchain/arm-none-eabi/include/strings.h \
+ /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/toolchain/arm-none-eabi/include/sys/string.h

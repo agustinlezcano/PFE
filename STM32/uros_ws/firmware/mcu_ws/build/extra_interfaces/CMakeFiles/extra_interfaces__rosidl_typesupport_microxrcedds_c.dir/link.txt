@@ -1,0 +1,2 @@
+/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/toolchain/bin/arm-none-eabi-ar qc libextra_interfaces__rosidl_typesupport_microxrcedds_c.a CMakeFiles/extra_interfaces__rosidl_typesupport_microxrcedds_c.dir/rosidl_typesupport_microxrcedds_c/extra_interfaces/msg/detail/microxrcedds/trama__type_support_c.c.obj
+/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/toolchain/bin/arm-none-eabi-ranlib libextra_interfaces__rosidl_typesupport_microxrcedds_c.a

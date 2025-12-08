@@ -1,0 +1,292 @@
+The target system is: Generic -  - arm
+The host system is: Linux - 6.8.0-65-generic - x86_64
+Compiling the C compiler identification source file "CMakeCCompilerId.c" succeeded.
+Compiler: /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/freertos_apps/microros_nucleo_f446re_extensions/../../toolchain/bin/arm-none-eabi-gcc 
+Build flags: -std=c11;-mcpu=cortex-m4;-mthumb;-mfpu=fpv4-sp-d16;-mfloat-abi=hard;-DUSE_HAL_DRIVER;-DSTM32F446xx;-D_TIMEVAL_DEFINE;-O0;-Wall;-fdata-sections;-ffunction-sections;;-DCLOCK_MONOTONIC=0
+Id flags: -c 
+
+The output was:
+0
+
+
+Compilation of the C compiler identification source "CMakeCCompilerId.c" produced "CMakeCCompilerId.o"
+
+The C compiler identification is GNU, found in "/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/build/shape_msgs/CMakeFiles/3.22.1/CompilerIdC/CMakeCCompilerId.o"
+
+Compiling the CXX compiler identification source file "CMakeCXXCompilerId.cpp" succeeded.
+Compiler: /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/freertos_apps/microros_nucleo_f446re_extensions/../../toolchain/bin/arm-none-eabi-g++ 
+Build flags: -std=c++14;-mcpu=cortex-m4;-mthumb;-mfpu=fpv4-sp-d16;-mfloat-abi=hard;-DUSE_HAL_DRIVER;-DSTM32F446xx;-D_TIMEVAL_DEFINE;-O0;-Wall;-fdata-sections;-ffunction-sections;;-DCLOCK_MONOTONIC=0
+Id flags: -c 
+
+The output was:
+0
+
+
+Compilation of the CXX compiler identification source "CMakeCXXCompilerId.cpp" produced "CMakeCXXCompilerId.o"
+
+The CXX compiler identification is GNU, found in "/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/build/shape_msgs/CMakeFiles/3.22.1/CompilerIdCXX/CMakeCXXCompilerId.o"
+
+Detecting C compiler ABI info compiled with the following output:
+Change Dir: /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/build/shape_msgs/CMakeFiles/CMakeTmp
+
+Run Build Command(s):/usr/bin/gmake -f Makefile cmTC_c3e42/fast && gmake[1]: Entering directory '/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/build/shape_msgs/CMakeFiles/CMakeTmp'
+/usr/bin/gmake  -f CMakeFiles/cmTC_c3e42.dir/build.make CMakeFiles/cmTC_c3e42.dir/build
+gmake[2]: Entering directory '/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/build/shape_msgs/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_c3e42.dir/CMakeCCompilerABI.c.obj
+/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/freertos_apps/microros_nucleo_f446re_extensions/../../toolchain/bin/arm-none-eabi-gcc   -std=c11 -mcpu=cortex-m4 -mthumb -mfpu=fpv4-sp-d16 -mfloat-abi=hard -DUSE_HAL_DRIVER -DSTM32F446xx -D_TIMEVAL_DEFINE -O0 -Wall -fdata-sections -ffunction-sections  -DCLOCK_MONOTONIC=0    -v -o CMakeFiles/cmTC_c3e42.dir/CMakeCCompilerABI.c.obj -c /usr/share/cmake-3.22/Modules/CMakeCCompilerABI.c
+Using built-in specs.
+COLLECT_GCC=/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/freertos_apps/microros_nucleo_f446re_extensions/../../toolchain/bin/arm-none-eabi-gcc
+Target: arm-none-eabi
+Configured with: /tmp/jenkins/jenkins-GCC-8-build_toolchain_docker-594_20190704_1562200936/src/gcc/configure --target=arm-none-eabi --prefix=/tmp/jenkins/jenkins-GCC-8-build_toolchain_docker-594_20190704_1562200936/install-native --libexecdir=/tmp/jenkins/jenkins-GCC-8-build_toolchain_docker-594_20190704_1562200936/install-native/lib --infodir=/tmp/jenkins/jenkins-GCC-8-build_toolchain_docker-594_20190704_1562200936/install-native/share/doc/gcc-arm-none-eabi/info --mandir=/tmp/jenkins/jenkins-GCC-8-build_toolchain_docker-594_20190704_1562200936/install-native/share/doc/gcc-arm-none-eabi/man --htmldir=/tmp/jenkins/jenkins-GCC-8-build_toolchain_docker-594_20190704_1562200936/install-native/share/doc/gcc-arm-none-eabi/html --pdfdir=/tmp/jenkins/jenkins-GCC-8-build_toolchain_docker-594_20190704_1562200936/install-native/share/doc/gcc-arm-none-eabi/pdf --enable-languages=c,c++ --enable-plugins --disable-decimal-float --disable-libffi --disable-libgomp --disable-libmudflap --disable-libquadmath --disable-libssp --disable-libstdcxx-pch --disable-nls --disable-shared --disable-threads --disable-tls --with-gnu-as --with-gnu-ld --with-newlib --with-headers=yes --with-python-dir=share/gcc-arm-none-eabi --with-sysroot=/tmp/jenkins/jenkins-GCC-8-build_toolchain_docker-594_20190704_1562200936/install-native/arm-none-eabi --build=x86_64-linux-gnu --host=x86_64-linux-gnu --with-gmp=/tmp/jenkins/jenkins-GCC-8-build_toolchain_docker-594_20190704_1562200936/build-native/host-libs/usr --with-mpfr=/tmp/jenkins/jenkins-GCC-8-build_toolchain_docker-594_20190704_1562200936/build-native/host-libs/usr --with-mpc=/tmp/jenkins/jenkins-GCC-8-build_toolchain_docker-594_20190704_1562200936/build-native/host-libs/usr --with-isl=/tmp/jenkins/jenkins-GCC-8-build_toolchain_docker-594_20190704_1562200936/build-native/host-libs/usr --with-libelf=/tmp/jenkins/jenkins-GCC-8-build_toolchain_docker-594_20190704_1562200936/build-native/host-libs/usr --with-host-libstdcxx='-static-libgcc -Wl,-Bstatic,-lstdc++,-Bdynamic -lm' --with-pkgversion='GNU Tools for Arm Embedded Processors 8-2019-q3-update' --with-multilib-list=rmprofile
+Thread model: single
+gcc version 8.3.1 20190703 (release) [gcc-8-branch revision 273027] (GNU Tools for Arm Embedded Processors 8-2019-q3-update) 
+COLLECT_GCC_OPTIONS='-std=c11' '-mcpu=cortex-m4' '-mthumb' '-mfpu=fpv4-sp-d16' '-mfloat-abi=hard' '-D' 'USE_HAL_DRIVER' '-D' 'STM32F446xx' '-D' '_TIMEVAL_DEFINE' '-O0' '-Wall' '-fdata-sections' '-ffunction-sections' '-D' 'CLOCK_MONOTONIC=0' '-v' '-o' 'CMakeFiles/cmTC_c3e42.dir/CMakeCCompilerABI.c.obj' '-c' '-march=armv7e-m+fp'
+ /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/toolchain/bin/../lib/gcc/arm-none-eabi/8.3.1/cc1 -quiet -v -imultilib thumb/v7e-m+fp/hard -iprefix /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/toolchain/bin/../lib/gcc/arm-none-eabi/8.3.1/ -isysroot /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/toolchain/bin/../arm-none-eabi -D__USES_INITFINI__ -D USE_HAL_DRIVER -D STM32F446xx -D _TIMEVAL_DEFINE -D CLOCK_MONOTONIC=0 /usr/share/cmake-3.22/Modules/CMakeCCompilerABI.c -quiet -dumpbase CMakeCCompilerABI.c -mcpu=cortex-m4 -mthumb -mfpu=fpv4-sp-d16 -mfloat-abi=hard -march=armv7e-m+fp -auxbase-strip CMakeFiles/cmTC_c3e42.dir/CMakeCCompilerABI.c.obj -O0 -Wall -std=c11 -version -fdata-sections -ffunction-sections -o /tmp/ccZzUp7F.s
+GNU C11 (GNU Tools for Arm Embedded Processors 8-2019-q3-update) version 8.3.1 20190703 (release) [gcc-8-branch revision 273027] (arm-none-eabi)
+	compiled by GNU C version 4.8.4, GMP version 6.1.0, MPFR version 3.1.4, MPC version 1.0.3, isl version isl-0.18-GMP
+
+GGC heuristics: --param ggc-min-expand=100 --param ggc-min-heapsize=131072
+ignoring duplicate directory "/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/toolchain/bin/../lib/gcc/../../lib/gcc/arm-none-eabi/8.3.1/include"
+ignoring nonexistent directory "/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/toolchain/bin/../arm-none-eabi/usr/local/include"
+ignoring duplicate directory "/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/toolchain/bin/../lib/gcc/../../lib/gcc/arm-none-eabi/8.3.1/include-fixed"
+ignoring duplicate directory "/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/toolchain/bin/../lib/gcc/../../lib/gcc/arm-none-eabi/8.3.1/../../../../arm-none-eabi/include"
+ignoring nonexistent directory "/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/toolchain/bin/../arm-none-eabi/usr/include"
+#include "..." search starts here:
+#include <...> search starts here:
+ /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/toolchain/bin/../lib/gcc/arm-none-eabi/8.3.1/include
+ /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/toolchain/bin/../lib/gcc/arm-none-eabi/8.3.1/include-fixed
+ /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/toolchain/bin/../lib/gcc/arm-none-eabi/8.3.1/../../../../arm-none-eabi/include
+End of search list.
+GNU C11 (GNU Tools for Arm Embedded Processors 8-2019-q3-update) version 8.3.1 20190703 (release) [gcc-8-branch revision 273027] (arm-none-eabi)
+	compiled by GNU C version 4.8.4, GMP version 6.1.0, MPFR version 3.1.4, MPC version 1.0.3, isl version isl-0.18-GMP
+
+GGC heuristics: --param ggc-min-expand=100 --param ggc-min-heapsize=131072
+Compiler executable checksum: 9ce68ff701013533d409f9c54a6e36df
+COLLECT_GCC_OPTIONS='-std=c11' '-mcpu=cortex-m4' '-mthumb' '-mfpu=fpv4-sp-d16' '-mfloat-abi=hard' '-D' 'USE_HAL_DRIVER' '-D' 'STM32F446xx' '-D' '_TIMEVAL_DEFINE' '-O0' '-Wall' '-fdata-sections' '-ffunction-sections' '-D' 'CLOCK_MONOTONIC=0' '-v' '-o' 'CMakeFiles/cmTC_c3e42.dir/CMakeCCompilerABI.c.obj' '-c' '-march=armv7e-m+fp'
+ /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/toolchain/bin/../lib/gcc/arm-none-eabi/8.3.1/../../../../arm-none-eabi/bin/as -v -march=armv7e-m -mfloat-abi=hard -mfpu=fpv4-sp-d16 -meabi=5 -o CMakeFiles/cmTC_c3e42.dir/CMakeCCompilerABI.c.obj /tmp/ccZzUp7F.s
+GNU assembler version 2.32.0 (arm-none-eabi) using BFD version (GNU Tools for Arm Embedded Processors 8-2019-q3-update) 2.32.0.20190703
+COMPILER_PATH=/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/toolchain/bin/../lib/gcc/arm-none-eabi/8.3.1/:/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/toolchain/bin/../lib/gcc/:/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/toolchain/bin/../lib/gcc/arm-none-eabi/8.3.1/../../../../arm-none-eabi/bin/
+LIBRARY_PATH=/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/toolchain/bin/../lib/gcc/arm-none-eabi/8.3.1/thumb/v7e-m+fp/hard/:/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/toolchain/bin/../lib/gcc/arm-none-eabi/8.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/:/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/toolchain/bin/../arm-none-eabi/lib/thumb/v7e-m+fp/hard/:/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/toolchain/bin/../lib/gcc/arm-none-eabi/8.3.1/:/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/toolchain/bin/../lib/gcc/:/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/toolchain/bin/../lib/gcc/arm-none-eabi/8.3.1/../../../../arm-none-eabi/lib/:/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/toolchain/bin/../arm-none-eabi/lib/
+COLLECT_GCC_OPTIONS='-std=c11' '-mcpu=cortex-m4' '-mthumb' '-mfpu=fpv4-sp-d16' '-mfloat-abi=hard' '-D' 'USE_HAL_DRIVER' '-D' 'STM32F446xx' '-D' '_TIMEVAL_DEFINE' '-O0' '-Wall' '-fdata-sections' '-ffunction-sections' '-D' 'CLOCK_MONOTONIC=0' '-v' '-o' 'CMakeFiles/cmTC_c3e42.dir/CMakeCCompilerABI.c.obj' '-c' '-march=armv7e-m+fp'
+Linking C static library libcmTC_c3e42.a
+/usr/bin/cmake -P CMakeFiles/cmTC_c3e42.dir/cmake_clean_target.cmake
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_c3e42.dir/link.txt --verbose=1
+/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/toolchain/bin/arm-none-eabi-ar qc libcmTC_c3e42.a CMakeFiles/cmTC_c3e42.dir/CMakeCCompilerABI.c.obj
+/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/toolchain/bin/arm-none-eabi-ranlib libcmTC_c3e42.a
+gmake[2]: Leaving directory '/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/build/shape_msgs/CMakeFiles/CMakeTmp'
+gmake[1]: Leaving directory '/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/build/shape_msgs/CMakeFiles/CMakeTmp'
+
+
+
+Parsed C implicit include dir info from above output: rv=done
+  found start of include info
+  found start of implicit include info
+    add: [/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/toolchain/bin/../lib/gcc/arm-none-eabi/8.3.1/include]
+    add: [/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/toolchain/bin/../lib/gcc/arm-none-eabi/8.3.1/include-fixed]
+    add: [/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/toolchain/bin/../lib/gcc/arm-none-eabi/8.3.1/../../../../arm-none-eabi/include]
+  end of search list found
+  collapse include dir [/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/toolchain/bin/../lib/gcc/arm-none-eabi/8.3.1/include] ==> [/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/toolchain/lib/gcc/arm-none-eabi/8.3.1/include]
+  collapse include dir [/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/toolchain/bin/../lib/gcc/arm-none-eabi/8.3.1/include-fixed] ==> [/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/toolchain/lib/gcc/arm-none-eabi/8.3.1/include-fixed]
+  collapse include dir [/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/toolchain/bin/../lib/gcc/arm-none-eabi/8.3.1/../../../../arm-none-eabi/include] ==> [/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/toolchain/arm-none-eabi/include]
+  implicit include dirs: [/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/toolchain/lib/gcc/arm-none-eabi/8.3.1/include;/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/toolchain/lib/gcc/arm-none-eabi/8.3.1/include-fixed;/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/toolchain/arm-none-eabi/include]
+
+
+Parsed C implicit link information from above output:
+  link line regex: [^( *|.*[/\])(arm-none-eabi-ld|CMAKE_LINK_STARTFILE-NOTFOUND|([^/\]+-)?ld|collect2)[^/\]*( |$)]
+  ignore line: [Change Dir: /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/build/shape_msgs/CMakeFiles/CMakeTmp]
+  ignore line: []
+  ignore line: [Run Build Command(s):/usr/bin/gmake -f Makefile cmTC_c3e42/fast && gmake[1]: Entering directory '/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/build/shape_msgs/CMakeFiles/CMakeTmp']
+  ignore line: [/usr/bin/gmake  -f CMakeFiles/cmTC_c3e42.dir/build.make CMakeFiles/cmTC_c3e42.dir/build]
+  ignore line: [gmake[2]: Entering directory '/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/build/shape_msgs/CMakeFiles/CMakeTmp']
+  ignore line: [Building C object CMakeFiles/cmTC_c3e42.dir/CMakeCCompilerABI.c.obj]
+  ignore line: [/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/freertos_apps/microros_nucleo_f446re_extensions/../../toolchain/bin/arm-none-eabi-gcc   -std=c11 -mcpu=cortex-m4 -mthumb -mfpu=fpv4-sp-d16 -mfloat-abi=hard -DUSE_HAL_DRIVER -DSTM32F446xx -D_TIMEVAL_DEFINE -O0 -Wall -fdata-sections -ffunction-sections  -DCLOCK_MONOTONIC=0    -v -o CMakeFiles/cmTC_c3e42.dir/CMakeCCompilerABI.c.obj -c /usr/share/cmake-3.22/Modules/CMakeCCompilerABI.c]
+  ignore line: [Using built-in specs.]
+  ignore line: [COLLECT_GCC=/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/freertos_apps/microros_nucleo_f446re_extensions/../../toolchain/bin/arm-none-eabi-gcc]
+  ignore line: [Target: arm-none-eabi]
+  ignore line: [Configured with: /tmp/jenkins/jenkins-GCC-8-build_toolchain_docker-594_20190704_1562200936/src/gcc/configure --target=arm-none-eabi --prefix=/tmp/jenkins/jenkins-GCC-8-build_toolchain_docker-594_20190704_1562200936/install-native --libexecdir=/tmp/jenkins/jenkins-GCC-8-build_toolchain_docker-594_20190704_1562200936/install-native/lib --infodir=/tmp/jenkins/jenkins-GCC-8-build_toolchain_docker-594_20190704_1562200936/install-native/share/doc/gcc-arm-none-eabi/info --mandir=/tmp/jenkins/jenkins-GCC-8-build_toolchain_docker-594_20190704_1562200936/install-native/share/doc/gcc-arm-none-eabi/man --htmldir=/tmp/jenkins/jenkins-GCC-8-build_toolchain_docker-594_20190704_1562200936/install-native/share/doc/gcc-arm-none-eabi/html --pdfdir=/tmp/jenkins/jenkins-GCC-8-build_toolchain_docker-594_20190704_1562200936/install-native/share/doc/gcc-arm-none-eabi/pdf --enable-languages=c,c++ --enable-plugins --disable-decimal-float --disable-libffi --disable-libgomp --disable-libmudflap --disable-libquadmath --disable-libssp --disable-libstdcxx-pch --disable-nls --disable-shared --disable-threads --disable-tls --with-gnu-as --with-gnu-ld --with-newlib --with-headers=yes --with-python-dir=share/gcc-arm-none-eabi --with-sysroot=/tmp/jenkins/jenkins-GCC-8-build_toolchain_docker-594_20190704_1562200936/install-native/arm-none-eabi --build=x86_64-linux-gnu --host=x86_64-linux-gnu --with-gmp=/tmp/jenkins/jenkins-GCC-8-build_toolchain_docker-594_20190704_1562200936/build-native/host-libs/usr --with-mpfr=/tmp/jenkins/jenkins-GCC-8-build_toolchain_docker-594_20190704_1562200936/build-native/host-libs/usr --with-mpc=/tmp/jenkins/jenkins-GCC-8-build_toolchain_docker-594_20190704_1562200936/build-native/host-libs/usr --with-isl=/tmp/jenkins/jenkins-GCC-8-build_toolchain_docker-594_20190704_1562200936/build-native/host-libs/usr --with-libelf=/tmp/jenkins/jenkins-GCC-8-build_toolchain_docker-594_20190704_1562200936/build-native/host-libs/usr --with-host-libstdcxx='-static-libgcc -Wl,-Bstatic,-lstdc++,-Bdynamic -lm' --with-pkgversion='GNU Tools for Arm Embedded Processors 8-2019-q3-update' --with-multilib-list=rmprofile]
+  ignore line: [Thread model: single]
+  ignore line: [gcc version 8.3.1 20190703 (release) [gcc-8-branch revision 273027] (GNU Tools for Arm Embedded Processors 8-2019-q3-update) ]
+  ignore line: [COLLECT_GCC_OPTIONS='-std=c11' '-mcpu=cortex-m4' '-mthumb' '-mfpu=fpv4-sp-d16' '-mfloat-abi=hard' '-D' 'USE_HAL_DRIVER' '-D' 'STM32F446xx' '-D' '_TIMEVAL_DEFINE' '-O0' '-Wall' '-fdata-sections' '-ffunction-sections' '-D' 'CLOCK_MONOTONIC=0' '-v' '-o' 'CMakeFiles/cmTC_c3e42.dir/CMakeCCompilerABI.c.obj' '-c' '-march=armv7e-m+fp']
+  ignore line: [ /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/toolchain/bin/../lib/gcc/arm-none-eabi/8.3.1/cc1 -quiet -v -imultilib thumb/v7e-m+fp/hard -iprefix /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/toolchain/bin/../lib/gcc/arm-none-eabi/8.3.1/ -isysroot /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/toolchain/bin/../arm-none-eabi -D__USES_INITFINI__ -D USE_HAL_DRIVER -D STM32F446xx -D _TIMEVAL_DEFINE -D CLOCK_MONOTONIC=0 /usr/share/cmake-3.22/Modules/CMakeCCompilerABI.c -quiet -dumpbase CMakeCCompilerABI.c -mcpu=cortex-m4 -mthumb -mfpu=fpv4-sp-d16 -mfloat-abi=hard -march=armv7e-m+fp -auxbase-strip CMakeFiles/cmTC_c3e42.dir/CMakeCCompilerABI.c.obj -O0 -Wall -std=c11 -version -fdata-sections -ffunction-sections -o /tmp/ccZzUp7F.s]
+  ignore line: [GNU C11 (GNU Tools for Arm Embedded Processors 8-2019-q3-update) version 8.3.1 20190703 (release) [gcc-8-branch revision 273027] (arm-none-eabi)]
+  ignore line: [	compiled by GNU C version 4.8.4  GMP version 6.1.0  MPFR version 3.1.4  MPC version 1.0.3  isl version isl-0.18-GMP]
+  ignore line: []
+  ignore line: [GGC heuristics: --param ggc-min-expand=100 --param ggc-min-heapsize=131072]
+  ignore line: [ignoring duplicate directory "/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/toolchain/bin/../lib/gcc/../../lib/gcc/arm-none-eabi/8.3.1/include"]
+  ignore line: [ignoring nonexistent directory "/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/toolchain/bin/../arm-none-eabi/usr/local/include"]
+  ignore line: [ignoring duplicate directory "/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/toolchain/bin/../lib/gcc/../../lib/gcc/arm-none-eabi/8.3.1/include-fixed"]
+  ignore line: [ignoring duplicate directory "/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/toolchain/bin/../lib/gcc/../../lib/gcc/arm-none-eabi/8.3.1/../../../../arm-none-eabi/include"]
+  ignore line: [ignoring nonexistent directory "/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/toolchain/bin/../arm-none-eabi/usr/include"]
+  ignore line: [#include "..." search starts here:]
+  ignore line: [#include <...> search starts here:]
+  ignore line: [ /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/toolchain/bin/../lib/gcc/arm-none-eabi/8.3.1/include]
+  ignore line: [ /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/toolchain/bin/../lib/gcc/arm-none-eabi/8.3.1/include-fixed]
+  ignore line: [ /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/toolchain/bin/../lib/gcc/arm-none-eabi/8.3.1/../../../../arm-none-eabi/include]
+  ignore line: [End of search list.]
+  ignore line: [GNU C11 (GNU Tools for Arm Embedded Processors 8-2019-q3-update) version 8.3.1 20190703 (release) [gcc-8-branch revision 273027] (arm-none-eabi)]
+  ignore line: [	compiled by GNU C version 4.8.4  GMP version 6.1.0  MPFR version 3.1.4  MPC version 1.0.3  isl version isl-0.18-GMP]
+  ignore line: []
+  ignore line: [GGC heuristics: --param ggc-min-expand=100 --param ggc-min-heapsize=131072]
+  ignore line: [Compiler executable checksum: 9ce68ff701013533d409f9c54a6e36df]
+  ignore line: [COLLECT_GCC_OPTIONS='-std=c11' '-mcpu=cortex-m4' '-mthumb' '-mfpu=fpv4-sp-d16' '-mfloat-abi=hard' '-D' 'USE_HAL_DRIVER' '-D' 'STM32F446xx' '-D' '_TIMEVAL_DEFINE' '-O0' '-Wall' '-fdata-sections' '-ffunction-sections' '-D' 'CLOCK_MONOTONIC=0' '-v' '-o' 'CMakeFiles/cmTC_c3e42.dir/CMakeCCompilerABI.c.obj' '-c' '-march=armv7e-m+fp']
+  ignore line: [ /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/toolchain/bin/../lib/gcc/arm-none-eabi/8.3.1/../../../../arm-none-eabi/bin/as -v -march=armv7e-m -mfloat-abi=hard -mfpu=fpv4-sp-d16 -meabi=5 -o CMakeFiles/cmTC_c3e42.dir/CMakeCCompilerABI.c.obj /tmp/ccZzUp7F.s]
+  ignore line: [GNU assembler version 2.32.0 (arm-none-eabi) using BFD version (GNU Tools for Arm Embedded Processors 8-2019-q3-update) 2.32.0.20190703]
+  ignore line: [COMPILER_PATH=/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/toolchain/bin/../lib/gcc/arm-none-eabi/8.3.1/:/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/toolchain/bin/../lib/gcc/:/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/toolchain/bin/../lib/gcc/arm-none-eabi/8.3.1/../../../../arm-none-eabi/bin/]
+  ignore line: [LIBRARY_PATH=/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/toolchain/bin/../lib/gcc/arm-none-eabi/8.3.1/thumb/v7e-m+fp/hard/:/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/toolchain/bin/../lib/gcc/arm-none-eabi/8.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/:/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/toolchain/bin/../arm-none-eabi/lib/thumb/v7e-m+fp/hard/:/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/toolchain/bin/../lib/gcc/arm-none-eabi/8.3.1/:/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/toolchain/bin/../lib/gcc/:/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/toolchain/bin/../lib/gcc/arm-none-eabi/8.3.1/../../../../arm-none-eabi/lib/:/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/toolchain/bin/../arm-none-eabi/lib/]
+  ignore line: [COLLECT_GCC_OPTIONS='-std=c11' '-mcpu=cortex-m4' '-mthumb' '-mfpu=fpv4-sp-d16' '-mfloat-abi=hard' '-D' 'USE_HAL_DRIVER' '-D' 'STM32F446xx' '-D' '_TIMEVAL_DEFINE' '-O0' '-Wall' '-fdata-sections' '-ffunction-sections' '-D' 'CLOCK_MONOTONIC=0' '-v' '-o' 'CMakeFiles/cmTC_c3e42.dir/CMakeCCompilerABI.c.obj' '-c' '-march=armv7e-m+fp']
+  ignore line: [Linking C static library libcmTC_c3e42.a]
+  ignore line: [/usr/bin/cmake -P CMakeFiles/cmTC_c3e42.dir/cmake_clean_target.cmake]
+  ignore line: [/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_c3e42.dir/link.txt --verbose=1]
+  ignore line: [/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/toolchain/bin/arm-none-eabi-ar qc libcmTC_c3e42.a CMakeFiles/cmTC_c3e42.dir/CMakeCCompilerABI.c.obj]
+  ignore line: [/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/toolchain/bin/arm-none-eabi-ranlib libcmTC_c3e42.a]
+  ignore line: [gmake[2]: Leaving directory '/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/build/shape_msgs/CMakeFiles/CMakeTmp']
+  ignore line: [gmake[1]: Leaving directory '/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/build/shape_msgs/CMakeFiles/CMakeTmp']
+  ignore line: []
+  ignore line: []
+  implicit libs: []
+  implicit objs: []
+  implicit dirs: []
+  implicit fwks: []
+
+
+Detecting CXX compiler ABI info compiled with the following output:
+Change Dir: /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/build/shape_msgs/CMakeFiles/CMakeTmp
+
+Run Build Command(s):/usr/bin/gmake -f Makefile cmTC_26fbf/fast && gmake[1]: Entering directory '/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/build/shape_msgs/CMakeFiles/CMakeTmp'
+/usr/bin/gmake  -f CMakeFiles/cmTC_26fbf.dir/build.make CMakeFiles/cmTC_26fbf.dir/build
+gmake[2]: Entering directory '/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/build/shape_msgs/CMakeFiles/CMakeTmp'
+Building CXX object CMakeFiles/cmTC_26fbf.dir/CMakeCXXCompilerABI.cpp.obj
+/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/freertos_apps/microros_nucleo_f446re_extensions/../../toolchain/bin/arm-none-eabi-g++   -std=c++14 -mcpu=cortex-m4 -mthumb -mfpu=fpv4-sp-d16 -mfloat-abi=hard -DUSE_HAL_DRIVER -DSTM32F446xx -D_TIMEVAL_DEFINE -O0 -Wall -fdata-sections -ffunction-sections  -DCLOCK_MONOTONIC=0    -v -o CMakeFiles/cmTC_26fbf.dir/CMakeCXXCompilerABI.cpp.obj -c /usr/share/cmake-3.22/Modules/CMakeCXXCompilerABI.cpp
+Using built-in specs.
+COLLECT_GCC=/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/freertos_apps/microros_nucleo_f446re_extensions/../../toolchain/bin/arm-none-eabi-g++
+Target: arm-none-eabi
+Configured with: /tmp/jenkins/jenkins-GCC-8-build_toolchain_docker-594_20190704_1562200936/src/gcc/configure --target=arm-none-eabi --prefix=/tmp/jenkins/jenkins-GCC-8-build_toolchain_docker-594_20190704_1562200936/install-native --libexecdir=/tmp/jenkins/jenkins-GCC-8-build_toolchain_docker-594_20190704_1562200936/install-native/lib --infodir=/tmp/jenkins/jenkins-GCC-8-build_toolchain_docker-594_20190704_1562200936/install-native/share/doc/gcc-arm-none-eabi/info --mandir=/tmp/jenkins/jenkins-GCC-8-build_toolchain_docker-594_20190704_1562200936/install-native/share/doc/gcc-arm-none-eabi/man --htmldir=/tmp/jenkins/jenkins-GCC-8-build_toolchain_docker-594_20190704_1562200936/install-native/share/doc/gcc-arm-none-eabi/html --pdfdir=/tmp/jenkins/jenkins-GCC-8-build_toolchain_docker-594_20190704_1562200936/install-native/share/doc/gcc-arm-none-eabi/pdf --enable-languages=c,c++ --enable-plugins --disable-decimal-float --disable-libffi --disable-libgomp --disable-libmudflap --disable-libquadmath --disable-libssp --disable-libstdcxx-pch --disable-nls --disable-shared --disable-threads --disable-tls --with-gnu-as --with-gnu-ld --with-newlib --with-headers=yes --with-python-dir=share/gcc-arm-none-eabi --with-sysroot=/tmp/jenkins/jenkins-GCC-8-build_toolchain_docker-594_20190704_1562200936/install-native/arm-none-eabi --build=x86_64-linux-gnu --host=x86_64-linux-gnu --with-gmp=/tmp/jenkins/jenkins-GCC-8-build_toolchain_docker-594_20190704_1562200936/build-native/host-libs/usr --with-mpfr=/tmp/jenkins/jenkins-GCC-8-build_toolchain_docker-594_20190704_1562200936/build-native/host-libs/usr --with-mpc=/tmp/jenkins/jenkins-GCC-8-build_toolchain_docker-594_20190704_1562200936/build-native/host-libs/usr --with-isl=/tmp/jenkins/jenkins-GCC-8-build_toolchain_docker-594_20190704_1562200936/build-native/host-libs/usr --with-libelf=/tmp/jenkins/jenkins-GCC-8-build_toolchain_docker-594_20190704_1562200936/build-native/host-libs/usr --with-host-libstdcxx='-static-libgcc -Wl,-Bstatic,-lstdc++,-Bdynamic -lm' --with-pkgversion='GNU Tools for Arm Embedded Processors 8-2019-q3-update' --with-multilib-list=rmprofile
+Thread model: single
+gcc version 8.3.1 20190703 (release) [gcc-8-branch revision 273027] (GNU Tools for Arm Embedded Processors 8-2019-q3-update) 
+COLLECT_GCC_OPTIONS='-std=c++14' '-mcpu=cortex-m4' '-mthumb' '-mfpu=fpv4-sp-d16' '-mfloat-abi=hard' '-D' 'USE_HAL_DRIVER' '-D' 'STM32F446xx' '-D' '_TIMEVAL_DEFINE' '-O0' '-Wall' '-fdata-sections' '-ffunction-sections' '-D' 'CLOCK_MONOTONIC=0' '-v' '-o' 'CMakeFiles/cmTC_26fbf.dir/CMakeCXXCompilerABI.cpp.obj' '-c' '-march=armv7e-m+fp'
+ /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/toolchain/bin/../lib/gcc/arm-none-eabi/8.3.1/cc1plus -quiet -v -imultilib thumb/v7e-m+fp/hard -iprefix /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/toolchain/bin/../lib/gcc/arm-none-eabi/8.3.1/ -isysroot /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/toolchain/bin/../arm-none-eabi -D__USES_INITFINI__ -D USE_HAL_DRIVER -D STM32F446xx -D _TIMEVAL_DEFINE -D CLOCK_MONOTONIC=0 /usr/share/cmake-3.22/Modules/CMakeCXXCompilerABI.cpp -quiet -dumpbase CMakeCXXCompilerABI.cpp -mcpu=cortex-m4 -mthumb -mfpu=fpv4-sp-d16 -mfloat-abi=hard -march=armv7e-m+fp -auxbase-strip CMakeFiles/cmTC_26fbf.dir/CMakeCXXCompilerABI.cpp.obj -O0 -Wall -std=c++14 -version -fdata-sections -ffunction-sections -o /tmp/cctjsBPj.s
+GNU C++14 (GNU Tools for Arm Embedded Processors 8-2019-q3-update) version 8.3.1 20190703 (release) [gcc-8-branch revision 273027] (arm-none-eabi)
+	compiled by GNU C version 4.8.4, GMP version 6.1.0, MPFR version 3.1.4, MPC version 1.0.3, isl version isl-0.18-GMP
+
+GGC heuristics: --param ggc-min-expand=100 --param ggc-min-heapsize=131072
+ignoring duplicate directory "/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/toolchain/bin/../lib/gcc/../../lib/gcc/arm-none-eabi/8.3.1/../../../../arm-none-eabi/include/c++/8.3.1"
+ignoring duplicate directory "/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/toolchain/bin/../lib/gcc/../../lib/gcc/arm-none-eabi/8.3.1/../../../../arm-none-eabi/include/c++/8.3.1/arm-none-eabi/thumb/v7e-m+fp/hard"
+ignoring duplicate directory "/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/toolchain/bin/../lib/gcc/../../lib/gcc/arm-none-eabi/8.3.1/../../../../arm-none-eabi/include/c++/8.3.1/backward"
+ignoring duplicate directory "/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/toolchain/bin/../lib/gcc/../../lib/gcc/arm-none-eabi/8.3.1/include"
+ignoring nonexistent directory "/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/toolchain/bin/../arm-none-eabi/usr/local/include"
+ignoring duplicate directory "/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/toolchain/bin/../lib/gcc/../../lib/gcc/arm-none-eabi/8.3.1/include-fixed"
+ignoring duplicate directory "/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/toolchain/bin/../lib/gcc/../../lib/gcc/arm-none-eabi/8.3.1/../../../../arm-none-eabi/include"
+ignoring nonexistent directory "/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/toolchain/bin/../arm-none-eabi/usr/include"
+#include "..." search starts here:
+#include <...> search starts here:
+ /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/toolchain/bin/../lib/gcc/arm-none-eabi/8.3.1/../../../../arm-none-eabi/include/c++/8.3.1
+ /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/toolchain/bin/../lib/gcc/arm-none-eabi/8.3.1/../../../../arm-none-eabi/include/c++/8.3.1/arm-none-eabi/thumb/v7e-m+fp/hard
+ /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/toolchain/bin/../lib/gcc/arm-none-eabi/8.3.1/../../../../arm-none-eabi/include/c++/8.3.1/backward
+ /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/toolchain/bin/../lib/gcc/arm-none-eabi/8.3.1/include
+ /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/toolchain/bin/../lib/gcc/arm-none-eabi/8.3.1/include-fixed
+ /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/toolchain/bin/../lib/gcc/arm-none-eabi/8.3.1/../../../../arm-none-eabi/include
+End of search list.
+GNU C++14 (GNU Tools for Arm Embedded Processors 8-2019-q3-update) version 8.3.1 20190703 (release) [gcc-8-branch revision 273027] (arm-none-eabi)
+	compiled by GNU C version 4.8.4, GMP version 6.1.0, MPFR version 3.1.4, MPC version 1.0.3, isl version isl-0.18-GMP
+
+GGC heuristics: --param ggc-min-expand=100 --param ggc-min-heapsize=131072
+Compiler executable checksum: 21bd2026b2ea14b6bd7597d2f94d57b2
+COLLECT_GCC_OPTIONS='-std=c++14' '-mcpu=cortex-m4' '-mthumb' '-mfpu=fpv4-sp-d16' '-mfloat-abi=hard' '-D' 'USE_HAL_DRIVER' '-D' 'STM32F446xx' '-D' '_TIMEVAL_DEFINE' '-O0' '-Wall' '-fdata-sections' '-ffunction-sections' '-D' 'CLOCK_MONOTONIC=0' '-v' '-o' 'CMakeFiles/cmTC_26fbf.dir/CMakeCXXCompilerABI.cpp.obj' '-c' '-march=armv7e-m+fp'
+ /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/toolchain/bin/../lib/gcc/arm-none-eabi/8.3.1/../../../../arm-none-eabi/bin/as -v -march=armv7e-m -mfloat-abi=hard -mfpu=fpv4-sp-d16 -meabi=5 -o CMakeFiles/cmTC_26fbf.dir/CMakeCXXCompilerABI.cpp.obj /tmp/cctjsBPj.s
+GNU assembler version 2.32.0 (arm-none-eabi) using BFD version (GNU Tools for Arm Embedded Processors 8-2019-q3-update) 2.32.0.20190703
+COMPILER_PATH=/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/toolchain/bin/../lib/gcc/arm-none-eabi/8.3.1/:/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/toolchain/bin/../lib/gcc/:/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/toolchain/bin/../lib/gcc/arm-none-eabi/8.3.1/../../../../arm-none-eabi/bin/
+LIBRARY_PATH=/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/toolchain/bin/../lib/gcc/arm-none-eabi/8.3.1/thumb/v7e-m+fp/hard/:/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/toolchain/bin/../lib/gcc/arm-none-eabi/8.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/:/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/toolchain/bin/../arm-none-eabi/lib/thumb/v7e-m+fp/hard/:/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/toolchain/bin/../lib/gcc/arm-none-eabi/8.3.1/:/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/toolchain/bin/../lib/gcc/:/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/toolchain/bin/../lib/gcc/arm-none-eabi/8.3.1/../../../../arm-none-eabi/lib/:/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/toolchain/bin/../arm-none-eabi/lib/
+COLLECT_GCC_OPTIONS='-std=c++14' '-mcpu=cortex-m4' '-mthumb' '-mfpu=fpv4-sp-d16' '-mfloat-abi=hard' '-D' 'USE_HAL_DRIVER' '-D' 'STM32F446xx' '-D' '_TIMEVAL_DEFINE' '-O0' '-Wall' '-fdata-sections' '-ffunction-sections' '-D' 'CLOCK_MONOTONIC=0' '-v' '-o' 'CMakeFiles/cmTC_26fbf.dir/CMakeCXXCompilerABI.cpp.obj' '-c' '-march=armv7e-m+fp'
+Linking CXX static library libcmTC_26fbf.a
+/usr/bin/cmake -P CMakeFiles/cmTC_26fbf.dir/cmake_clean_target.cmake
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_26fbf.dir/link.txt --verbose=1
+/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/toolchain/bin/arm-none-eabi-ar qc libcmTC_26fbf.a CMakeFiles/cmTC_26fbf.dir/CMakeCXXCompilerABI.cpp.obj
+/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/toolchain/bin/arm-none-eabi-ranlib libcmTC_26fbf.a
+gmake[2]: Leaving directory '/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/build/shape_msgs/CMakeFiles/CMakeTmp'
+gmake[1]: Leaving directory '/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/build/shape_msgs/CMakeFiles/CMakeTmp'
+
+
+
+Parsed CXX implicit include dir info from above output: rv=done
+  found start of include info
+  found start of implicit include info
+    add: [/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/toolchain/bin/../lib/gcc/arm-none-eabi/8.3.1/../../../../arm-none-eabi/include/c++/8.3.1]
+    add: [/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/toolchain/bin/../lib/gcc/arm-none-eabi/8.3.1/../../../../arm-none-eabi/include/c++/8.3.1/arm-none-eabi/thumb/v7e-m+fp/hard]
+    add: [/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/toolchain/bin/../lib/gcc/arm-none-eabi/8.3.1/../../../../arm-none-eabi/include/c++/8.3.1/backward]
+    add: [/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/toolchain/bin/../lib/gcc/arm-none-eabi/8.3.1/include]
+    add: [/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/toolchain/bin/../lib/gcc/arm-none-eabi/8.3.1/include-fixed]
+    add: [/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/toolchain/bin/../lib/gcc/arm-none-eabi/8.3.1/../../../../arm-none-eabi/include]
+  end of search list found
+  collapse include dir [/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/toolchain/bin/../lib/gcc/arm-none-eabi/8.3.1/../../../../arm-none-eabi/include/c++/8.3.1] ==> [/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/toolchain/arm-none-eabi/include/c++/8.3.1]
+  collapse include dir [/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/toolchain/bin/../lib/gcc/arm-none-eabi/8.3.1/../../../../arm-none-eabi/include/c++/8.3.1/arm-none-eabi/thumb/v7e-m+fp/hard] ==> [/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/toolchain/arm-none-eabi/include/c++/8.3.1/arm-none-eabi/thumb/v7e-m+fp/hard]
+  collapse include dir [/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/toolchain/bin/../lib/gcc/arm-none-eabi/8.3.1/../../../../arm-none-eabi/include/c++/8.3.1/backward] ==> [/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/toolchain/arm-none-eabi/include/c++/8.3.1/backward]
+  collapse include dir [/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/toolchain/bin/../lib/gcc/arm-none-eabi/8.3.1/include] ==> [/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/toolchain/lib/gcc/arm-none-eabi/8.3.1/include]
+  collapse include dir [/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/toolchain/bin/../lib/gcc/arm-none-eabi/8.3.1/include-fixed] ==> [/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/toolchain/lib/gcc/arm-none-eabi/8.3.1/include-fixed]
+  collapse include dir [/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/toolchain/bin/../lib/gcc/arm-none-eabi/8.3.1/../../../../arm-none-eabi/include] ==> [/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/toolchain/arm-none-eabi/include]
+  implicit include dirs: [/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/toolchain/arm-none-eabi/include/c++/8.3.1;/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/toolchain/arm-none-eabi/include/c++/8.3.1/arm-none-eabi/thumb/v7e-m+fp/hard;/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/toolchain/arm-none-eabi/include/c++/8.3.1/backward;/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/toolchain/lib/gcc/arm-none-eabi/8.3.1/include;/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/toolchain/lib/gcc/arm-none-eabi/8.3.1/include-fixed;/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/toolchain/arm-none-eabi/include]
+
+
+Parsed CXX implicit link information from above output:
+  link line regex: [^( *|.*[/\])(arm-none-eabi-ld|CMAKE_LINK_STARTFILE-NOTFOUND|([^/\]+-)?ld|collect2)[^/\]*( |$)]
+  ignore line: [Change Dir: /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/build/shape_msgs/CMakeFiles/CMakeTmp]
+  ignore line: []
+  ignore line: [Run Build Command(s):/usr/bin/gmake -f Makefile cmTC_26fbf/fast && gmake[1]: Entering directory '/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/build/shape_msgs/CMakeFiles/CMakeTmp']
+  ignore line: [/usr/bin/gmake  -f CMakeFiles/cmTC_26fbf.dir/build.make CMakeFiles/cmTC_26fbf.dir/build]
+  ignore line: [gmake[2]: Entering directory '/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/build/shape_msgs/CMakeFiles/CMakeTmp']
+  ignore line: [Building CXX object CMakeFiles/cmTC_26fbf.dir/CMakeCXXCompilerABI.cpp.obj]
+  ignore line: [/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/freertos_apps/microros_nucleo_f446re_extensions/../../toolchain/bin/arm-none-eabi-g++   -std=c++14 -mcpu=cortex-m4 -mthumb -mfpu=fpv4-sp-d16 -mfloat-abi=hard -DUSE_HAL_DRIVER -DSTM32F446xx -D_TIMEVAL_DEFINE -O0 -Wall -fdata-sections -ffunction-sections  -DCLOCK_MONOTONIC=0    -v -o CMakeFiles/cmTC_26fbf.dir/CMakeCXXCompilerABI.cpp.obj -c /usr/share/cmake-3.22/Modules/CMakeCXXCompilerABI.cpp]
+  ignore line: [Using built-in specs.]
+  ignore line: [COLLECT_GCC=/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/freertos_apps/microros_nucleo_f446re_extensions/../../toolchain/bin/arm-none-eabi-g++]
+  ignore line: [Target: arm-none-eabi]
+  ignore line: [Configured with: /tmp/jenkins/jenkins-GCC-8-build_toolchain_docker-594_20190704_1562200936/src/gcc/configure --target=arm-none-eabi --prefix=/tmp/jenkins/jenkins-GCC-8-build_toolchain_docker-594_20190704_1562200936/install-native --libexecdir=/tmp/jenkins/jenkins-GCC-8-build_toolchain_docker-594_20190704_1562200936/install-native/lib --infodir=/tmp/jenkins/jenkins-GCC-8-build_toolchain_docker-594_20190704_1562200936/install-native/share/doc/gcc-arm-none-eabi/info --mandir=/tmp/jenkins/jenkins-GCC-8-build_toolchain_docker-594_20190704_1562200936/install-native/share/doc/gcc-arm-none-eabi/man --htmldir=/tmp/jenkins/jenkins-GCC-8-build_toolchain_docker-594_20190704_1562200936/install-native/share/doc/gcc-arm-none-eabi/html --pdfdir=/tmp/jenkins/jenkins-GCC-8-build_toolchain_docker-594_20190704_1562200936/install-native/share/doc/gcc-arm-none-eabi/pdf --enable-languages=c,c++ --enable-plugins --disable-decimal-float --disable-libffi --disable-libgomp --disable-libmudflap --disable-libquadmath --disable-libssp --disable-libstdcxx-pch --disable-nls --disable-shared --disable-threads --disable-tls --with-gnu-as --with-gnu-ld --with-newlib --with-headers=yes --with-python-dir=share/gcc-arm-none-eabi --with-sysroot=/tmp/jenkins/jenkins-GCC-8-build_toolchain_docker-594_20190704_1562200936/install-native/arm-none-eabi --build=x86_64-linux-gnu --host=x86_64-linux-gnu --with-gmp=/tmp/jenkins/jenkins-GCC-8-build_toolchain_docker-594_20190704_1562200936/build-native/host-libs/usr --with-mpfr=/tmp/jenkins/jenkins-GCC-8-build_toolchain_docker-594_20190704_1562200936/build-native/host-libs/usr --with-mpc=/tmp/jenkins/jenkins-GCC-8-build_toolchain_docker-594_20190704_1562200936/build-native/host-libs/usr --with-isl=/tmp/jenkins/jenkins-GCC-8-build_toolchain_docker-594_20190704_1562200936/build-native/host-libs/usr --with-libelf=/tmp/jenkins/jenkins-GCC-8-build_toolchain_docker-594_20190704_1562200936/build-native/host-libs/usr --with-host-libstdcxx='-static-libgcc -Wl,-Bstatic,-lstdc++,-Bdynamic -lm' --with-pkgversion='GNU Tools for Arm Embedded Processors 8-2019-q3-update' --with-multilib-list=rmprofile]
+  ignore line: [Thread model: single]
+  ignore line: [gcc version 8.3.1 20190703 (release) [gcc-8-branch revision 273027] (GNU Tools for Arm Embedded Processors 8-2019-q3-update) ]
+  ignore line: [COLLECT_GCC_OPTIONS='-std=c++14' '-mcpu=cortex-m4' '-mthumb' '-mfpu=fpv4-sp-d16' '-mfloat-abi=hard' '-D' 'USE_HAL_DRIVER' '-D' 'STM32F446xx' '-D' '_TIMEVAL_DEFINE' '-O0' '-Wall' '-fdata-sections' '-ffunction-sections' '-D' 'CLOCK_MONOTONIC=0' '-v' '-o' 'CMakeFiles/cmTC_26fbf.dir/CMakeCXXCompilerABI.cpp.obj' '-c' '-march=armv7e-m+fp']
+  ignore line: [ /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/toolchain/bin/../lib/gcc/arm-none-eabi/8.3.1/cc1plus -quiet -v -imultilib thumb/v7e-m+fp/hard -iprefix /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/toolchain/bin/../lib/gcc/arm-none-eabi/8.3.1/ -isysroot /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/toolchain/bin/../arm-none-eabi -D__USES_INITFINI__ -D USE_HAL_DRIVER -D STM32F446xx -D _TIMEVAL_DEFINE -D CLOCK_MONOTONIC=0 /usr/share/cmake-3.22/Modules/CMakeCXXCompilerABI.cpp -quiet -dumpbase CMakeCXXCompilerABI.cpp -mcpu=cortex-m4 -mthumb -mfpu=fpv4-sp-d16 -mfloat-abi=hard -march=armv7e-m+fp -auxbase-strip CMakeFiles/cmTC_26fbf.dir/CMakeCXXCompilerABI.cpp.obj -O0 -Wall -std=c++14 -version -fdata-sections -ffunction-sections -o /tmp/cctjsBPj.s]
+  ignore line: [GNU C++14 (GNU Tools for Arm Embedded Processors 8-2019-q3-update) version 8.3.1 20190703 (release) [gcc-8-branch revision 273027] (arm-none-eabi)]
+  ignore line: [	compiled by GNU C version 4.8.4  GMP version 6.1.0  MPFR version 3.1.4  MPC version 1.0.3  isl version isl-0.18-GMP]
+  ignore line: []
+  ignore line: [GGC heuristics: --param ggc-min-expand=100 --param ggc-min-heapsize=131072]
+  ignore line: [ignoring duplicate directory "/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/toolchain/bin/../lib/gcc/../../lib/gcc/arm-none-eabi/8.3.1/../../../../arm-none-eabi/include/c++/8.3.1"]
+  ignore line: [ignoring duplicate directory "/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/toolchain/bin/../lib/gcc/../../lib/gcc/arm-none-eabi/8.3.1/../../../../arm-none-eabi/include/c++/8.3.1/arm-none-eabi/thumb/v7e-m+fp/hard"]
+  ignore line: [ignoring duplicate directory "/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/toolchain/bin/../lib/gcc/../../lib/gcc/arm-none-eabi/8.3.1/../../../../arm-none-eabi/include/c++/8.3.1/backward"]
+  ignore line: [ignoring duplicate directory "/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/toolchain/bin/../lib/gcc/../../lib/gcc/arm-none-eabi/8.3.1/include"]
+  ignore line: [ignoring nonexistent directory "/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/toolchain/bin/../arm-none-eabi/usr/local/include"]
+  ignore line: [ignoring duplicate directory "/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/toolchain/bin/../lib/gcc/../../lib/gcc/arm-none-eabi/8.3.1/include-fixed"]
+  ignore line: [ignoring duplicate directory "/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/toolchain/bin/../lib/gcc/../../lib/gcc/arm-none-eabi/8.3.1/../../../../arm-none-eabi/include"]
+  ignore line: [ignoring nonexistent directory "/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/toolchain/bin/../arm-none-eabi/usr/include"]
+  ignore line: [#include "..." search starts here:]
+  ignore line: [#include <...> search starts here:]
+  ignore line: [ /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/toolchain/bin/../lib/gcc/arm-none-eabi/8.3.1/../../../../arm-none-eabi/include/c++/8.3.1]
+  ignore line: [ /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/toolchain/bin/../lib/gcc/arm-none-eabi/8.3.1/../../../../arm-none-eabi/include/c++/8.3.1/arm-none-eabi/thumb/v7e-m+fp/hard]
+  ignore line: [ /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/toolchain/bin/../lib/gcc/arm-none-eabi/8.3.1/../../../../arm-none-eabi/include/c++/8.3.1/backward]
+  ignore line: [ /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/toolchain/bin/../lib/gcc/arm-none-eabi/8.3.1/include]
+  ignore line: [ /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/toolchain/bin/../lib/gcc/arm-none-eabi/8.3.1/include-fixed]
+  ignore line: [ /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/toolchain/bin/../lib/gcc/arm-none-eabi/8.3.1/../../../../arm-none-eabi/include]
+  ignore line: [End of search list.]
+  ignore line: [GNU C++14 (GNU Tools for Arm Embedded Processors 8-2019-q3-update) version 8.3.1 20190703 (release) [gcc-8-branch revision 273027] (arm-none-eabi)]
+  ignore line: [	compiled by GNU C version 4.8.4  GMP version 6.1.0  MPFR version 3.1.4  MPC version 1.0.3  isl version isl-0.18-GMP]
+  ignore line: []
+  ignore line: [GGC heuristics: --param ggc-min-expand=100 --param ggc-min-heapsize=131072]
+  ignore line: [Compiler executable checksum: 21bd2026b2ea14b6bd7597d2f94d57b2]
+  ignore line: [COLLECT_GCC_OPTIONS='-std=c++14' '-mcpu=cortex-m4' '-mthumb' '-mfpu=fpv4-sp-d16' '-mfloat-abi=hard' '-D' 'USE_HAL_DRIVER' '-D' 'STM32F446xx' '-D' '_TIMEVAL_DEFINE' '-O0' '-Wall' '-fdata-sections' '-ffunction-sections' '-D' 'CLOCK_MONOTONIC=0' '-v' '-o' 'CMakeFiles/cmTC_26fbf.dir/CMakeCXXCompilerABI.cpp.obj' '-c' '-march=armv7e-m+fp']
+  ignore line: [ /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/toolchain/bin/../lib/gcc/arm-none-eabi/8.3.1/../../../../arm-none-eabi/bin/as -v -march=armv7e-m -mfloat-abi=hard -mfpu=fpv4-sp-d16 -meabi=5 -o CMakeFiles/cmTC_26fbf.dir/CMakeCXXCompilerABI.cpp.obj /tmp/cctjsBPj.s]
+  ignore line: [GNU assembler version 2.32.0 (arm-none-eabi) using BFD version (GNU Tools for Arm Embedded Processors 8-2019-q3-update) 2.32.0.20190703]
+  ignore line: [COMPILER_PATH=/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/toolchain/bin/../lib/gcc/arm-none-eabi/8.3.1/:/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/toolchain/bin/../lib/gcc/:/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/toolchain/bin/../lib/gcc/arm-none-eabi/8.3.1/../../../../arm-none-eabi/bin/]
+  ignore line: [LIBRARY_PATH=/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/toolchain/bin/../lib/gcc/arm-none-eabi/8.3.1/thumb/v7e-m+fp/hard/:/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/toolchain/bin/../lib/gcc/arm-none-eabi/8.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/:/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/toolchain/bin/../arm-none-eabi/lib/thumb/v7e-m+fp/hard/:/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/toolchain/bin/../lib/gcc/arm-none-eabi/8.3.1/:/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/toolchain/bin/../lib/gcc/:/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/toolchain/bin/../lib/gcc/arm-none-eabi/8.3.1/../../../../arm-none-eabi/lib/:/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/toolchain/bin/../arm-none-eabi/lib/]
+  ignore line: [COLLECT_GCC_OPTIONS='-std=c++14' '-mcpu=cortex-m4' '-mthumb' '-mfpu=fpv4-sp-d16' '-mfloat-abi=hard' '-D' 'USE_HAL_DRIVER' '-D' 'STM32F446xx' '-D' '_TIMEVAL_DEFINE' '-O0' '-Wall' '-fdata-sections' '-ffunction-sections' '-D' 'CLOCK_MONOTONIC=0' '-v' '-o' 'CMakeFiles/cmTC_26fbf.dir/CMakeCXXCompilerABI.cpp.obj' '-c' '-march=armv7e-m+fp']
+  ignore line: [Linking CXX static library libcmTC_26fbf.a]
+  ignore line: [/usr/bin/cmake -P CMakeFiles/cmTC_26fbf.dir/cmake_clean_target.cmake]
+  ignore line: [/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_26fbf.dir/link.txt --verbose=1]
+  ignore line: [/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/toolchain/bin/arm-none-eabi-ar qc libcmTC_26fbf.a CMakeFiles/cmTC_26fbf.dir/CMakeCXXCompilerABI.cpp.obj]
+  ignore line: [/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/toolchain/bin/arm-none-eabi-ranlib libcmTC_26fbf.a]
+  ignore line: [gmake[2]: Leaving directory '/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/build/shape_msgs/CMakeFiles/CMakeTmp']
+  ignore line: [gmake[1]: Leaving directory '/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/build/shape_msgs/CMakeFiles/CMakeTmp']
+  ignore line: []
+  ignore line: []
+  implicit libs: []
+  implicit objs: []
+  implicit dirs: []
+  implicit fwks: []
+
+

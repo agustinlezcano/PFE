@@ -1,0 +1,44 @@
+[2.158s] Invoking command in '/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/dev_ws/ament/ament_lint/ament_mypy': AMENT_PREFIX_PATH=/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/dev_ws/install/ament_flake8:/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/dev_ws/install/ament_lint PATH=/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/dev_ws/install/ament_flake8/bin:${PATH} PYTHONPATH=/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/dev_ws/build/ament_mypy/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/dev_ws/install/ament_mypy/lib/python3.10/site-packages:/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/dev_ws/install/ament_flake8/lib/python3.10/site-packages:/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/dev_ws/install/ament_lint/lib/python3.10/site-packages /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py egg_info --egg-base ../../../build/ament_mypy build --build-base /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/dev_ws/build/ament_mypy/build install --record /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/dev_ws/build/ament_mypy/install.log --single-version-externally-managed install_data
+[2.817s] running egg_info
+[2.820s] creating ../../../build/ament_mypy/ament_mypy.egg-info
+[2.820s] writing ../../../build/ament_mypy/ament_mypy.egg-info/PKG-INFO
+[2.820s] writing dependency_links to ../../../build/ament_mypy/ament_mypy.egg-info/dependency_links.txt
+[2.820s] writing entry points to ../../../build/ament_mypy/ament_mypy.egg-info/entry_points.txt
+[2.822s] writing requirements to ../../../build/ament_mypy/ament_mypy.egg-info/requires.txt
+[2.823s] writing top-level names to ../../../build/ament_mypy/ament_mypy.egg-info/top_level.txt
+[2.823s] writing manifest file '../../../build/ament_mypy/ament_mypy.egg-info/SOURCES.txt'
+[2.828s] reading manifest file '../../../build/ament_mypy/ament_mypy.egg-info/SOURCES.txt'
+[2.829s] writing manifest file '../../../build/ament_mypy/ament_mypy.egg-info/SOURCES.txt'
+[2.829s] running build
+[2.829s] running build_py
+[2.830s] creating /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/dev_ws/build/ament_mypy/build
+[2.830s] creating /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/dev_ws/build/ament_mypy/build/lib
+[2.830s] creating /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/dev_ws/build/ament_mypy/build/lib/ament_mypy
+[2.831s] copying ament_mypy/__init__.py -> /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/dev_ws/build/ament_mypy/build/lib/ament_mypy
+[2.832s] copying ament_mypy/main.py -> /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/dev_ws/build/ament_mypy/build/lib/ament_mypy
+[2.832s] copying ament_mypy/pytest_marker.py -> /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/dev_ws/build/ament_mypy/build/lib/ament_mypy
+[2.834s] creating /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/dev_ws/build/ament_mypy/build/lib/ament_mypy/configuration
+[2.834s] copying ament_mypy/configuration/ament_mypy.ini -> /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/dev_ws/build/ament_mypy/build/lib/ament_mypy/configuration
+[2.835s] running install
+[2.835s] running install_lib
+[2.837s] creating /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/dev_ws/install/ament_mypy/lib/python3.10/site-packages/ament_mypy
+[2.837s] copying /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/dev_ws/build/ament_mypy/build/lib/ament_mypy/__init__.py -> /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/dev_ws/install/ament_mypy/lib/python3.10/site-packages/ament_mypy
+[2.837s] copying /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/dev_ws/build/ament_mypy/build/lib/ament_mypy/main.py -> /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/dev_ws/install/ament_mypy/lib/python3.10/site-packages/ament_mypy
+[2.838s] creating /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/dev_ws/install/ament_mypy/lib/python3.10/site-packages/ament_mypy/configuration
+[2.838s] copying /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/dev_ws/build/ament_mypy/build/lib/ament_mypy/configuration/ament_mypy.ini -> /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/dev_ws/install/ament_mypy/lib/python3.10/site-packages/ament_mypy/configuration
+[2.838s] copying /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/dev_ws/build/ament_mypy/build/lib/ament_mypy/pytest_marker.py -> /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/dev_ws/install/ament_mypy/lib/python3.10/site-packages/ament_mypy
+[2.838s] byte-compiling /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/dev_ws/install/ament_mypy/lib/python3.10/site-packages/ament_mypy/__init__.py to __init__.cpython-310.pyc
+[2.839s] byte-compiling /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/dev_ws/install/ament_mypy/lib/python3.10/site-packages/ament_mypy/main.py to main.cpython-310.pyc
+[2.842s] byte-compiling /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/dev_ws/install/ament_mypy/lib/python3.10/site-packages/ament_mypy/pytest_marker.py to pytest_marker.cpython-310.pyc
+[2.843s] running install_data
+[2.847s] copying package.xml -> /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/dev_ws/install/ament_mypy/share/ament_mypy
+[2.847s] creating /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/dev_ws/install/ament_mypy/share/ament_index
+[2.847s] creating /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/dev_ws/install/ament_mypy/share/ament_index/resource_index
+[2.847s] creating /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/dev_ws/install/ament_mypy/share/ament_index/resource_index/packages
+[2.847s] copying resource/ament_mypy -> /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/dev_ws/install/ament_mypy/share/ament_index/resource_index/packages
+[2.848s] running install_egg_info
+[2.848s] Copying ../../../build/ament_mypy/ament_mypy.egg-info to /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/dev_ws/install/ament_mypy/lib/python3.10/site-packages/ament_mypy-0.12.14-py3.10.egg-info
+[2.851s] running install_scripts
+[2.915s] Installing ament_mypy script to /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/dev_ws/install/ament_mypy/bin
+[2.917s] writing list of installed files to '/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/dev_ws/build/ament_mypy/install.log'
+[2.982s] Invoked command in '/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/dev_ws/ament/ament_lint/ament_mypy' returned '0': AMENT_PREFIX_PATH=/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/dev_ws/install/ament_flake8:/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/dev_ws/install/ament_lint PATH=/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/dev_ws/install/ament_flake8/bin:${PATH} PYTHONPATH=/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/dev_ws/build/ament_mypy/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/dev_ws/install/ament_mypy/lib/python3.10/site-packages:/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/dev_ws/install/ament_flake8/lib/python3.10/site-packages:/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/dev_ws/install/ament_lint/lib/python3.10/site-packages /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py egg_info --egg-base ../../../build/ament_mypy build --build-base /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/dev_ws/build/ament_mypy/build install --record /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/dev_ws/build/ament_mypy/install.log --single-version-externally-managed install_data

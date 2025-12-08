@@ -1,0 +1,13 @@
+{
+  "package_name": "lifecycle_msgs",
+  "non_idl_tuples": [
+    "/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/ros2/rcl_interfaces/lifecycle_msgs:msg/State.msg",
+    "/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/ros2/rcl_interfaces/lifecycle_msgs:msg/Transition.msg",
+    "/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/ros2/rcl_interfaces/lifecycle_msgs:msg/TransitionDescription.msg",
+    "/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/ros2/rcl_interfaces/lifecycle_msgs:msg/TransitionEvent.msg",
+    "/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/ros2/rcl_interfaces/lifecycle_msgs:srv/ChangeState.srv",
+    "/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/ros2/rcl_interfaces/lifecycle_msgs:srv/GetAvailableStates.srv",
+    "/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/ros2/rcl_interfaces/lifecycle_msgs:srv/GetAvailableTransitions.srv",
+    "/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/ros2/rcl_interfaces/lifecycle_msgs:srv/GetState.srv"
+  ]
+}

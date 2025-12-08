@@ -1,0 +1,2 @@
+/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/toolchain/bin/arm-none-eabi-ar qc librosidl_typesupport_c.a CMakeFiles/rosidl_typesupport_c.dir/src/identifier.c.obj CMakeFiles/rosidl_typesupport_c.dir/src/message_type_support_dispatch.cpp.obj CMakeFiles/rosidl_typesupport_c.dir/src/service_type_support_dispatch.cpp.obj
+/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/toolchain/bin/arm-none-eabi-ranlib librosidl_typesupport_c.a

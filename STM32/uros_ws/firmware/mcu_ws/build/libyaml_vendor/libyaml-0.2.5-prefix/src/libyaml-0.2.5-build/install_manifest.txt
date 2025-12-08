@@ -1,0 +1,6 @@
+/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/build/libyaml_vendor/libyaml_install/include/libyaml_vendor/yaml.h
+/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/build/libyaml_vendor/libyaml_install/lib/libyaml.a
+/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/build/libyaml_vendor/libyaml_install/cmake/yamlConfig.cmake
+/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/build/libyaml_vendor/libyaml_install/cmake/yamlTargets.cmake
+/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/build/libyaml_vendor/libyaml_install/cmake/yamlTargets-debug.cmake
+/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/build/libyaml_vendor/libyaml_install/cmake/yamlConfigVersion.cmake

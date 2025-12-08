@@ -1,0 +1,48 @@
+[2.070s] Invoking command in '/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/uros/tracetools/tracetools_launch': AMENT_PREFIX_PATH=/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/install/tracetools_trace:${AMENT_PREFIX_PATH} PYTHONPATH=/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/build/tracetools_launch/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/install/tracetools_launch/lib/python3.10/site-packages:/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/install/tracetools_trace/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py egg_info --egg-base ../../../build/tracetools_launch build --build-base /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/build/tracetools_launch/build install --record /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/build/tracetools_launch/install.log --single-version-externally-managed install_data
+[2.832s] running egg_info
+[2.832s] creating ../../../build/tracetools_launch/tracetools_launch.egg-info
+[2.833s] writing ../../../build/tracetools_launch/tracetools_launch.egg-info/PKG-INFO
+[2.834s] writing dependency_links to ../../../build/tracetools_launch/tracetools_launch.egg-info/dependency_links.txt
+[2.834s] writing entry points to ../../../build/tracetools_launch/tracetools_launch.egg-info/entry_points.txt
+[2.834s] writing requirements to ../../../build/tracetools_launch/tracetools_launch.egg-info/requires.txt
+[2.835s] writing top-level names to ../../../build/tracetools_launch/tracetools_launch.egg-info/top_level.txt
+[2.835s] writing manifest file '../../../build/tracetools_launch/tracetools_launch.egg-info/SOURCES.txt'
+[2.838s] reading manifest file '../../../build/tracetools_launch/tracetools_launch.egg-info/SOURCES.txt'
+[2.841s] writing manifest file '../../../build/tracetools_launch/tracetools_launch.egg-info/SOURCES.txt'
+[2.844s] running build
+[2.845s] running build_py
+[2.845s] creating /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/build/tracetools_launch/build
+[2.848s] creating /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/build/tracetools_launch/build/lib
+[2.848s] creating /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/build/tracetools_launch/build/lib/tracetools_launch
+[2.848s] copying tracetools_launch/action.py -> /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/build/tracetools_launch/build/lib/tracetools_launch
+[2.849s] copying tracetools_launch/__init__.py -> /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/build/tracetools_launch/build/lib/tracetools_launch
+[2.849s] creating /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/build/tracetools_launch/build/lib/tracetools_launch/actions
+[2.849s] copying tracetools_launch/actions/__init__.py -> /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/build/tracetools_launch/build/lib/tracetools_launch/actions
+[2.849s] copying tracetools_launch/actions/ld_preload.py -> /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/build/tracetools_launch/build/lib/tracetools_launch/actions
+[2.851s] running install
+[2.851s] running install_lib
+[2.856s] creating /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/install/tracetools_launch/lib/python3.10/site-packages/tracetools_launch
+[2.856s] copying /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/build/tracetools_launch/build/lib/tracetools_launch/action.py -> /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/install/tracetools_launch/lib/python3.10/site-packages/tracetools_launch
+[2.858s] creating /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/install/tracetools_launch/lib/python3.10/site-packages/tracetools_launch/actions
+[2.858s] copying /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/build/tracetools_launch/build/lib/tracetools_launch/actions/__init__.py -> /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/install/tracetools_launch/lib/python3.10/site-packages/tracetools_launch/actions
+[2.859s] copying /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/build/tracetools_launch/build/lib/tracetools_launch/actions/ld_preload.py -> /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/install/tracetools_launch/lib/python3.10/site-packages/tracetools_launch/actions
+[2.859s] copying /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/build/tracetools_launch/build/lib/tracetools_launch/__init__.py -> /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/install/tracetools_launch/lib/python3.10/site-packages/tracetools_launch
+[2.862s] byte-compiling /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/install/tracetools_launch/lib/python3.10/site-packages/tracetools_launch/action.py to action.cpython-310.pyc
+[2.867s] byte-compiling /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/install/tracetools_launch/lib/python3.10/site-packages/tracetools_launch/actions/__init__.py to __init__.cpython-310.pyc
+[2.867s] byte-compiling /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/install/tracetools_launch/lib/python3.10/site-packages/tracetools_launch/actions/ld_preload.py to ld_preload.cpython-310.pyc
+[2.869s] byte-compiling /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/install/tracetools_launch/lib/python3.10/site-packages/tracetools_launch/__init__.py to __init__.cpython-310.pyc
+[2.870s] running install_data
+[2.870s] copying package.xml -> /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/install/tracetools_launch/share/tracetools_launch
+[2.870s] creating /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/install/tracetools_launch/share/tracetools_launch/launch
+[2.871s] copying launch/example.launch.py -> /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/install/tracetools_launch/share/tracetools_launch/launch
+[2.871s] copying launch/example.launch.yaml -> /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/install/tracetools_launch/share/tracetools_launch/launch
+[2.871s] copying launch/example.launch.xml -> /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/install/tracetools_launch/share/tracetools_launch/launch
+[2.872s] creating /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/install/tracetools_launch/share/ament_index
+[2.872s] creating /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/install/tracetools_launch/share/ament_index/resource_index
+[2.873s] creating /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/install/tracetools_launch/share/ament_index/resource_index/packages
+[2.873s] copying resource/tracetools_launch -> /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/install/tracetools_launch/share/ament_index/resource_index/packages
+[2.873s] running install_egg_info
+[2.878s] Copying ../../../build/tracetools_launch/tracetools_launch.egg-info to /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/install/tracetools_launch/lib/python3.10/site-packages/tracetools_launch-4.1.1-py3.10.egg-info
+[2.879s] running install_scripts
+[2.943s] writing list of installed files to '/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/build/tracetools_launch/install.log'
+[3.007s] Invoked command in '/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/uros/tracetools/tracetools_launch' returned '0': AMENT_PREFIX_PATH=/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/install/tracetools_trace:${AMENT_PREFIX_PATH} PYTHONPATH=/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/build/tracetools_launch/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/install/tracetools_launch/lib/python3.10/site-packages:/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/install/tracetools_trace/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py egg_info --egg-base ../../../build/tracetools_launch build --build-base /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/build/tracetools_launch/build install --record /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/build/tracetools_launch/install.log --single-version-externally-managed install_data

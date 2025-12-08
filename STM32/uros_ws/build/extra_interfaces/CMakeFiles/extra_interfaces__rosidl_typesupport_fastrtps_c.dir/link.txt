@@ -1,0 +1,2 @@
+/usr/bin/ar qc libextra_interfaces__rosidl_typesupport_fastrtps_c.a CMakeFiles/extra_interfaces__rosidl_typesupport_fastrtps_c.dir/rosidl_typesupport_fastrtps_c/extra_interfaces/msg/detail/trama__type_support_c.cpp.o
+/usr/bin/ranlib libextra_interfaces__rosidl_typesupport_fastrtps_c.a

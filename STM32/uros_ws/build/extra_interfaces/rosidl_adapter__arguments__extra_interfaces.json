@@ -1,0 +1,6 @@
+{
+  "package_name": "extra_interfaces",
+  "non_idl_tuples": [
+    "/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/src/extra_interfaces:msg/Trama.msg"
+  ]
+}

@@ -1,0 +1,15 @@
+{
+  "package_name": "nav_msgs",
+  "non_idl_tuples": [
+    "/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/ros2/common_interfaces/nav_msgs:msg/Goals.msg",
+    "/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/ros2/common_interfaces/nav_msgs:msg/GridCells.msg",
+    "/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/ros2/common_interfaces/nav_msgs:msg/MapMetaData.msg",
+    "/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/ros2/common_interfaces/nav_msgs:msg/OccupancyGrid.msg",
+    "/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/ros2/common_interfaces/nav_msgs:msg/Odometry.msg",
+    "/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/ros2/common_interfaces/nav_msgs:msg/Path.msg",
+    "/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/ros2/common_interfaces/nav_msgs:srv/GetMap.srv",
+    "/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/ros2/common_interfaces/nav_msgs:srv/GetPlan.srv",
+    "/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/ros2/common_interfaces/nav_msgs:srv/LoadMap.srv",
+    "/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/ros2/common_interfaces/nav_msgs:srv/SetMap.srv"
+  ]
+}

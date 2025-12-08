@@ -1,0 +1,13 @@
+# Target labels
+ ucdr
+# Source files and their labels
+/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/build/microcdr/CMakeFiles/ucdr
+/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/build/microcdr/CMakeFiles/ucdr.rule
+/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/build/microcdr/CMakeFiles/ucdr-complete.rule
+/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/build/microcdr/ucdr-prefix/src/ucdr-stamp/ucdr-build.rule
+/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/build/microcdr/ucdr-prefix/src/ucdr-stamp/ucdr-configure.rule
+/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/build/microcdr/ucdr-prefix/src/ucdr-stamp/ucdr-download.rule
+/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/build/microcdr/ucdr-prefix/src/ucdr-stamp/ucdr-install.rule
+/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/build/microcdr/ucdr-prefix/src/ucdr-stamp/ucdr-mkdir.rule
+/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/build/microcdr/ucdr-prefix/src/ucdr-stamp/ucdr-patch.rule
+/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/build/microcdr/ucdr-prefix/src/ucdr-stamp/ucdr-update.rule

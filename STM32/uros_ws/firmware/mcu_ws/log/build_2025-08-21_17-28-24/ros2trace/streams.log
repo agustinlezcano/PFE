@@ -1,0 +1,46 @@
+[1.511s] Invoking command in '/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/uros/tracetools/ros2trace': AMENT_PREFIX_PATH=/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/install/tracetools_trace:${AMENT_PREFIX_PATH} PYTHONPATH=/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/build/ros2trace/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/install/ros2trace/lib/python3.10/site-packages:/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/install/tracetools_trace/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py egg_info --egg-base ../../../build/ros2trace build --build-base /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/build/ros2trace/build install --record /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/build/ros2trace/install.log --single-version-externally-managed install_data
+[2.120s] running egg_info
+[2.122s] creating ../../../build/ros2trace/ros2trace.egg-info
+[2.122s] writing ../../../build/ros2trace/ros2trace.egg-info/PKG-INFO
+[2.123s] writing dependency_links to ../../../build/ros2trace/ros2trace.egg-info/dependency_links.txt
+[2.123s] writing entry points to ../../../build/ros2trace/ros2trace.egg-info/entry_points.txt
+[2.124s] writing requirements to ../../../build/ros2trace/ros2trace.egg-info/requires.txt
+[2.124s] writing top-level names to ../../../build/ros2trace/ros2trace.egg-info/top_level.txt
+[2.124s] writing manifest file '../../../build/ros2trace/ros2trace.egg-info/SOURCES.txt'
+[2.129s] reading manifest file '../../../build/ros2trace/ros2trace.egg-info/SOURCES.txt'
+[2.131s] writing manifest file '../../../build/ros2trace/ros2trace.egg-info/SOURCES.txt'
+[2.132s] running build
+[2.132s] running build_py
+[2.132s] creating /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/build/ros2trace/build
+[2.133s] creating /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/build/ros2trace/build/lib
+[2.133s] creating /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/build/ros2trace/build/lib/ros2trace
+[2.133s] copying ros2trace/__init__.py -> /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/build/ros2trace/build/lib/ros2trace
+[2.133s] creating /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/build/ros2trace/build/lib/ros2trace/command
+[2.134s] copying ros2trace/command/trace.py -> /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/build/ros2trace/build/lib/ros2trace/command
+[2.134s] copying ros2trace/command/__init__.py -> /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/build/ros2trace/build/lib/ros2trace/command
+[2.134s] creating /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/build/ros2trace/build/lib/ros2trace/api
+[2.134s] copying ros2trace/api/__init__.py -> /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/build/ros2trace/build/lib/ros2trace/api
+[2.135s] running install
+[2.136s] running install_lib
+[2.138s] creating /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/install/ros2trace/lib/python3.10/site-packages/ros2trace
+[2.139s] creating /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/install/ros2trace/lib/python3.10/site-packages/ros2trace/command
+[2.139s] copying /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/build/ros2trace/build/lib/ros2trace/command/trace.py -> /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/install/ros2trace/lib/python3.10/site-packages/ros2trace/command
+[2.139s] copying /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/build/ros2trace/build/lib/ros2trace/command/__init__.py -> /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/install/ros2trace/lib/python3.10/site-packages/ros2trace/command
+[2.140s] copying /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/build/ros2trace/build/lib/ros2trace/__init__.py -> /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/install/ros2trace/lib/python3.10/site-packages/ros2trace
+[2.140s] creating /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/install/ros2trace/lib/python3.10/site-packages/ros2trace/api
+[2.140s] copying /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/build/ros2trace/build/lib/ros2trace/api/__init__.py -> /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/install/ros2trace/lib/python3.10/site-packages/ros2trace/api
+[2.142s] byte-compiling /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/install/ros2trace/lib/python3.10/site-packages/ros2trace/command/trace.py to trace.cpython-310.pyc
+[2.143s] byte-compiling /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/install/ros2trace/lib/python3.10/site-packages/ros2trace/command/__init__.py to __init__.cpython-310.pyc
+[2.144s] byte-compiling /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/install/ros2trace/lib/python3.10/site-packages/ros2trace/__init__.py to __init__.cpython-310.pyc
+[2.144s] byte-compiling /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/install/ros2trace/lib/python3.10/site-packages/ros2trace/api/__init__.py to __init__.cpython-310.pyc
+[2.144s] running install_data
+[2.145s] copying package.xml -> /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/install/ros2trace/share/ros2trace
+[2.145s] creating /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/install/ros2trace/share/ament_index
+[2.146s] creating /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/install/ros2trace/share/ament_index/resource_index
+[2.146s] creating /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/install/ros2trace/share/ament_index/resource_index/packages
+[2.146s] copying resource/ros2trace -> /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/install/ros2trace/share/ament_index/resource_index/packages
+[2.146s] running install_egg_info
+[2.151s] Copying ../../../build/ros2trace/ros2trace.egg-info to /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/install/ros2trace/lib/python3.10/site-packages/ros2trace-4.1.1-py3.10.egg-info
+[2.155s] running install_scripts
+[2.219s] writing list of installed files to '/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/build/ros2trace/install.log'
+[2.270s] Invoked command in '/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/uros/tracetools/ros2trace' returned '0': AMENT_PREFIX_PATH=/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/install/tracetools_trace:${AMENT_PREFIX_PATH} PYTHONPATH=/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/build/ros2trace/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/install/ros2trace/lib/python3.10/site-packages:/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/install/tracetools_trace/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py egg_info --egg-base ../../../build/ros2trace build --build-base /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/build/ros2trace/build install --record /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/build/ros2trace/install.log --single-version-externally-managed install_data

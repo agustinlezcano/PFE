@@ -1,0 +1,9 @@
+[01m[K/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/uros/rclc/rclc/src/rclc/executor_handle.c:[m[K In function '[01m[Krclc_executor_handle_print[m[K':
+[01m[K/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/uros/rclc/rclc/src/rclc/executor_handle.c:84:10:[m[K [01;35m[Kwarning: [m[Kvariable '[01m[KtypeName[m[K' set but not used [[01;35m[K-Wunused-but-set-variable[m[K]
+   char * [01;35m[KtypeName[m[K;
+          [01;35m[K^~~~~~~~[m[K
+[01m[K/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/uros/rclc/rclc/src/rclc/sleep.c:[m[K In function '[01m[Krclc_sleep_ms[m[K':
+[01m[K/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/uros/rclc/rclc/src/rclc/sleep.c:32:3:[m[K [01;35m[Kwarning: [m[Kimplicit declaration of function '[01m[Kusleep[m[K'; did you mean '[01m[Ksleep[m[K'? [[01;35m[K-Wimplicit-function-declaration[m[K]
+   [01;35m[Kusleep[m[K(ms * 1000);
+   [01;35m[K^~~~~~[m[K
+   [32m[Ksleep[m[K

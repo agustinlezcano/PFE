@@ -1,0 +1,10 @@
+/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/build/micro_ros_utilities/CMakeFiles/uninstall.dir
+/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/build/micro_ros_utilities/CMakeFiles/micro_ros_utilities_uninstall.dir
+/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/build/micro_ros_utilities/CMakeFiles/micro_ros_utilities.dir
+/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/build/micro_ros_utilities/CMakeFiles/test.dir
+/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/build/micro_ros_utilities/CMakeFiles/edit_cache.dir
+/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/build/micro_ros_utilities/CMakeFiles/rebuild_cache.dir
+/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/build/micro_ros_utilities/CMakeFiles/list_install_components.dir
+/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/build/micro_ros_utilities/CMakeFiles/install.dir
+/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/build/micro_ros_utilities/CMakeFiles/install/local.dir
+/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/build/micro_ros_utilities/CMakeFiles/install/strip.dir

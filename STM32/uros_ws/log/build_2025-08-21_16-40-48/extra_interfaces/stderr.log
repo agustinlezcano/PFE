@@ -1,0 +1,6 @@
+[31mCMake Error at cmake_install.cmake:584 (file):
+  file INSTALL cannot find
+  "/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/src/extra_interfaces/scripts/create_firmware_ws.sh":
+  No such file or directory.
+
+[0m

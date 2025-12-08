@@ -1,0 +1,23 @@
+{
+  "package_name": "test_msgs",
+  "non_idl_tuples": [
+    "/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/install/test_interface_files/share/test_interface_files:msg/Arrays.msg",
+    "/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/install/test_interface_files/share/test_interface_files:msg/BasicTypes.msg",
+    "/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/install/test_interface_files/share/test_interface_files:msg/BoundedPlainSequences.msg",
+    "/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/install/test_interface_files/share/test_interface_files:msg/BoundedSequences.msg",
+    "/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/install/test_interface_files/share/test_interface_files:msg/Constants.msg",
+    "/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/install/test_interface_files/share/test_interface_files:msg/Defaults.msg",
+    "/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/install/test_interface_files/share/test_interface_files:msg/Empty.msg",
+    "/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/install/test_interface_files/share/test_interface_files:msg/MultiNested.msg",
+    "/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/install/test_interface_files/share/test_interface_files:msg/Nested.msg",
+    "/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/install/test_interface_files/share/test_interface_files:msg/Strings.msg",
+    "/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/install/test_interface_files/share/test_interface_files:msg/UnboundedSequences.msg",
+    "/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/install/test_interface_files/share/test_interface_files:msg/WStrings.msg",
+    "/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/install/test_interface_files/share/test_interface_files:srv/Arrays.srv",
+    "/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/install/test_interface_files/share/test_interface_files:srv/BasicTypes.srv",
+    "/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/install/test_interface_files/share/test_interface_files:srv/Empty.srv",
+    "/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/install/test_interface_files/share/test_interface_files:action/Fibonacci.action",
+    "/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/ros2/rcl_interfaces/test_msgs:msg/Builtins.msg",
+    "/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/ros2/rcl_interfaces/test_msgs:action/NestedMessage.action"
+  ]
+}

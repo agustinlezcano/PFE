@@ -1,0 +1,10 @@
+/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/build/micro_ros_agent/CMakeFiles/uninstall.dir
+/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/build/micro_ros_agent/CMakeFiles/micro_ros_agent_uninstall.dir
+/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/build/micro_ros_agent/CMakeFiles/micro_ros_agent.dir
+/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/build/micro_ros_agent/CMakeFiles/test.dir
+/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/build/micro_ros_agent/CMakeFiles/edit_cache.dir
+/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/build/micro_ros_agent/CMakeFiles/rebuild_cache.dir
+/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/build/micro_ros_agent/CMakeFiles/list_install_components.dir
+/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/build/micro_ros_agent/CMakeFiles/install.dir
+/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/build/micro_ros_agent/CMakeFiles/install/local.dir
+/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/build/micro_ros_agent/CMakeFiles/install/strip.dir

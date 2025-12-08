@@ -1,0 +1,17 @@
+/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/build/rcl_interfaces/rosidl_adapter/rcl_interfaces:msg/FloatingPointRange.idl
+/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/build/rcl_interfaces/rosidl_adapter/rcl_interfaces:msg/IntegerRange.idl
+/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/build/rcl_interfaces/rosidl_adapter/rcl_interfaces:msg/ListParametersResult.idl
+/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/build/rcl_interfaces/rosidl_adapter/rcl_interfaces:msg/Log.idl
+/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/build/rcl_interfaces/rosidl_adapter/rcl_interfaces:msg/ParameterDescriptor.idl
+/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/build/rcl_interfaces/rosidl_adapter/rcl_interfaces:msg/ParameterEventDescriptors.idl
+/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/build/rcl_interfaces/rosidl_adapter/rcl_interfaces:msg/ParameterEvent.idl
+/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/build/rcl_interfaces/rosidl_adapter/rcl_interfaces:msg/Parameter.idl
+/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/build/rcl_interfaces/rosidl_adapter/rcl_interfaces:msg/ParameterType.idl
+/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/build/rcl_interfaces/rosidl_adapter/rcl_interfaces:msg/ParameterValue.idl
+/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/build/rcl_interfaces/rosidl_adapter/rcl_interfaces:msg/SetParametersResult.idl
+/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/build/rcl_interfaces/rosidl_adapter/rcl_interfaces:srv/DescribeParameters.idl
+/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/build/rcl_interfaces/rosidl_adapter/rcl_interfaces:srv/GetParameters.idl
+/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/build/rcl_interfaces/rosidl_adapter/rcl_interfaces:srv/GetParameterTypes.idl
+/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/build/rcl_interfaces/rosidl_adapter/rcl_interfaces:srv/ListParameters.idl
+/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/build/rcl_interfaces/rosidl_adapter/rcl_interfaces:srv/SetParametersAtomically.idl
+/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/build/rcl_interfaces/rosidl_adapter/rcl_interfaces:srv/SetParameters.idl

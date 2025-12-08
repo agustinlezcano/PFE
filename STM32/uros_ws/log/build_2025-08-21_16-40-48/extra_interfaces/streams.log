@@ -1,0 +1,189 @@
+[0.030s] Invoking command in '/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/build/extra_interfaces': CMAKE_PREFIX_PATH=/opt/ros/humble /usr/bin/cmake --build /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/build/extra_interfaces -- -j4 -l4
+[0.108s] -- Found ament_cmake: 1.3.12 (/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/dev_ws/install/ament_cmake/share/ament_cmake/cmake)
+[0.353s] -- Found ament_lint_auto: 0.12.14 (/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/dev_ws/install/ament_lint_auto/share/ament_lint_auto/cmake)
+[0.483s] -- Found rosidl_adapter: 3.1.7 (/opt/ros/humble/share/rosidl_adapter/cmake)
+[0.488s] -- Found rosidl_default_generators: 1.2.0 (/opt/ros/humble/share/rosidl_default_generators/cmake)
+[0.495s] -- Using all available rosidl_typesupport_c: rosidl_typesupport_fastrtps_c;rosidl_typesupport_introspection_c
+[0.577s] -- Using all available rosidl_typesupport_cpp: rosidl_typesupport_fastrtps_cpp;rosidl_typesupport_introspection_cpp
+[0.639s] -- Found std_msgs: 4.9.0 (/opt/ros/humble/share/std_msgs/cmake)
+[1.090s] -- Found ament_cmake_ros: 0.10.0 (/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/dev_ws/install/ament_cmake_ros/share/ament_cmake_ros/cmake)
+[1.530s] -- Using all available rosidl_typesupport_c: rosidl_typesupport_fastrtps_c;rosidl_typesupport_introspection_c
+[2.095s] -- Using all available rosidl_typesupport_cpp: rosidl_typesupport_fastrtps_cpp;rosidl_typesupport_introspection_cpp
+[2.166s] -- Found python_cmake_module: 0.10.0 (/opt/ros/humble/share/python_cmake_module/cmake)
+[2.207s] -- Using PYTHON_EXECUTABLE: /usr/bin/python3
+[2.207s] -- Using PYTHON_INCLUDE_DIRS: /usr/include/python3.10
+[2.207s] -- Using PYTHON_LIBRARIES: /usr/lib/x86_64-linux-gnu/libpython3.10.so
+[2.265s] -- Added test 'lint_cmake' to check CMake code style
+[2.268s] -- Added test 'xmllint' to check XML markup files
+[2.278s] -- Configuring done
+[2.373s] -- Generating done
+[2.396s] -- Build files have been written to: /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/build/extra_interfaces
+[2.447s] [35m[1mConsolidate compiler generated dependencies of target extra_interfaces__rosidl_generator_c[0m
+[2.469s] [  3%] Built target extra_interfaces__cpp
+[2.482s] [ 12%] Built target extra_interfaces__rosidl_generator_c
+[2.490s] [ 12%] Built target ament_cmake_python_copy_extra_interfaces
+[2.496s] [35m[1mConsolidate compiler generated dependencies of target extra_interfaces__rosidl_typesupport_cpp[0m
+[2.499s] [35m[1mConsolidate compiler generated dependencies of target extra_interfaces__rosidl_typesupport_fastrtps_cpp[0m
+[2.508s] [35m[1mConsolidate compiler generated dependencies of target extra_interfaces__rosidl_typesupport_introspection_cpp[0m
+[2.517s] [35m[1mConsolidate compiler generated dependencies of target extra_interfaces__rosidl_typesupport_fastrtps_c[0m
+[2.543s] [ 32%] Built target extra_interfaces__rosidl_typesupport_cpp
+[2.544s] [ 32%] Built target extra_interfaces__rosidl_typesupport_introspection_cpp
+[2.544s] [ 35%] [32mBuilding CXX object CMakeFiles/extra_interfaces__rosidl_typesupport_fastrtps_cpp.dir/rosidl_typesupport_fastrtps_cpp/extra_interfaces/msg/detail/dds_fastrtps/trama__type_support.cpp.o[0m
+[2.553s] [ 38%] [32mBuilding CXX object CMakeFiles/extra_interfaces__rosidl_typesupport_fastrtps_c.dir/rosidl_typesupport_fastrtps_c/extra_interfaces/msg/detail/trama__type_support_c.cpp.o[0m
+[2.570s] [35m[1mConsolidate compiler generated dependencies of target extra_interfaces__rosidl_typesupport_introspection_c[0m
+[2.571s] [35m[1mConsolidate compiler generated dependencies of target extra_interfaces__rosidl_typesupport_c[0m
+[2.594s] [ 51%] Built target extra_interfaces__rosidl_typesupport_c
+[2.594s] [ 58%] Built target extra_interfaces__rosidl_typesupport_introspection_c
+[3.220s] running egg_info
+[3.222s] writing extra_interfaces.egg-info/PKG-INFO
+[3.223s] writing dependency_links to extra_interfaces.egg-info/dependency_links.txt
+[3.223s] writing top-level names to extra_interfaces.egg-info/top_level.txt
+[3.230s] reading manifest file 'extra_interfaces.egg-info/SOURCES.txt'
+[3.232s] writing manifest file 'extra_interfaces.egg-info/SOURCES.txt'
+[3.301s] [ 58%] Built target ament_cmake_python_build_extra_interfaces_egg
+[3.429s] [ 61%] [32m[1mLinking CXX static library libextra_interfaces__rosidl_typesupport_fastrtps_c.a[0m
+[3.591s] [ 64%] [32m[1mLinking CXX static library libextra_interfaces__rosidl_typesupport_fastrtps_cpp.a[0m
+[3.855s] [ 67%] Built target extra_interfaces__rosidl_typesupport_fastrtps_cpp
+[3.855s] [ 70%] Built target extra_interfaces__rosidl_typesupport_fastrtps_c
+[3.891s] [ 70%] Built target extra_interfaces
+[3.928s] [ 74%] Built target extra_interfaces__py
+[3.947s] [35m[1mConsolidate compiler generated dependencies of target extra_interfaces__rosidl_generator_py[0m
+[3.979s] [ 80%] Built target extra_interfaces__rosidl_generator_py
+[3.999s] [35m[1mConsolidate compiler generated dependencies of target extra_interfaces__rosidl_typesupport_introspection_c__pyext[0m
+[4.004s] [35m[1mConsolidate compiler generated dependencies of target extra_interfaces__rosidl_typesupport_fastrtps_c__pyext[0m
+[4.006s] [35m[1mConsolidate compiler generated dependencies of target extra_interfaces__rosidl_typesupport_c__pyext[0m
+[4.028s] [ 87%] Built target extra_interfaces__rosidl_typesupport_introspection_c__pyext
+[4.030s] [ 90%] [32m[1mLinking CXX shared library rosidl_generator_py/extra_interfaces/extra_interfaces_s__rosidl_typesupport_fastrtps_c.cpython-310-x86_64-linux-gnu.so[0m
+[4.037s] [ 96%] Built target extra_interfaces__rosidl_typesupport_c__pyext
+[4.173s] [100%] Built target extra_interfaces__rosidl_typesupport_fastrtps_c__pyext
+[4.193s] Invoked command in '/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/build/extra_interfaces' returned '0': CMAKE_PREFIX_PATH=/opt/ros/humble /usr/bin/cmake --build /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/build/extra_interfaces -- -j4 -l4
+[4.210s] Invoking command in '/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/build/extra_interfaces': CMAKE_PREFIX_PATH=/opt/ros/humble /usr/bin/cmake --install /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/build/extra_interfaces
+[4.224s] -- Install configuration: ""
+[4.225s] -- Up-to-date: /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/install/extra_interfaces/share/ament_index/resource_index/rosidl_interfaces/extra_interfaces
+[4.225s] -- Up-to-date: /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/install/extra_interfaces/include/extra_interfaces/extra_interfaces
+[4.225s] -- Up-to-date: /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/install/extra_interfaces/include/extra_interfaces/extra_interfaces/msg
+[4.226s] -- Up-to-date: /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/install/extra_interfaces/include/extra_interfaces/extra_interfaces/msg/detail
+[4.226s] -- Up-to-date: /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/install/extra_interfaces/include/extra_interfaces/extra_interfaces/msg/detail/trama__functions.h
+[4.226s] -- Up-to-date: /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/install/extra_interfaces/include/extra_interfaces/extra_interfaces/msg/detail/trama__functions.c
+[4.227s] -- Up-to-date: /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/install/extra_interfaces/include/extra_interfaces/extra_interfaces/msg/detail/trama__struct.h
+[4.227s] -- Up-to-date: /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/install/extra_interfaces/include/extra_interfaces/extra_interfaces/msg/detail/trama__type_support.h
+[4.227s] -- Up-to-date: /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/install/extra_interfaces/include/extra_interfaces/extra_interfaces/msg/trama.h
+[4.227s] -- Up-to-date: /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/install/extra_interfaces/include/extra_interfaces/extra_interfaces/msg/rosidl_generator_c__visibility_control.h
+[4.227s] -- Installing: /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/install/extra_interfaces/share/extra_interfaces/environment/library_path.sh
+[4.228s] -- Installing: /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/install/extra_interfaces/share/extra_interfaces/environment/library_path.dsv
+[4.228s] -- Up-to-date: /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/install/extra_interfaces/lib/libextra_interfaces__rosidl_generator_c.so
+[4.229s] -- Up-to-date: /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/install/extra_interfaces/include/extra_interfaces/extra_interfaces
+[4.229s] -- Up-to-date: /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/install/extra_interfaces/include/extra_interfaces/extra_interfaces/msg
+[4.229s] -- Up-to-date: /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/install/extra_interfaces/include/extra_interfaces/extra_interfaces/msg/detail
+[4.230s] -- Up-to-date: /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/install/extra_interfaces/include/extra_interfaces/extra_interfaces/msg/detail/trama__rosidl_typesupport_fastrtps_c.h
+[4.230s] -- Up-to-date: /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/install/extra_interfaces/include/extra_interfaces/extra_interfaces/msg/rosidl_typesupport_fastrtps_c__visibility_control.h
+[4.230s] -- Installing: /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/install/extra_interfaces/lib/libextra_interfaces__rosidl_typesupport_fastrtps_c.a
+[4.231s] -- Up-to-date: /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/install/extra_interfaces/include/extra_interfaces/extra_interfaces
+[4.231s] -- Up-to-date: /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/install/extra_interfaces/include/extra_interfaces/extra_interfaces/msg
+[4.231s] -- Up-to-date: /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/install/extra_interfaces/include/extra_interfaces/extra_interfaces/msg/rosidl_typesupport_introspection_c__visibility_control.h
+[4.231s] -- Up-to-date: /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/install/extra_interfaces/include/extra_interfaces/extra_interfaces/msg/detail
+[4.232s] -- Up-to-date: /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/install/extra_interfaces/include/extra_interfaces/extra_interfaces/msg/detail/trama__rosidl_typesupport_introspection_c.h
+[4.232s] -- Up-to-date: /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/install/extra_interfaces/include/extra_interfaces/extra_interfaces/msg/detail/trama__type_support.c
+[4.232s] -- Up-to-date: /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/install/extra_interfaces/lib/libextra_interfaces__rosidl_typesupport_introspection_c.so
+[4.232s] -- Up-to-date: /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/install/extra_interfaces/lib/libextra_interfaces__rosidl_typesupport_c.so
+[4.233s] -- Up-to-date: /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/install/extra_interfaces/include/extra_interfaces/extra_interfaces
+[4.233s] -- Up-to-date: /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/install/extra_interfaces/include/extra_interfaces/extra_interfaces/msg
+[4.234s] -- Up-to-date: /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/install/extra_interfaces/include/extra_interfaces/extra_interfaces/msg/trama.hpp
+[4.234s] -- Up-to-date: /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/install/extra_interfaces/include/extra_interfaces/extra_interfaces/msg/detail
+[4.234s] -- Up-to-date: /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/install/extra_interfaces/include/extra_interfaces/extra_interfaces/msg/detail/trama__type_support.hpp
+[4.235s] -- Up-to-date: /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/install/extra_interfaces/include/extra_interfaces/extra_interfaces/msg/detail/trama__builder.hpp
+[4.235s] -- Up-to-date: /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/install/extra_interfaces/include/extra_interfaces/extra_interfaces/msg/detail/trama__traits.hpp
+[4.235s] -- Up-to-date: /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/install/extra_interfaces/include/extra_interfaces/extra_interfaces/msg/detail/trama__struct.hpp
+[4.235s] -- Up-to-date: /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/install/extra_interfaces/include/extra_interfaces/extra_interfaces/msg/rosidl_generator_cpp__visibility_control.hpp
+[4.236s] -- Up-to-date: /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/install/extra_interfaces/include/extra_interfaces/extra_interfaces
+[4.236s] -- Up-to-date: /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/install/extra_interfaces/include/extra_interfaces/extra_interfaces/msg
+[4.236s] -- Up-to-date: /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/install/extra_interfaces/include/extra_interfaces/extra_interfaces/msg/rosidl_typesupport_fastrtps_cpp__visibility_control.h
+[4.236s] -- Up-to-date: /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/install/extra_interfaces/include/extra_interfaces/extra_interfaces/msg/detail
+[4.237s] -- Up-to-date: /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/install/extra_interfaces/include/extra_interfaces/extra_interfaces/msg/detail/dds_fastrtps
+[4.237s] -- Up-to-date: /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/install/extra_interfaces/include/extra_interfaces/extra_interfaces/msg/detail/trama__rosidl_typesupport_fastrtps_cpp.hpp
+[4.237s] -- Installing: /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/install/extra_interfaces/lib/libextra_interfaces__rosidl_typesupport_fastrtps_cpp.a
+[4.237s] -- Up-to-date: /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/install/extra_interfaces/include/extra_interfaces/extra_interfaces
+[4.238s] -- Up-to-date: /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/install/extra_interfaces/include/extra_interfaces/extra_interfaces/msg
+[4.238s] -- Up-to-date: /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/install/extra_interfaces/include/extra_interfaces/extra_interfaces/msg/detail
+[4.238s] -- Up-to-date: /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/install/extra_interfaces/include/extra_interfaces/extra_interfaces/msg/detail/trama__type_support.cpp
+[4.239s] -- Up-to-date: /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/install/extra_interfaces/include/extra_interfaces/extra_interfaces/msg/detail/trama__rosidl_typesupport_introspection_cpp.hpp
+[4.239s] -- Up-to-date: /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/install/extra_interfaces/lib/libextra_interfaces__rosidl_typesupport_introspection_cpp.so
+[4.239s] -- Up-to-date: /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/install/extra_interfaces/lib/libextra_interfaces__rosidl_typesupport_cpp.so
+[4.239s] -- Up-to-date: /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/install/extra_interfaces/share/extra_interfaces/environment/pythonpath.sh
+[4.240s] -- Installing: /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/install/extra_interfaces/share/extra_interfaces/environment/pythonpath.dsv
+[4.240s] -- Up-to-date: /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/install/extra_interfaces/local/lib/python3.10/dist-packages/extra_interfaces-0.0.0-py3.10.egg-info
+[4.240s] -- Installing: /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/install/extra_interfaces/local/lib/python3.10/dist-packages/extra_interfaces-0.0.0-py3.10.egg-info/dependency_links.txt
+[4.240s] -- Installing: /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/install/extra_interfaces/local/lib/python3.10/dist-packages/extra_interfaces-0.0.0-py3.10.egg-info/SOURCES.txt
+[4.241s] -- Installing: /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/install/extra_interfaces/local/lib/python3.10/dist-packages/extra_interfaces-0.0.0-py3.10.egg-info/PKG-INFO
+[4.241s] -- Installing: /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/install/extra_interfaces/local/lib/python3.10/dist-packages/extra_interfaces-0.0.0-py3.10.egg-info/top_level.txt
+[4.241s] -- Up-to-date: /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/install/extra_interfaces/local/lib/python3.10/dist-packages/extra_interfaces
+[4.242s] -- Up-to-date: /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/install/extra_interfaces/local/lib/python3.10/dist-packages/extra_interfaces/libextra_interfaces__rosidl_generator_py.so
+[4.242s] -- Installing: /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/install/extra_interfaces/local/lib/python3.10/dist-packages/extra_interfaces/extra_interfaces_s__rosidl_typesupport_fastrtps_c.cpython-310-x86_64-linux-gnu.so
+[4.242s] -- Up-to-date: /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/install/extra_interfaces/local/lib/python3.10/dist-packages/extra_interfaces/_extra_interfaces_s.ep.rosidl_typesupport_c.c
+[4.243s] -- Up-to-date: /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/install/extra_interfaces/local/lib/python3.10/dist-packages/extra_interfaces/extra_interfaces_s__rosidl_typesupport_c.cpython-310-x86_64-linux-gnu.so
+[4.243s] -- Up-to-date: /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/install/extra_interfaces/local/lib/python3.10/dist-packages/extra_interfaces/_extra_interfaces_s.ep.rosidl_typesupport_introspection_c.c
+[4.243s] -- Installing: /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/install/extra_interfaces/local/lib/python3.10/dist-packages/extra_interfaces/__init__.py
+[4.243s] -- Up-to-date: /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/install/extra_interfaces/local/lib/python3.10/dist-packages/extra_interfaces/extra_interfaces_s__rosidl_typesupport_introspection_c.cpython-310-x86_64-linux-gnu.so
+[4.243s] -- Up-to-date: /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/install/extra_interfaces/local/lib/python3.10/dist-packages/extra_interfaces/msg
+[4.244s] -- Up-to-date: /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/install/extra_interfaces/local/lib/python3.10/dist-packages/extra_interfaces/msg/_trama_s.c
+[4.244s] -- Up-to-date: /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/install/extra_interfaces/local/lib/python3.10/dist-packages/extra_interfaces/msg/__init__.py
+[4.244s] -- Up-to-date: /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/install/extra_interfaces/local/lib/python3.10/dist-packages/extra_interfaces/msg/_trama.py
+[4.244s] -- Up-to-date: /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/install/extra_interfaces/local/lib/python3.10/dist-packages/extra_interfaces/_extra_interfaces_s.ep.rosidl_typesupport_fastrtps_c.c
+[4.300s] Listing '/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/install/extra_interfaces/local/lib/python3.10/dist-packages/extra_interfaces'...
+[4.301s] Compiling '/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/install/extra_interfaces/local/lib/python3.10/dist-packages/extra_interfaces/__init__.py'...
+[4.301s] Listing '/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/install/extra_interfaces/local/lib/python3.10/dist-packages/extra_interfaces/msg'...
+[4.309s] -- Installing: /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/install/extra_interfaces/local/lib/python3.10/dist-packages/extra_interfaces/extra_interfaces_s__rosidl_typesupport_fastrtps_c.cpython-310-x86_64-linux-gnu.so
+[4.310s] -- Set runtime path of "/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/install/extra_interfaces/local/lib/python3.10/dist-packages/extra_interfaces/extra_interfaces_s__rosidl_typesupport_fastrtps_c.cpython-310-x86_64-linux-gnu.so" to ""
+[4.310s] -- Up-to-date: /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/install/extra_interfaces/local/lib/python3.10/dist-packages/extra_interfaces/extra_interfaces_s__rosidl_typesupport_introspection_c.cpython-310-x86_64-linux-gnu.so
+[4.311s] -- Up-to-date: /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/install/extra_interfaces/local/lib/python3.10/dist-packages/extra_interfaces/extra_interfaces_s__rosidl_typesupport_c.cpython-310-x86_64-linux-gnu.so
+[4.313s] -- Up-to-date: /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/install/extra_interfaces/lib/libextra_interfaces__rosidl_generator_py.so
+[4.313s] -- Up-to-date: /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/install/extra_interfaces/share/extra_interfaces/msg/Trama.idl
+[4.314s] -- Installing: /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/install/extra_interfaces/share/extra_interfaces/msg/Trama.msg
+[4.314s] -- Up-to-date: /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/install/extra_interfaces/share/ament_index/resource_index/package_run_dependencies/extra_interfaces
+[4.314s] -- Installing: /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/install/extra_interfaces/share/ament_index/resource_index/parent_prefix_path/extra_interfaces
+[4.315s] -- Up-to-date: /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/install/extra_interfaces/share/extra_interfaces/environment/ament_prefix_path.sh
+[4.315s] -- Installing: /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/install/extra_interfaces/share/extra_interfaces/environment/ament_prefix_path.dsv
+[4.315s] -- Up-to-date: /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/install/extra_interfaces/share/extra_interfaces/environment/path.sh
+[4.315s] -- Installing: /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/install/extra_interfaces/share/extra_interfaces/environment/path.dsv
+[4.315s] -- Up-to-date: /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/install/extra_interfaces/share/extra_interfaces/local_setup.bash
+[4.316s] -- Up-to-date: /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/install/extra_interfaces/share/extra_interfaces/local_setup.sh
+[4.316s] -- Up-to-date: /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/install/extra_interfaces/share/extra_interfaces/local_setup.zsh
+[4.316s] -- Installing: /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/install/extra_interfaces/share/extra_interfaces/local_setup.dsv
+[4.316s] -- Installing: /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/install/extra_interfaces/share/extra_interfaces/package.dsv
+[4.317s] -- Up-to-date: /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/install/extra_interfaces/share/ament_index/resource_index/packages/extra_interfaces
+[4.317s] -- Up-to-date: /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/install/extra_interfaces/share/extra_interfaces/cmake/export_extra_interfaces__rosidl_generator_cExport.cmake
+[4.318s] -- Up-to-date: /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/install/extra_interfaces/share/extra_interfaces/cmake/export_extra_interfaces__rosidl_generator_cExport-noconfig.cmake
+[4.318s] -- Old export file "/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/install/extra_interfaces/share/extra_interfaces/cmake/export_extra_interfaces__rosidl_typesupport_fastrtps_cExport.cmake" will be replaced.  Removing files [/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/install/extra_interfaces/share/extra_interfaces/cmake/export_extra_interfaces__rosidl_typesupport_fastrtps_cExport-noconfig.cmake].
+[4.318s] -- Installing: /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/install/extra_interfaces/share/extra_interfaces/cmake/export_extra_interfaces__rosidl_typesupport_fastrtps_cExport.cmake
+[4.318s] -- Installing: /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/install/extra_interfaces/share/extra_interfaces/cmake/export_extra_interfaces__rosidl_typesupport_fastrtps_cExport-noconfig.cmake
+[4.319s] -- Up-to-date: /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/install/extra_interfaces/share/extra_interfaces/cmake/extra_interfaces__rosidl_typesupport_introspection_cExport.cmake
+[4.319s] -- Up-to-date: /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/install/extra_interfaces/share/extra_interfaces/cmake/extra_interfaces__rosidl_typesupport_introspection_cExport-noconfig.cmake
+[4.320s] -- Up-to-date: /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/install/extra_interfaces/share/extra_interfaces/cmake/extra_interfaces__rosidl_typesupport_cExport.cmake
+[4.320s] -- Up-to-date: /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/install/extra_interfaces/share/extra_interfaces/cmake/extra_interfaces__rosidl_typesupport_cExport-noconfig.cmake
+[4.320s] -- Up-to-date: /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/install/extra_interfaces/share/extra_interfaces/cmake/export_extra_interfaces__rosidl_generator_cppExport.cmake
+[4.321s] -- Old export file "/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/install/extra_interfaces/share/extra_interfaces/cmake/export_extra_interfaces__rosidl_typesupport_fastrtps_cppExport.cmake" will be replaced.  Removing files [/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/install/extra_interfaces/share/extra_interfaces/cmake/export_extra_interfaces__rosidl_typesupport_fastrtps_cppExport-noconfig.cmake].
+[4.321s] -- Installing: /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/install/extra_interfaces/share/extra_interfaces/cmake/export_extra_interfaces__rosidl_typesupport_fastrtps_cppExport.cmake
+[4.321s] -- Installing: /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/install/extra_interfaces/share/extra_interfaces/cmake/export_extra_interfaces__rosidl_typesupport_fastrtps_cppExport-noconfig.cmake
+[4.322s] -- Up-to-date: /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/install/extra_interfaces/share/extra_interfaces/cmake/extra_interfaces__rosidl_typesupport_introspection_cppExport.cmake
+[4.322s] -- Up-to-date: /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/install/extra_interfaces/share/extra_interfaces/cmake/extra_interfaces__rosidl_typesupport_introspection_cppExport-noconfig.cmake
+[4.322s] -- Up-to-date: /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/install/extra_interfaces/share/extra_interfaces/cmake/extra_interfaces__rosidl_typesupport_cppExport.cmake
+[4.323s] -- Up-to-date: /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/install/extra_interfaces/share/extra_interfaces/cmake/extra_interfaces__rosidl_typesupport_cppExport-noconfig.cmake
+[4.323s] -- Up-to-date: /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/install/extra_interfaces/share/extra_interfaces/cmake/export_extra_interfaces__rosidl_generator_pyExport.cmake
+[4.323s] -- Up-to-date: /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/install/extra_interfaces/share/extra_interfaces/cmake/export_extra_interfaces__rosidl_generator_pyExport-noconfig.cmake
+[4.323s] -- Up-to-date: /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/install/extra_interfaces/share/extra_interfaces/cmake/rosidl_cmake-extras.cmake
+[4.323s] -- Up-to-date: /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/install/extra_interfaces/share/extra_interfaces/cmake/ament_cmake_export_dependencies-extras.cmake
+[4.324s] -- Up-to-date: /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/install/extra_interfaces/share/extra_interfaces/cmake/ament_cmake_export_include_directories-extras.cmake
+[4.324s] -- Up-to-date: /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/install/extra_interfaces/share/extra_interfaces/cmake/ament_cmake_export_libraries-extras.cmake
+[4.324s] -- Up-to-date: /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/install/extra_interfaces/share/extra_interfaces/cmake/ament_cmake_export_targets-extras.cmake
+[4.324s] -- Up-to-date: /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/install/extra_interfaces/share/extra_interfaces/cmake/rosidl_cmake_export_typesupport_targets-extras.cmake
+[4.325s] -- Up-to-date: /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/install/extra_interfaces/share/extra_interfaces/cmake/rosidl_cmake_export_typesupport_libraries-extras.cmake
+[4.325s] -- Up-to-date: /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/install/extra_interfaces/share/extra_interfaces/cmake/extra_interfacesConfig.cmake
+[4.325s] -- Up-to-date: /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/install/extra_interfaces/share/extra_interfaces/cmake/extra_interfacesConfig-version.cmake
+[4.325s] -- Up-to-date: /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/install/extra_interfaces/share/extra_interfaces/package.xml
+[4.325s] [31mCMake Error at cmake_install.cmake:584 (file):
+[4.325s]   file INSTALL cannot find
+[4.326s]   "/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/src/extra_interfaces/scripts/create_firmware_ws.sh":
+[4.326s]   No such file or directory.
+[4.326s] 
+[4.326s] [0m
+[4.328s] Invoked command in '/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/build/extra_interfaces' returned '1': CMAKE_PREFIX_PATH=/opt/ros/humble /usr/bin/cmake --install /home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/build/extra_interfaces

@@ -1,0 +1,15 @@
+/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/install/common_interfaces/share/ament_index/resource_index/package_run_dependencies/common_interfaces
+/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/install/common_interfaces/share/ament_index/resource_index/parent_prefix_path/common_interfaces
+/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/install/common_interfaces/share/common_interfaces/environment/ament_prefix_path.sh
+/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/install/common_interfaces/share/common_interfaces/environment/ament_prefix_path.dsv
+/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/install/common_interfaces/share/common_interfaces/environment/path.sh
+/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/install/common_interfaces/share/common_interfaces/environment/path.dsv
+/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/install/common_interfaces/share/common_interfaces/local_setup.bash
+/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/install/common_interfaces/share/common_interfaces/local_setup.sh
+/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/install/common_interfaces/share/common_interfaces/local_setup.zsh
+/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/install/common_interfaces/share/common_interfaces/local_setup.dsv
+/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/install/common_interfaces/share/common_interfaces/package.dsv
+/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/install/common_interfaces/share/ament_index/resource_index/packages/common_interfaces
+/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/install/common_interfaces/share/common_interfaces/cmake/common_interfacesConfig.cmake
+/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/install/common_interfaces/share/common_interfaces/cmake/common_interfacesConfig-version.cmake
+/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/install/common_interfaces/share/common_interfaces/package.xml

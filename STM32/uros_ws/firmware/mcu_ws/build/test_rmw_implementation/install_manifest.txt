@@ -1,0 +1,15 @@
+/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/install/test_rmw_implementation/share/ament_index/resource_index/package_run_dependencies/test_rmw_implementation
+/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/install/test_rmw_implementation/share/ament_index/resource_index/parent_prefix_path/test_rmw_implementation
+/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/install/test_rmw_implementation/share/test_rmw_implementation/environment/ament_prefix_path.sh
+/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/install/test_rmw_implementation/share/test_rmw_implementation/environment/ament_prefix_path.dsv
+/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/install/test_rmw_implementation/share/test_rmw_implementation/environment/path.sh
+/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/install/test_rmw_implementation/share/test_rmw_implementation/environment/path.dsv
+/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/install/test_rmw_implementation/share/test_rmw_implementation/local_setup.bash
+/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/install/test_rmw_implementation/share/test_rmw_implementation/local_setup.sh
+/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/install/test_rmw_implementation/share/test_rmw_implementation/local_setup.zsh
+/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/install/test_rmw_implementation/share/test_rmw_implementation/local_setup.dsv
+/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/install/test_rmw_implementation/share/test_rmw_implementation/package.dsv
+/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/install/test_rmw_implementation/share/ament_index/resource_index/packages/test_rmw_implementation
+/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/install/test_rmw_implementation/share/test_rmw_implementation/cmake/test_rmw_implementationConfig.cmake
+/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/install/test_rmw_implementation/share/test_rmw_implementation/cmake/test_rmw_implementationConfig-version.cmake
+/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/firmware/mcu_ws/install/test_rmw_implementation/share/test_rmw_implementation/package.xml

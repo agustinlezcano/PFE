@@ -1,0 +1,13 @@
+# Target labels
+ xrceagent
+# Source files and their labels
+/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/build/micro_ros_agent/CMakeFiles/xrceagent
+/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/build/micro_ros_agent/CMakeFiles/xrceagent.rule
+/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/build/micro_ros_agent/CMakeFiles/xrceagent-complete.rule
+/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/build/micro_ros_agent/agent/src/xrceagent-stamp/xrceagent-build.rule
+/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/build/micro_ros_agent/agent/src/xrceagent-stamp/xrceagent-configure.rule
+/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/build/micro_ros_agent/agent/src/xrceagent-stamp/xrceagent-download.rule
+/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/build/micro_ros_agent/agent/src/xrceagent-stamp/xrceagent-install.rule
+/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/build/micro_ros_agent/agent/src/xrceagent-stamp/xrceagent-mkdir.rule
+/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/build/micro_ros_agent/agent/src/xrceagent-stamp/xrceagent-patch.rule
+/home/agustin/STM32CubeIDE/workspace_1.19.0/testURosSetup/uros_ws/build/micro_ros_agent/agent/src/xrceagent-stamp/xrceagent-update.rule

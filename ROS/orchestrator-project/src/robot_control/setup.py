@@ -21,7 +21,9 @@ setup(
     entry_points={
         'console_scripts': [
 		'talker = robot_control.publisher:main',
-		'listener = robot_control.subscriber:main'
+		'listener = robot_control.subscriber:main',
+		'talker_ui = robot_control.main_with_ui:main',
+		'robot_ui = robot_control.robot_ui_node:main',
         ],
     },
 )
