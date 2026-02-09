@@ -1,7 +1,7 @@
 from .orchestrator import Orchestrator
 from .traj_utils import TrajectoryUtils as traj_utils#impor w/ as
 import matplotlib.pyplot as plt
-import numpy as nps
+import numpy as np
 
 def initialize_and_generate_trajectory():
     # Initialize the orchestrator and start the system

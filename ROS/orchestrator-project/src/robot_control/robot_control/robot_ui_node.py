@@ -85,7 +85,7 @@ class RobotUINode(Node):
                 if choice in handlers:
                     handlers[choice]()
                 else:
-                    print("Opción inválida. Por favor, intenta de nuevo (1-8).")
+                    print("Opción inválida. Por favor, intenta de nuevo (1-9).")
                 
                 time.sleep(0.1)
             
