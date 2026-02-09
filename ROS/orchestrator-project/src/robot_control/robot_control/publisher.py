@@ -103,11 +103,13 @@ class MinimalPublisher(Node):
 
         timer_period = 0.5  # seconds [0.01] -- Usado en timers [TEST]
         
-        # Initialize trajectory arrays (needed for custom_callback if used)
-        self.sArray = []
-        self.sdArray = []
-        self.sddArray = []
-        self.t = []
+        # Initialize trajectory arrays for LSPB trajectory generation
+        # Used by custom_callback() for publishing trajectory data
+        # These arrays store position (s), velocity (sd), and acceleration (sdd) profiles
+        self.sArray = []    # type: list[float] - Position array
+        self.sdArray = []   # type: list[float] - Velocity array  
+        self.sddArray = []  # type: list[float] - Acceleration array
+        self.t = []         # type: list[float] - Time array
         # Uncomment if trajectory generation is needed at init:
         # self.sArray, self.sdArray, self.sddArray, self.t = initialize_and_generate_trajectory()
         
@@ -349,6 +351,9 @@ class MinimalPublisher(Node):
                 self.doCmd(point.q1, point.q2, point.q3)
             elif point.is_cartesian():
                 self.doInvKin(point.x, point.y, point.z)
+            else:
+                self.get_logger().warn(f'Punto de trayectoria sin coordenadas válidas (ni joint ni cartesian) - saltando')
+                continue
             
             time.sleep(delay)
 
