@@ -34,10 +34,11 @@ class JointLimits:
         self.y_max = 0.5
         self.z_min = 0.0
         self.z_max = 0.5
-        # Límites articulares en radianes
+        
+        # Límites articulares en formato de lista (en grados, igual que arriba)
         # Q1, Q2, Q3
-        self.q_min = [-90, 60, -25]  # -180°
-        self.q_max = [90, 157, 65]     # +180°
+        self.q_min = [-90, 60, -25]
+        self.q_max = [90, 157, 65]
         
         # Velocidad angular máxima (rad/s)
         self.q_vel_max = [1.57, 1.57, 1.57]  # ~90°/s
@@ -121,7 +122,7 @@ class LimitsValidator:
         Valida una posición articular.
         
         Args:
-            q1, q2, q3: Ángulos articulares en radianes
+            q1, q2, q3: Ángulos articulares en grados
             
         Returns:
             Tupla (válido, mensaje)

@@ -1,6 +1,6 @@
 import rclpy
 from rclpy.node import Node
-from .main import *
+from .main import initialize_and_generate_trajectory
 from .limits_validator import LimitsValidator
 from .trajectory_reader import CSVTrajectoryReader
 
@@ -102,8 +102,22 @@ class MinimalPublisher(Node):
             10)
 
         timer_period = 0.5  # seconds [0.01] -- Usado en timers [TEST]
+        
+        # Initialize trajectory arrays for LSPB trajectory generation
+        # Used by custom_callback() for publishing trajectory data
+        # These arrays store position (s), velocity (sd), and acceleration (sdd) profiles
+        self.sArray = []    # type: list[float] - Position array
+        self.sdArray = []   # type: list[float] - Velocity array  
+        self.sddArray = []  # type: list[float] - Acceleration array
+        self.t = []         # type: list[float] - Time array
+        # Uncomment if trajectory generation is needed at init:
         # self.sArray, self.sdArray, self.sddArray, self.t = initialize_and_generate_trajectory()
-        self.doHoming()
+        
+        try:
+            self.doHoming()
+        except Exception as e:
+            self.get_logger().error(f'Homing failed during initialization: {e}')
+        
         # Create timers for periodic tasks [TEST]
         # self.doTimers(0.5)
 
@@ -332,11 +346,14 @@ class MinimalPublisher(Node):
                 self.get_logger().warn('E-Stop activado: Trayectoria interrumpida')
                 break
             
-            if point.is_cartesian():
-                if point.is_joint():
-                    self.doCmd(point.x, point.y, point.z, point.q1, point.q2, point.q3)
-                else:
-                    self.doCmd(point.x, point.y, point.z)
+            # Execute based on point type (joint or cartesian)
+            if point.is_joint():
+                self.doCmd(point.q1, point.q2, point.q3)
+            elif point.is_cartesian():
+                self.doInvKin(point.x, point.y, point.z)
+            else:
+                self.get_logger().warn(f'Punto de trayectoria sin coordenadas válidas (ni joint ni cartesian) - saltando')
+                continue
             
             time.sleep(delay)
 
@@ -368,10 +385,10 @@ class MinimalPublisher(Node):
         time.sleep(2)
         self.doCmd(0.5467, 0.1321, 0.1195)
         
-        # Two timers logic - just testing
-        self.timer = self.create_timer(timer_period, self.timer_callback)
-        self.timer = self.create_timer(timer_period, self.test_callback) 
-        self.timer = self.create_timer(timer_period, self.invKin_callback) 
+        # Create multiple timers with unique variable names
+        self.timer1 = self.create_timer(timer_period, self.timer_callback)
+        self.timer2 = self.create_timer(timer_period, self.test_callback) 
+        self.timer3 = self.create_timer(timer_period, self.invKin_callback) 
         self.cmd_timer = self.create_timer(timer_period, self.cmd_callback)
 
         self.inv_timer = self.create_timer(5, self.inv_timer_callback)  
