@@ -11,7 +11,7 @@ setup(
             ['resource/' + package_name]),
         ('share/' + package_name, ['package.xml']),
     ],
-    install_requires=['setuptools'],
+    install_requires=['setuptools', 'rclpy', 'std_msgs'],
     zip_safe=True,
     maintainer='agustin',
     maintainer_email='agustin@todo.todo',
@@ -24,6 +24,7 @@ setup(
 		'listener = robot_control.subscriber:main',
 		'talker_ui = robot_control.main_with_ui:main',
 		'robot_ui = robot_control.robot_ui_node:main',
+		'trajectory_planner = robot_control.utils.trajectory_planner:main',
         ],
     },
 )

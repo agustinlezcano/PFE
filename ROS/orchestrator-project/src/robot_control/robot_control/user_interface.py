@@ -341,3 +341,27 @@ class UserInterface:
             if self.publisher:
                 self.publisher.get_logger().error(f"Error en E-Stop: {str(e)}")
 
+    def menu_load_objects_list(self):
+        """Menu option to load an object list from CSV file."""
+        print("\n=== Cargar Lista de Objetos ===")
+        filepath = input("Ingrese ruta del archivo CSV con lista de objetos: ").strip()
+        
+        if not filepath:
+            print("Ruta vacía. Operación cancelada.")
+            return
+        
+        # Check if file exists
+        import os
+        if not os.path.exists(filepath):
+            print(f"Error: Archivo no encontrado: {filepath}")
+            return
+        
+        print(f"Cargando lista de objetos desde: {filepath}")
+        success = self.publisher_node.load_objects_list(filepath)
+        
+        if success:
+            print("✓ Lista de objetos cargada exitosamente")
+            print("El robot comenzará a solicitar objetos al servidor de visión automáticamente")
+        else:
+            print("✗ Error al cargar la lista de objetos")
+

@@ -40,7 +40,6 @@ class TrajectoryUtils:
             raise ValueError("Acceleration time must be greater than 0 and less than total time")
 
         if (not self.__isValidSpeed(maxSpeed, maxAcc, distance)):
-            # TODO: make distance = 1 before  
             distance = 1.0
             (maxSpeed, timeAcc, maxAcc) = self.__calculateSpeed(distance, maxAcc, totalTime, timeAcc)
             #print(f"New max speed: {maxSpeed}")

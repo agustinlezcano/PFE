@@ -12,6 +12,7 @@ from geometry_msgs.msg import Point
 import time
 import math
 from .limits_validator import LimitsValidator
+import os
 
 
 class RobotUINode(Node):
@@ -31,6 +32,7 @@ class RobotUINode(Node):
         self.estop_publisher = self.create_publisher(Bool, '/robot_ui/emergency_stop', 10)
         self.load_csv_publisher = self.create_publisher(String, '/robot_ui/load_csv', 10)
         self.request_angles_publisher = self.create_publisher(Bool, '/robot_ui/request_current_angles', 10)
+        self.objects_list_publisher = self.create_publisher(String, '/robot_ui/load_objects', 10)
         
         # Subscriber para recibir los ángulos actuales
         self.current_angles_subscriber = self.create_subscription(
@@ -55,8 +57,12 @@ class RobotUINode(Node):
         self.z_min = self.limits_validator.workspace_limits.z_min
         self.z_max = self.limits_validator.workspace_limits.z_max
         
-        # Estado de la interfaz
-        self.emergency_stop = False
+        # Estado local de E-Stop para display en UI
+        # NOTA: Este flag solo refleja lo que el usuario solicitó desde esta UI.
+        # El estado real del robot está en publisher.py (RobotState.EMERGENCY_STOP).
+        # Puede desincronizarse si el E-Stop se activa desde otra fuente.
+        # TODO: Suscribirse a un topic de estado del robot para sincronizar.
+        self.estop_requested = False
         
         self.get_logger().info("RobotUINode iniciado - Interfaz de usuario lista")
 
@@ -67,7 +73,7 @@ class RobotUINode(Node):
         while rclpy.ok():
             try:
                 self._display_menu()
-                choice = input("Selecciona una opción (1-9): ").strip()
+                choice = input("Selecciona una opción (1-10): ").strip()
 
                 # Dictionary mapping choices to handler methods
                 handlers = {
@@ -79,13 +85,14 @@ class RobotUINode(Node):
                     "6": self._handle_emergency_stop,
                     "7": self._handle_change_range,
                     "8": self._handle_request_current_angles,
-                    "9": lambda: self._exit_program()
+                    "9": self._handle_load_objects_list,
+                    "10": lambda: self._exit_program()
                 }
 
                 if choice in handlers:
                     handlers[choice]()
                 else:
-                    print("Opción inválida. Por favor, intenta de nuevo (1-8).")
+                    print("Opción inválida. Por favor, intenta de nuevo (1-10).")
                 
                 time.sleep(0.1)
             
@@ -96,29 +103,39 @@ class RobotUINode(Node):
             except Exception as e:
                 self.get_logger().error(f"Error en interfaz: {str(e)}")
 
+
     def _display_menu(self):
-        """Muestra el menú de opciones al usuario."""
-        print("\n" + "="*60)
-        print("           INTERFAZ DE CONTROL DE ROBOT")
-        print("="*60)
-        print(f"Q1: [{self.q1_min:.4f}, {self.q1_max:.4f}] rad")
-        print(f"Q2: [{self.q2_min:.4f}, {self.q2_max:.4f}] rad")
-        print(f"Q3: [{self.q3_min:.4f}, {self.q3_max:.4f}] rad")
-        print(f"X: [{self.x_min:.4f}, {self.x_max:.4f}] m")
-        print(f"Y: [{self.y_min:.4f}, {self.y_max:.4f}] m")
-        print(f"Z: [{self.z_min:.4f}, {self.z_max:.4f}] m")
-        print(f"Estado E-Stop: {'🔴 ACTIVADO' if self.emergency_stop else '🟢 Inactivo'}")
-        print("-"*60)
-        print("1. Homing")
-        print("2. Movimiento Directo (Q1 Q2 Q3)")
-        print("3. Cinemática Inversa (X Y Z)")
-        print("4. Cargar Trayectoria (CSV)")
-        print("5. Ejecutar Trayectoria")
-        print("6. Parada de Emergencia")
-        print("7. Cambiar rangos de validación")
-        print("8. Solicitar Ángulos Actuales")
-        print("9. Salir")
-        print("="*60)
+        # 1. Limpiar pantalla (opcional pero recomendado para menús)
+        os.system('cls' if os.name == 'nt' else 'clear')
+
+        # 2. Definir colores (ANSI escape codes)
+        ROJO = "\033[91m"
+        VERDE = "\033[92m"
+        RESET = "\033[0m"
+        NEGRITA = "\033[1m"
+        
+        # 3. Determinar estado visual del E-Stop (basado en último request de esta UI)
+        estado_estop = f"{ROJO}🔴 ACTIVADO{RESET}" if self.estop_requested else f"{VERDE}🟢 INACTIVO{RESET}"
+
+        # 4. Imprimir con f-string multilínea (más limpio que muchos prints)
+        print(f"""
+    {NEGRITA}{'='*60}
+            INTERFAZ DE CONTROL DE ROBOT
+    {'='*60}{RESET}
+    Estado E-Stop: {estado_estop}
+    {'-'*60}
+    Límites Articulares (rad)      |   Límites Cartesianos (m)
+    Q1: [{self.q1_min:7.4f}, {self.q1_max:7.4f}]   |   X: [{self.x_min:7.4f}, {self.x_max:7.4f}]
+    Q2: [{self.q2_min:7.4f}, {self.q2_max:7.4f}]   |   Y: [{self.y_min:7.4f}, {self.y_max:7.4f}]
+    Q3: [{self.q3_min:7.4f}, {self.q3_max:7.4f}]   |   Z: [{self.z_min:7.4f}, {self.z_max:7.4f}]
+    {'-'*60}
+    1. Homing                        6. Parada de Emergencia
+    2. Movimiento Directo (Joints)   7. Cambiar rangos validación
+    3. Cinemática Inversa (XYZ)      8. Solicitar Ángulos Actuales
+    4. Cargar Trayectoria (CSV)      9. Cargar Lista Objetos (Visión)
+    5. Ejecutar Trayectoria          10. Salir
+    {'='*60}
+    """)
 
     def current_angles_callback(self, msg: String):
         """Recibe los ángulos actuales desde el microcontrolador."""
@@ -295,12 +312,13 @@ class RobotUINode(Node):
         """Maneja la parada de emergencia."""
         try:
             print("\n--- Parada de Emergencia (E-Stop) ---")
+            print("NOTA: Este estado es local a la UI. El estado real está en el nodo publisher.")
             
-            if self.emergency_stop:
-                print("E-Stop actualmente ACTIVADO")
+            if self.estop_requested:
+                print("E-Stop actualmente ACTIVADO (según esta UI)")
                 choice = input("¿Desactivar E-Stop? (s/n): ").strip().lower()
                 if choice == 's':
-                    self.emergency_stop = False
+                    self.estop_requested = False
                     msg = Bool()
                     msg.data = False
                     self.estop_publisher.publish(msg)
@@ -309,10 +327,10 @@ class RobotUINode(Node):
                 else:
                     print("[Cancelado]")
             else:
-                print("E-Stop actualmente INACTIVO")
+                print("E-Stop actualmente INACTIVO (según esta UI)")
                 choice = input("¿Activar E-Stop? (s/n): ").strip().lower()
                 if choice == 's':
-                    self.emergency_stop = True
+                    self.estop_requested = True
                     msg = Bool()
                     msg.data = True
                     self.estop_publisher.publish(msg)
@@ -400,6 +418,38 @@ class RobotUINode(Node):
         
         except Exception as e:
             self.get_logger().error(f"Error solicitando ángulos: {str(e)}")
+
+    def _handle_load_objects_list(self):
+        """Carga lista de objetos para procesamiento con visión."""
+        try:
+            print("\n--- Cargar Lista de Objetos (Visión) ---")
+            filepath = input("Ingresa la ruta del archivo CSV con objetos: ").strip()
+            
+            if not filepath:
+                print("[Cancelado] No se ingresó ruta")
+                return
+            
+            # Verificar si el archivo existe
+            if not os.path.exists(filepath):
+                print(f"[ERROR] Archivo no encontrado: {filepath}")
+                return
+            
+            # Publicar solicitud de carga de lista de objetos
+            msg = String()
+            msg.data = filepath
+            self.objects_list_publisher.publish(msg)
+            time.sleep(0.5)  # Dar tiempo a ROS de procesar
+            
+            print(f"[OK] Lista de objetos cargada: {filepath}")
+            print("    El robot procesará automáticamente cada objeto:")
+            print("    1. Solicita coordenadas al servidor de visión")
+            print("    2. Valida coordenadas recibidas")
+            print("    3. Envía objetivo al planificador de trayectorias")
+            print("    4. Repite para el siguiente objeto")
+            self.get_logger().info(f"Objects list load request: {filepath}")
+        
+        except Exception as e:
+            self.get_logger().error(f"Error cargando lista de objetos: {str(e)}")
 
     def _exit_program(self):
         """Finaliza el programa de manera ordenada."""

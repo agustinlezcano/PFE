@@ -1,49 +1,75 @@
 import rclpy
 from rclpy.node import Node
-from .main import *
+from .main import Orchestrator as Orchestrator, generate_trajectory_profile as generate_trajectory_profile, initialize_and_generate_trajectory as initialize_and_generate_trajectory, nps as nps, plot_trajectory as plot_trajectory, plt as plt, traj_utils as traj_utils
 from .limits_validator import LimitsValidator
 from .trajectory_reader import CSVTrajectoryReader
+from .user_interface import UserInterface
+from .image_manager import VisionClientNode
+from typing import Optional, Dict
 
 from std_msgs.msg import String
-from std_msgs.msg import Int32
 from geometry_msgs.msg import Point
-from example_interfaces.msg import String as StringInterface
-from example_interfaces.msg import WString
 from std_msgs.msg import Bool
-from trajectory_msgs.msg import JointTrajectoryPoint
 import time
 from extra_interfaces.msg import Trama
+from enum import Enum
+
+class RobotState(Enum):
+    '''
+    States of the robot for control flow.
+    '''
+    IDLE = 0                # waiting for commands (e.g., from UI or next object request)
+    RUNNING = 1             # sending trajectory to micro-ROS and waiting for completion
+    EMERGENCY_STOP = 2      # E-Stop activated, all commands blocked until released
+    BLOCKED = 3             # waiting for vision response after requesting object coordinates
 
 
 class MinimalPublisher(Node):
 
-    def __init__(self):
+    def __init__(self, enable_ui: bool = False):
         super().__init__('minimal_publisher')
         
         # Inicializar validador de límites y reader de trayectorias
         self.limits_validator = LimitsValidator()
         self.trajectory_reader = CSVTrajectoryReader(self.limits_validator)
         
-        # Flag de parada de emergencia
-        self.emergency_stop = False
+        # Fix: Initialize objects_reader to use trajectory_reader
+        self.objects_reader = self.trajectory_reader
+        
+        # Current object being processed
+        self.current_object = None
+
+        self.request_counter = 0  # Contador de reintentos para solicitudes de visión
+        
+        # Initialize vision client
+        self.vision_client = VisionClientNode("127.0.0.1", 65432, timeout=5.0, max_retries=3)
+        success, msg = self.vision_client.start()
+        if success:
+            self.get_logger().info(f'Vision client: {msg}')
+        else:
+            self.get_logger().warning(f'Vision client failed to start: {msg}. Vision features disabled.')
 
         # Flag de Homing
         self.homing = False
         
         # Flag para solicitar ángulos actuales
         self.request_current_angles = False
+
+        # Estado inicial del robot
+        self.state = RobotState.IDLE
         
-        # Publishers
+        # Publishers para Hardware Interface micro-ROS
         self.homing_publisher_ = self.create_publisher(Bool, '/microROS/homing', 10)
         self.current_angles_publisher_ = self.create_publisher(Bool, '/microROS/request_current_angles', 10)
-        self.joint_states_publisher_ = self.create_publisher(JointTrajectoryPoint, '/microROS/joint_states', 10)    # TODO: delete
-        self.publisher_ = self.create_publisher(Point, '/microROS/int32_subscriber', 10)    # TODO: delete (only used for logs)
-        self.str_publisher_ = self.create_publisher(String, '/microROS/str_subscriber', 10) # TODO: delete
         self.cmd_publisher_ = self.create_publisher(Point, '/microROS/cmd', 10)
         self.inv_publisher_ = self.create_publisher(Point, '/microROS/inverse', 10)
         self.estop_publisher_ = self.create_publisher(Bool, '/microROS/emergency_stop', 10) # TODO: make callback
         
-        # Subscribers para tópicos de UI
+        # Publisher para modo de Planificación de Trayectorias
+        # TODO: use this when receiving point from Camera node and sending to Trajectory Planner node
+        self.trajectory_planning_publisher = self.create_publisher(Point, 'ROS/trajectory_planning', 10) # Currently not used, but will be needed to send objectives to the trajectory planner node
+        
+        # # ======================== Subscribers para tópicos de UI ========================
         self.ui_cmd_subscriber = self.create_subscription(
             Point,
             '/robot_ui/cmd',
@@ -74,38 +100,37 @@ class MinimalPublisher(Node):
             self.ui_csv_callback,
             10)
         
+        self.ui_objects_list_subscriber = self.create_subscription(
+            String,
+            '/robot_ui/load_objects',
+            self.ui_objects_list_callback,
+            10)
+        
+        #TODO: check if use this
         self.ui_request_angles_subscriber = self.create_subscription(
             Bool,
             '/robot_ui/request_current_angles',
             self.ui_request_angles_callback,
             10)
         
-        # Subscribers para tópicos de micro-ROS
+        # ======================== Subscribers para tópicos de micro-ROS ========================
         self.subscriber = self.create_subscription(
             String,
             '/microROS/string_publisher',
             self.subscriber_callback,
-            10)
+            10) # current communication made here
 
-        # TODO: delete -> now used to test timer publishing
-        self.in_subscriber = self.create_subscription(
-            String,
-            '/microROS/tim_publisher',
-            self.in_subscriber_callback,
+        
+        # ======================== Subscribers para tópicos de Planner ========================
+        # Subscriber for planned trajectory path from trajectory planner node
+        self.planner_path_subscriber = self.create_subscription(
+            Trama,
+            'planner/path',
+            self.planner_path_callback,
             10)
-
-        # TODO: delete
-        self.cmd_string_subscriber = self.create_subscription(
-            String,
-            '/microROS/cmd_publisher',
-            self.cmd_subscriber_callback,
-            10)
-
-        timer_period = 0.5  # seconds [0.01] -- Usado en timers [TEST]
-        # self.sArray, self.sdArray, self.sddArray, self.t = initialize_and_generate_trajectory()
-        self.doHoming()
-        # Create timers for periodic tasks [TEST]
-        # self.doTimers(0.5)
+        
+        # ======================== Timer para polling de respuestas de visión ========================
+        self.vision_timer = self.create_timer(0.1, self.check_vision_response_callback)  # 10 Hz
 
         self.i = 0
         # For use in Point Array
@@ -116,28 +141,26 @@ class MinimalPublisher(Node):
         self.q1 = 0.0
         self.q2 = 0.0
         self.q3 = 0.0
-        
+
+        timer_period = 0.5  # seconds [0.01] -- Usado en timers [TEST]
+        # self.sArray, self.sdArray, self.sddArray, self.t = initialize_and_generate_trajectory()
+        # Removed automatic homing - now called from menu
+        # self.doHoming()
+
         self.get_logger().info("Publisher node initialized. Waiting for UI node commands...")
 
-    def timer_callback(self):
-        msg = Point()
-        msg.x = self.x
-        msg.y = self.y
-        msg.z = self.z
-        self.publisher_.publish(msg)
-        self.get_logger().info(f'Publicado Timer x={msg.x}, y={msg.y}, z={msg.z}')
-        # Actualizo valores de ejemplo
-        self.x += 0.1
-        self.y += 0.1
-        self.z += 0.1
+        # Initialize optional in-process UI when requested
+        if enable_ui:
+            try:
+                self.user_interface = UserInterface(self)
+                self.user_interface.start()
+            except Exception as e:
+                self.get_logger().error(f'Failed to start UserInterface: {e}')
+                self.user_interface = None
+        else:
+            self.user_interface = None
 
-    def test_callback(self):
-        msg = String()
-        msg.data = 'Hello World: %d' % self.i
-        self.i+=1
-        self.str_publisher_.publish(msg)
-        self.get_logger().info(f'Publicado Timer {msg.data}')
-
+    # TODO: delete -> now used to test timer publishing
     def inv_timer_callback(self):
 
         msg = Point()
@@ -153,28 +176,252 @@ class MinimalPublisher(Node):
         self.y += 0.1
         self.z += 0.1
 
-    def publish_joint_states(self):
-        # Only used in timer [TEST]
-        msg = JointTrajectoryPoint()
-        msg.positions = [self.q1, self.q2, self.q3]  # Example joint positions
-        self.joint_states_publisher_.publish(msg)
-        self.get_logger().info('Published joint states: "%s"' % msg.positions)
-        self.q1 += 0.1
-        self.q2 += 0.1
-        self.q3 += 0.1
-
     def subscriber_callback(self, msg):
         self.get_logger().info('I heard: "%s"' % msg.data)
         # add logic to handle the received message if needed
-
-    def in_subscriber_callback(self, msg):
-        # TODO: delete
-        self.get_logger().info('I heard: "%s"' % msg.data)
     
-    def cmd_subscriber_callback(self, msg):
-        # TODO: delete
-        self.get_logger().info('I heard cmd: "%s"' % msg.data)
-        # add logic to handle the received message if needed
+    def array_to_point(self, value) -> Point:
+        """
+        Convert array or Point value to Point message format.
+        
+        Args:
+            value: Can be a Point message, list, tuple, or numpy array with [x, y, z] values
+            
+        Returns:
+            Point message object
+            
+        Raises:
+            ValueError: If the input format is not supported or doesn't have 3 elements
+            
+        NOTE: If the received parameter is different than array format (e.g., different
+        axes order, different number of elements, or non-numeric values), this method
+        will raise an error. Ensure the input data structure matches the expected format:
+        [x, y, z] or Point(x, y, z).
+        """
+        point_msg = Point()
+        
+        # If already a Point message, return as is
+        if isinstance(value, Point):
+            return value
+        
+        # If it's an array-like (list, tuple, numpy array)
+        if hasattr(value, '__len__') and hasattr(value, '__getitem__'):
+            if len(value) != 3:
+                raise ValueError(f"Expected array with 3 elements [x, y, z], got {len(value)} elements")
+            try:
+                point_msg.x, point_msg.y, point_msg.z = map(float, value)
+                return point_msg
+            except (TypeError, ValueError) as e:
+                raise ValueError(f"Could not convert array elements to float: {e}")
+        
+        raise ValueError(f"Unsupported value type: {type(value)}. Expected Point, list, tuple, or numpy array")
+    
+    def planner_path_callback(self, msg: Trama):
+        """
+        Process trajectory points received from the trajectory planner node.
+        
+        This callback receives individual waypoints of the planned path and can be used
+        to execute commands for Joint motion.
+        
+        Args:
+            msg: Trama message with q[3], qd[3], t_total, n_iter
+        """
+        if msg.q is None or len(msg.q) != 3:
+            self.get_logger().error('Invalid Trama message: q must have 3 elements')
+            return
+            
+        self.get_logger().debug(f'Received planned path point: q={msg.q}, qd={msg.qd}')
+        self.doCmd(msg.q[0], msg.q[1], msg.q[2])
+        if (self.state != RobotState.BLOCKED) and (self.state != RobotState.EMERGENCY_STOP):
+            self.state = RobotState.RUNNING # TODO: ver si se pasa a IDLE
+
+    def load_objects_list(self, filepath: str) -> bool:
+        """
+        Carga la lista de objetos a recoger desde un archivo CSV.
+        
+        Args:
+            filepath: Ruta al archivo CSV con la lista de objetos
+            
+        Returns:
+            True si se cargó correctamente, False en caso contrario
+            
+        Flow:
+            1. Lee CSV con lista de objetos (name, id)
+            2. Si estado es IDLE, solicita automáticamente el primer objeto
+            3. Envía request al servidor de visión
+            4. Espera respuesta con coordenadas (procesada en check_vision_response_callback)
+        """
+        success, message = self.objects_reader.read_objects_list(filepath)
+        if success:
+            self.get_logger().info(f'Lista de objetos cargada: {message}')
+            # Automatically request first object if robot is IDLE
+            if self.state == RobotState.IDLE:
+                self.get_logger().info('Iniciando procesamiento de lista de objetos...')
+                self.request_next_object()
+            return True
+        else:
+            self.get_logger().error(f'Error cargando lista de objetos: {message}')
+            return False
+
+    def request_next_object(self):
+        """
+        Solicita el siguiente objeto a recoger del servidor de visión artificial.
+        
+        Flujo:
+        1. Obtener siguiente objeto de la lista
+        2. Enviar solicitud al servidor de visión vía socket
+        3. Estado BLOCKED esperando respuesta con coordenadas (x, y, z) TODO: mejorable: que no bloquee y guarde posiciones en cola
+        4. Respuesta procesada por check_vision_response_callback()
+        """
+        next_obj = self.objects_reader.get_next_object()
+        if next_obj is None:
+            self.get_logger().info('Lista de objetos finalizada. Robot IDLE.')
+            self.state = RobotState.IDLE
+            return
+        
+        self.current_object = next_obj
+        self.request_counter = 0  # Resetear contador para nuevo objeto
+        self.state = RobotState.BLOCKED
+        self.get_logger().info(f'Solicitando objeto: {next_obj["name"]} (ID: {next_obj["id"]})')
+        
+        # Send async request to vision server
+        self.vision_client.request_object_async(next_obj['name'])
+
+    def process_vision_response(self, coordinates: tuple[float, float, float]) -> bool:
+        """
+        Procesa la respuesta del servidor de visión artificial.
+        
+        Args:
+            coordinates: Tupla con coordenadas (x, y, z) del objeto en milímetros
+            
+        Returns:
+            True si se procesó correctamente, False en caso de error
+        """
+        try:
+            x, y, z = coordinates
+            
+            # Convertir coordenadas de milímetros a metros
+            x_m = x / 1000.0
+            y_m = y / 1000.0
+            z_m = z / 1000.0
+            
+            self.get_logger().info(f'Coordenadas recibidas (mm): X={x:.2f}, Y={y:.2f}, Z={z:.2f}')
+            self.get_logger().info(f'Coordenadas convertidas (m): X={x_m:.4f}, Y={y_m:.4f}, Z={z_m:.4f}')
+            
+            # Validar coordenadas con LimitsValidator
+            valid, msg = self.limits_validator.validate_cartesian_position(x_m, y_m, z_m)
+            if not valid:
+                self.get_logger().error(f'Coordenadas fuera de límites: {msg}')
+                return False
+            
+            # Convertir a Point message (en metros)
+            point_msg = self.array_to_point([x_m, y_m, z_m])
+            
+            self.get_logger().info(f'Respuesta de visión validada: x={point_msg.x:.4f}, y={point_msg.y:.4f}, z={point_msg.z:.4f}')
+            
+            # Enviar objetivo al trajectory planner
+            self.trajectory_planning_publisher.publish(point_msg)
+            
+            # Cambiar a estado RUNNING (trayectoria en ejecución)
+            # TODO: Implementar timeout para planner - si no responde en X segundos, volver a IDLE
+            # self.planner_timeout_timer = self.create_timer(10.0, self._planner_timeout_callback)
+            self.state = RobotState.RUNNING
+            self.get_logger().info(f'Objetivo enviado al trajectory planner para {self.current_object["name"]}')
+            
+            # Resetear contador después de éxito
+            self.request_counter = 0
+            
+            return True
+        
+        except Exception as e:
+            self.get_logger().error(f'Error procesando respuesta de visión: {e}')
+            return False
+    
+    def check_vision_response_callback(self):
+        """
+        Timer callback para polling de respuestas del servidor de visión.
+        Ejecutado a 10 Hz para verificar si hay respuestas pendientes.
+        
+        NOTE: Este timer continúa ejecutándose durante EMERGENCY_STOP pero sale temprano.
+        TODO: Cancelar timer completamente durante EMERGENCY_STOP para mayor eficiencia.
+        
+        NOTE: Single-threaded executor (rclpy.spin) garantiza que los callbacks
+        se ejecutan secuencialmente, evitando race conditions en transiciones de estado.
+        Si se usa MultiThreadedExecutor, añadir threading.Lock para proteger self.state.
+        """
+        max_retries = 3
+        
+        # Salir temprano si estamos en EMERGENCY_STOP o no esperando visión
+        if self.state == RobotState.EMERGENCY_STOP:
+            return
+        
+        # Solo verificar respuestas si estamos esperando una (estado BLOCKED)
+        if self.state != RobotState.BLOCKED:
+            return
+        
+        response = self.vision_client.get_response()
+        if response is None:
+            return  # No hay respuesta aún
+        
+        # Log respuesta
+        if response['success']:
+            self.get_logger().info(f"Vision response: {response['message']}")
+            # Procesar coordenadas
+            success = self.process_vision_response(response['coordinates'])
+            if not success:
+                # Validación falló - reintentar hasta max_retries veces
+                self.request_counter += 1
+                self.get_logger().warning(f"Reintentando objeto: {self.current_object['name']} (intento {self.request_counter}/{max_retries})")
+                
+                if self.request_counter >= max_retries:
+                    self.get_logger().error(f"Máximo de reintentos alcanzado para {self.current_object['name']}. Skipping to next object.")
+                    self.current_object = None
+                    self.request_next_object()  # El contador se resetea en request_next_object()
+                else:
+                    # Reintentar - solicitar de nuevo al servidor de visión
+                    self.vision_client.request_object_async(self.current_object['name'])
+                    # Mantener estado BLOCKED para seguir esperando respuesta
+            else:
+                # Éxito - coordenadas validadas correctamente
+                # El estado ya fue cambiado en process_vision_response
+                pass
+        else:
+            # Error de comunicación con servidor de visión - skipear objeto
+            self.get_logger().error(f"Vision communication error: {response['message']}. Skipping to next object.")
+            self.current_object = None
+            self.request_next_object()
+
+    def microros_feedback_callback(self, msg):
+        """
+        Callback para recibir feedback de microROS.
+        
+        El mensaje debería contener:
+        - angleDone: bool (True si completó movimiento)
+        - electroIman: bool (True si electroimán está activo)
+        
+        Cuando angleDone=True y electroIman=False, significa que el movimiento
+        terminó y puede pasar al siguiente objeto.
+        """
+        # TODO: Reemplazar con mensaje custom adecuado
+        # Por ahora usando Point como placeholder
+        
+        self.get_logger().debug(f'Feedback recibido: x={msg.x}, y={msg.y}, z={msg.z}')
+        
+        # TODO: Implementar transición RUNNING → IDLE cuando se tenga el mensaje custom de microROS
+        # Flujo esperado:
+        # 1. Recibir mensaje con angleDone=True cuando el movimiento completó
+        # 2. Si electroIman=True, el objeto fue capturado
+        # 3. Transicionar a IDLE y solicitar siguiente objeto
+        #
+        # Ejemplo de implementación:
+        # if msg.angleDone and not msg.electroIman:
+        #     self.state = RobotState.IDLE
+        #     self.current_object = None
+        #     self.request_next_object()
+        # elif msg.angleDone and msg.electroIman:
+        #     self.get_logger().info(f'Objeto capturado: {self.current_object["name"]}')
+        #     self.state = RobotState.IDLE
+        #     self.request_next_object()
 
     def doHoming(self):
         do_homing = Bool()
@@ -197,24 +444,29 @@ class MinimalPublisher(Node):
     def doCmd(self,q1: float = None, q2: float = None, q3: float = None):
         """Publica comando directo con coordenadas articulares."""
         # Validar coordenadas articulares si se proporcionan
+        if self.state == RobotState.EMERGENCY_STOP:
+            self.get_logger().error('Cannot execute: Emergency stop active')
+            return
+        
         if q1 is not None and q2 is not None and q3 is not None:
-            valid, msg = self.limits_validator.validate_joint_position(q1, q2, q3)
-            if not valid:
-                self.get_logger().error(f'Joint validation error: {msg}')
-                return
-            # Actualizar variables articulares
-            self.q1 = q1
-            self.q2 = q2
-            self.q3 = q3
-        
-            # Publicar comando
-            cmd_msg = Point()
-            cmd_msg.x = q1
-            cmd_msg.y = q2
-            cmd_msg.z = q3
-            self.cmd_publisher_.publish(cmd_msg)  # Usa el mismo publisher que los timers
-        
-            if q1 is not None:
+            if self.state != RobotState.BLOCKED and self.state != RobotState.EMERGENCY_STOP:
+                self.state = RobotState.RUNNING
+                valid, msg = self.limits_validator.validate_joint_position(q1, q2, q3)
+                if not valid:
+                    self.get_logger().error(f'Joint validation error: {msg}')
+                    return
+                # Actualizar variables articulares
+                self.q1 = q1
+                self.q2 = q2
+                self.q3 = q3
+            
+                # Publicar comando
+                cmd_msg = Point()
+                cmd_msg.x = q1
+                cmd_msg.y = q2
+                cmd_msg.z = q3
+                self.cmd_publisher_.publish(cmd_msg)  # Usa el mismo publisher que los timers
+            
                 log_msg = f'Publicado CMD: q1={q1:.4f}, q2={q2:.4f}, q3={q3:.4f}'
                 self.get_logger().info(log_msg)
         else:
@@ -222,6 +474,10 @@ class MinimalPublisher(Node):
 
     def doInvKin(self, x, y, z):
         """Publica comando de cinemática inversa con validación de límites."""
+        if self.state == RobotState.EMERGENCY_STOP:
+            self.get_logger().error('Cannot execute INV KIN: Emergency stop active')
+            return
+        
         # Validar coordenadas Cartesianas
         valid, msg = self.limits_validator.validate_cartesian_position(x, y, z)
         if not valid:
@@ -234,6 +490,7 @@ class MinimalPublisher(Node):
         cmd_msg.y = y
         cmd_msg.z = z
         self.inv_publisher_.publish(cmd_msg)
+        self.state = RobotState.RUNNING
         
         log_msg = f'Publicado INV: x={cmd_msg.x}, y={cmd_msg.y}, z={cmd_msg.z}'
         self.get_logger().info(log_msg)
@@ -242,14 +499,14 @@ class MinimalPublisher(Node):
     
     def ui_cmd_callback(self, msg: Point):
         """Procesa comandos de movimiento directo desde el nodo UI."""
-        if self.emergency_stop:
+        if self.state == RobotState.EMERGENCY_STOP:
             self.get_logger().warn('E-Stop activado: Comando bloqueado')
             return
         self.doCmd(msg.x, msg.y, msg.z)
     
     def ui_invkin_callback(self, msg: Point):
         """Procesa comandos de cinemática inversa desde el nodo UI."""
-        if self.emergency_stop:
+        if self.state == RobotState.EMERGENCY_STOP:
             self.get_logger().warn('E-Stop activado: Comando bloqueado')
             return
         self.doInvKin(msg.x, msg.y, msg.z)
@@ -273,41 +530,53 @@ class MinimalPublisher(Node):
         if success:
             self.execute_trajectory()
     
+    def ui_objects_list_callback(self, msg: String):
+        """
+        Procesa comando de cargar lista de objetos desde el nodo UI.
+        
+        Workflow:
+        1. Recibe filepath del CSV con objetos
+        2. Carga lista usando load_objects_list()
+        3. Automáticamente solicita primer objeto al servidor de visión
+        4. process_vision_response() procesa las coordenadas recibidas
+        5. Envía objetivo al trajectory planner
+        """
+        filepath = msg.data
+        self.get_logger().info(f'UI solicitó cargar lista de objetos desde: {filepath}')
+        success = self.load_objects_list(filepath)
+        if not success:
+            self.get_logger().error('Fallo al cargar lista de objetos desde UI')
+    
     def ui_request_angles_callback(self, msg: Bool):
         """Procesa solicitud de ángulos actuales desde el nodo UI."""
         if msg.data:
             self.doRequestCurrentAngles()
 
-    def invKin_callback(self):
-        # Usado en callback de timer [TEST]
-        self.doInvKin(self.x, self.y, self.z)
-        # Actualizo valores de ejemplo
-        self.x += 0.1
-        self.y += 0.1
-        self.z += 0.1
-
     def cmd_callback(self):
         """Callback periodico para publicar comandos (solo se ejecuta sin UI)."""
-        if not self.emergency_stop:
+        if self.state != RobotState.EMERGENCY_STOP:
             self.doCmd(self.q1, self.q2, self.q3)
         else:
             self.get_logger().warn('E-Stop activado: Comando bloqueado')
     
     def trigger_emergency_stop(self):
-        """Activa la parada de emergencia."""
-        self.emergency_stop = True
+        """Activa la parada de emergencia y cancela el timer de visión."""
+        self.state = RobotState.EMERGENCY_STOP
         estop_msg = Bool()
         estop_msg.data = True
         self.estop_publisher_.publish(estop_msg)
+        # TODO: Detener timer de visión durante EMERGENCY_STOP
+        # self.vision_timer.cancel()
         self.get_logger().critical('EMERGENCY STOP ACTIVADO')
     
     def release_emergency_stop(self):
-        """Desactiva la parada de emergencia."""
-        self.emergency_stop = False
+        """Desactiva la parada de emergencia y reinicia el timer de visión."""
         estop_msg = Bool()
         estop_msg.data = False
         self.estop_publisher_.publish(estop_msg)
-        self.get_logger().info('Emergency stop desactivado')
+        # TODO: Reiniciar timer de visión al salir de EMERGENCY_STOP
+        # self.vision_timer = self.create_timer(0.1, self.check_vision_response_callback)
+        self.state = RobotState.IDLE
     
     def load_trajectory_from_csv(self, filepath: str) -> tuple:
         """Carga una trayectoria desde un archivo CSV."""
@@ -328,54 +597,28 @@ class MinimalPublisher(Node):
         self.get_logger().info(f'Ejecutando trayectoria con {len(trajectory)} puntos')
         
         for point in trajectory:
-            if self.emergency_stop:
+            if self.state == RobotState.EMERGENCY_STOP:
                 self.get_logger().warn('E-Stop activado: Trayectoria interrumpida')
                 break
             
             if point.is_cartesian():
-                if point.is_joint():
-                    self.doCmd(point.x, point.y, point.z, point.q1, point.q2, point.q3)
-                else:
-                    self.doCmd(point.x, point.y, point.z)
-            
+                # Use Cartesian coordinates (x, y, z) directly
+                self.doInvKin(point.x, point.y, point.z)
+            elif point.is_joint():
+                # Use joint coordinates (q1, q2, q3)
+                self.doCmd(point.q1, point.q2, point.q3)
             time.sleep(delay)
 
-    def custom_callback(self):
-        '''Ejemplo de callback personalizado. No se usa actualmente.'''
-        # TODO: change msg String for custom message
-        msg = Int32()
-        msg.data = self.i 
-        self.publisher_.publish(msg)
-        self.get_logger().info(f'Publishing: {msg.data}')
-        self.i += 1
-        msg = Trama()
-        msg.data = ":M2A100V500"
+        if self.state != RobotState.EMERGENCY_STOP:
+            self.state = RobotState.IDLE    # when finish point, set to IDLE and wait for next command
+            
+            
     
-
-        if (self.i<len(self.sArray)):
-            msg = String()
-            msg.data = str(f"{self.sArray[self.i]:08.4f}" + f"{self.sdArray[self.i]:08.4f}" + f"{self.sddArray[self.i]:08.4f}")
-            # msg.data = 'Hello World: %d' % self.i
-            self.publisher_.publish(msg)
-            self.get_logger().info('Publishing: "%s"' % msg.data)
-            self.i += 1
-
-    def doTimers(self, timer_period=0.5):
-        time.sleep(1)
-        self.doCmd(0.5, 0.5, 0.5)
-        time.sleep(1)
-        self.doInvKin(0.1321, 0.1321, 0.1195)
-        time.sleep(2)
-        self.doCmd(0.5467, 0.1321, 0.1195)
-        
-        # Two timers logic - just testing
-        self.timer = self.create_timer(timer_period, self.timer_callback)
-        self.timer = self.create_timer(timer_period, self.test_callback) 
-        self.timer = self.create_timer(timer_period, self.invKin_callback) 
-        self.cmd_timer = self.create_timer(timer_period, self.cmd_callback)
-
-        self.inv_timer = self.create_timer(5, self.inv_timer_callback)  
-        self.timer_joint_states = self.create_timer(10, self.publish_joint_states)
+    def destroy_node(self):
+        """Override to cleanup vision client before destroying node."""
+        self.get_logger().info('Shutting down vision client...')
+        self.vision_client.stop()
+        super().destroy_node()
 
 
 def main(args=None):

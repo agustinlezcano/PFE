@@ -4,7 +4,7 @@ import threading
 import main
 import communication
 import keyboard
-from .traj_utils import TrajectoryUtils as traj_utils
+from ..robot_control.traj_utils import TrajectoryUtils as traj_utils
 
 # Configurar los dos puertos enlazados (creados con com0com)
 PORT_1 = 'COM13'
@@ -23,16 +23,10 @@ def receptor():
 
 def emisor():
     time.sleep(0.5)  # Pequeña espera para asegurar que el receptor está listo
-    # with serial.Serial(PORT_1, BAUDRATE, timeout=1) as ser1:
-    #     mensaje = "¡Hola desde el emisor!\n"
-    #     print(f"[Emisor] Enviando: {mensaje.strip()}")
-    #     ser1.write(mensaje.encode())
-    # #main pero luego refacorizar
-    sArray, sdArray, sddArray, t = main.initialize_and_generate_trajectory()    # TODO: Refactor sArray
+    sArray, sdArray, sddArray, t = main.initialize_and_generate_trajectory()
 
     for i in range(len(sArray)):
-        sArray[i] = round(traj_utils.interpolate(sArray[i],0,2), 4) # TODO: fix: add limit functions, use custom round function
-
+        sArray[i] = round(traj_utils.interpolate(sArray[i],0,2), 4)
     for i in range(len(t)):
         # Crear la estructura de datos para cada punto de la trayectoria
         data = communication.Communication()

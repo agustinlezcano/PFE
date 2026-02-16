@@ -88,6 +88,7 @@ class CSVTrajectoryReader:
         """
         self.validator = validator or LimitsValidator()
         self.trajectory: List[TrajectoryPoint] = []
+        self.objects_list: List[Dict[str, str]] = []
         self.header: List[str] = []
     
     def read_file(self, filepath: str, has_header: bool = False, 
@@ -262,3 +263,72 @@ class CSVTrajectoryReader:
         
         except Exception as e:
             return False, f"Error al guardar trayectoria: {str(e)}"
+
+    def read_objects_list(self, filepath: str, delimiter: str = ',') -> Tuple[bool, str]:
+        """
+        Lee una lista de objetos desde un archivo CSV.
+        
+        Formato esperado del CSV:
+        - Una fila por objeto
+        - Columnas: object_id, object_name (o solo object_name si no hay ID)
+        
+        Args:
+            filepath: Ruta del archivo CSV con lista de objetos
+            delimiter: Delimitador del CSV (por defecto ',')
+            
+        Returns:
+            Tupla (éxito, mensaje)
+        """
+        try:
+            path = Path(filepath)
+            if not path.exists():
+                return False, f"Archivo no encontrado: {filepath}"
+            
+            if not path.suffix.lower() == '.csv':
+                return False, f"Formato inválido. Se espera .csv, se encontró {path.suffix}"
+            
+            self.objects_list: List[Dict[str, str]] = []
+            
+            with open(filepath, 'r', newline='', encoding='utf-8') as csvfile:
+                reader = csv.reader(csvfile, delimiter=delimiter)
+                
+                for idx, row in enumerate(reader):
+                    # Saltar líneas vacías
+                    if not any(row):
+                        continue
+                    
+                    # Parsear objeto
+                    if len(row) >= 2:
+                        obj = {
+                            'id': row[0].strip(),
+                            'name': row[1].strip()
+                        }
+                    elif len(row) == 1:
+                        obj = {
+                            'id': str(idx),
+                            'name': row[0].strip()
+                        }
+                    else:
+                        continue
+                    
+                    self.objects_list.append(obj)
+            
+            return True, f"Lista de objetos cargada con {len(self.objects_list)} elementos"
+        
+        except Exception as e:
+            return False, f"Error al leer lista de objetos: {str(e)}"
+    
+    def get_next_object(self) -> Optional[Dict[str, str]]:
+        """
+        Obtiene el siguiente objeto de la lista.
+        
+        Returns:
+            Diccionario con el objeto o None si la lista está vacía
+        """
+        if not hasattr(self, 'objects_list') or not self.objects_list:
+            return None
+        return self.objects_list.pop(0)
+    
+    def get_objects_list(self) -> List[Dict[str, str]]:
+        """Retorna la lista de objetos."""
+        return getattr(self, 'objects_list', [])
