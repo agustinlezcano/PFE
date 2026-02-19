@@ -9,6 +9,7 @@ import rclpy
 from rclpy.node import Node
 from std_msgs.msg import Bool, String
 from geometry_msgs.msg import Point
+from extra_interfaces.msg import Trama
 import time
 import math
 from .limits_validator import LimitsValidator
@@ -26,7 +27,7 @@ class RobotUINode(Node):
         self.limits_validator = LimitsValidator()
         
         # Publishers para comunicar con el nodo publisher
-        self.cmd_publisher = self.create_publisher(Point, '/robot_ui/cmd', 10)
+        self.cmd_publisher = self.create_publisher(Trama, '/robot_ui/cmd', 10)
         self.invkin_publisher = self.create_publisher(Point, '/robot_ui/invkin', 10)
         self.homing_publisher = self.create_publisher(Bool, '/robot_ui/homing', 10)
         self.estop_publisher = self.create_publisher(Bool, '/robot_ui/emergency_stop', 10)
@@ -159,15 +160,16 @@ class RobotUINode(Node):
         )
 
     def _parse_joint_input(self, input_str: str) -> tuple:
-        """Parsea entrada de usuario en formato 'q1 q2 q3'."""
+        """Parsea entrada de usuario en formato 'q1 q2 q3 qd1 qd2 qd3'."""
         try:
             parts = input_str.strip().split()
             
-            if len(parts) != 3:
-                print("Ingreso inválido. Usa formato: 'q1 q2 q3'")
+            if len(parts) != 6:
+                print("Ingreso inválido. Usa formato: 'q1 q2 q3 qd1 qd2 qd3'")
                 return None
             
             q1, q2, q3 = float(parts[0]), float(parts[1]), float(parts[2])
+            qd1, qd2, qd3 = float(parts[3]), float(parts[4]), float(parts[5])
             
             if not self._validate_joint_position(q1, q2, q3):
                 print(f"Valores fuera de rango:")
@@ -176,7 +178,7 @@ class RobotUINode(Node):
                 print(f"  Q3: {q3:.4f} debe estar en [{self.q3_min:.4f}, {self.q3_max:.4f}]")
                 return None
             
-            return (q1, q2, q3)
+            return (q1, q2, q3, qd1, qd2, qd3)
         
         except ValueError:
             print("Error: Ingresa valores numéricos válidos")
@@ -226,15 +228,26 @@ class RobotUINode(Node):
         """Maneja el movimiento directo Q1,Q2,Q3."""
         try:
             print("\n--- Movimiento Directo (Q1 Q2 Q3) ---")
-            joint_input = input("Ingresa coordenadas articulares (q1 q2 q3) en grados: ").strip()
+            joint_input = input("Ingresa coordenadas articulares (q1 q2 q3) en grados y sus velocidades (qd1 qd2 qd3): ").strip()
+            time_iter_input = input("Ingresa Tiempo Total T y cantidad de Iteraciones N: ").strip()
             coords = self._parse_joint_input(joint_input)
             
             if coords:
-                q1, q2, q3 = coords
-                msg = Point()
-                msg.x = q1
-                msg.y = q2
-                msg.z = q3
+                q1, q2, q3, qd1, qd2, qd3 = coords
+                msg = Trama()
+                msg.q = [q1, q2, q3]
+                msg.qd = [qd1, qd2, qd3]
+                try:
+                    if time_iter_input.strip():
+                        t_total, n_iter = map(float, time_iter_input.split())
+                    else:
+                        t_total, n_iter = 5.0, 50  # Default values
+                    msg.t_total = t_total
+                    msg.n_iter = int(n_iter)
+                except ValueError:
+                    print("Error: Ingresa valores numéricos válidos para tiempo e iteraciones")
+                    return
+                
                 self.cmd_publisher.publish(msg)
                 time.sleep(0.25)  # Dar tiempo a ROS de procesar
                 

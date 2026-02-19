@@ -61,7 +61,7 @@ class MinimalPublisher(Node):
         # Publishers para Hardware Interface micro-ROS
         self.homing_publisher_ = self.create_publisher(Bool, '/microROS/homing', 10)
         self.current_angles_publisher_ = self.create_publisher(Bool, '/microROS/request_current_angles', 10)
-        self.cmd_publisher_ = self.create_publisher(Point, '/microROS/cmd', 10)
+        self.cmd_publisher_ = self.create_publisher(Trama, '/microROS/cmd', 10)
         self.inv_publisher_ = self.create_publisher(Point, '/microROS/inverse', 10)
         self.estop_publisher_ = self.create_publisher(Bool, '/microROS/emergency_stop', 10) # TODO: make callback
         
@@ -71,7 +71,7 @@ class MinimalPublisher(Node):
         
         # # ======================== Subscribers para tópicos de UI ========================
         self.ui_cmd_subscriber = self.create_subscription(
-            Point,
+            Trama,
             '/robot_ui/cmd',
             self.ui_cmd_callback,
             10)
@@ -229,9 +229,16 @@ class MinimalPublisher(Node):
         if msg.q is None or len(msg.q) != 3:
             self.get_logger().error('Invalid Trama message: q must have 3 elements')
             return
+        if msg.qd is None or len(msg.qd) != 3:
+            self.get_logger().error('Invalid Trama message: qd must have 3 elements')
+            return
+        if msg.t_total is None:
+            self.get_logger().warn('Invalid Trama message: t_total is required')
+        if msg.n_iter is None:
+            self.get_logger().warn('Invalid Trama message: n_iter is required')
             
-        self.get_logger().debug(f'Received planned path point: q={msg.q}, qd={msg.qd}')
-        self.doCmd(msg.q[0], msg.q[1], msg.q[2])
+        self.get_logger().debug(f'Received planned path point: q={msg.q}, qd={msg.qd}, t_total={msg.t_total}, n_iter={msg.n_iter}')
+        self.doCmd(msg.q[0], msg.q[1], msg.q[2], msg.qd[0], msg.qd[1], msg.qd[2], msg.t_total, msg.n_iter)
         if (self.state != RobotState.BLOCKED) and (self.state != RobotState.EMERGENCY_STOP):
             self.state = RobotState.RUNNING # TODO: ver si se pasa a IDLE
 
@@ -441,14 +448,14 @@ class MinimalPublisher(Node):
         self.get_logger().info(f'Publicado solicitud de ángulos actuales = {request_msg.data}')
         self.request_current_angles = False
 
-    def doCmd(self,q1: float = None, q2: float = None, q3: float = None):
+    def doCmd(self,q1: float = None, q2: float = None, q3: float = None, qd1: float = None, qd2: float = None, qd3: float = None, t_total: float = 5.0, n_iter: int = 200):
         """Publica comando directo con coordenadas articulares."""
         # Validar coordenadas articulares si se proporcionan
         if self.state == RobotState.EMERGENCY_STOP:
             self.get_logger().error('Cannot execute: Emergency stop active')
             return
         
-        if q1 is not None and q2 is not None and q3 is not None:
+        if q1 is not None and q2 is not None and q3 is not None and qd1 is not None and qd2 is not None and qd3 is not None:
             if self.state != RobotState.BLOCKED and self.state != RobotState.EMERGENCY_STOP:
                 self.state = RobotState.RUNNING
                 valid, msg = self.limits_validator.validate_joint_position(q1, q2, q3)
@@ -459,18 +466,23 @@ class MinimalPublisher(Node):
                 self.q1 = q1
                 self.q2 = q2
                 self.q3 = q3
+                self.qd1 = qd1
+                self.qd2 = qd2
+                self.qd3 = qd3
             
                 # Publicar comando
-                cmd_msg = Point()
-                cmd_msg.x = q1
-                cmd_msg.y = q2
-                cmd_msg.z = q3
+                # TODO: Change values to be dynamic
+                cmd_msg = Trama()
+                cmd_msg.q = [q1, q2, q3]
+                cmd_msg.qd = [qd1, qd2, qd3]
+                cmd_msg.t_total = t_total
+                cmd_msg.n_iter = n_iter
                 self.cmd_publisher_.publish(cmd_msg)  # Usa el mismo publisher que los timers
             
-                log_msg = f'Publicado CMD: q1={q1:.4f}, q2={q2:.4f}, q3={q3:.4f}'
+                log_msg = f'Publicado CMD: q1={q1:.4f}, q2={q2:.4f}, q3={q3:.4f}, qd1={qd1:.4f}, qd2={qd2:.4f}, qd3={qd3:.4f}, t_total={t_total}, n_iter={n_iter}'
                 self.get_logger().info(log_msg)
         else:
-            self.get_logger().error('doCmd requiere q1, q2, q3 como argumentos.')
+            self.get_logger().error('doCmd requiere q1, q2, q3, qd1, qd2, qd3 como argumentos.')
 
     def doInvKin(self, x, y, z):
         """Publica comando de cinemática inversa con validación de límites."""
@@ -497,12 +509,12 @@ class MinimalPublisher(Node):
     
     # ======================== UI Callbacks ========================
     
-    def ui_cmd_callback(self, msg: Point):
+    def ui_cmd_callback(self, msg: Trama):
         """Procesa comandos de movimiento directo desde el nodo UI."""
         if self.state == RobotState.EMERGENCY_STOP:
             self.get_logger().warn('E-Stop activado: Comando bloqueado')
             return
-        self.doCmd(msg.x, msg.y, msg.z)
+        self.doCmd(msg.q[0], msg.q[1], msg.q[2], msg.qd[0], msg.qd[1], msg.qd[2], msg.t_total, msg.n_iter)
     
     def ui_invkin_callback(self, msg: Point):
         """Procesa comandos de cinemática inversa desde el nodo UI."""
@@ -555,7 +567,7 @@ class MinimalPublisher(Node):
     def cmd_callback(self):
         """Callback periodico para publicar comandos (solo se ejecuta sin UI)."""
         if self.state != RobotState.EMERGENCY_STOP:
-            self.doCmd(self.q1, self.q2, self.q3)
+            self.doCmd(self.q1, self.q2, self.q3, self.qd1, self.qd2, self.qd3, self.t_total, self.n_iter)
         else:
             self.get_logger().warn('E-Stop activado: Comando bloqueado')
     
@@ -588,6 +600,8 @@ class MinimalPublisher(Node):
         return success, message
     
     def execute_trajectory(self, delay: float = 0.1):
+        # TODO: update legacy method to execute loaded trajectory point by point, sending commands to micro-ROS
+        # doCmd should send q, qd, t_total, n_iter for each point, and the micro-ROS node should handle the timing and execution of the trajectory
         """Ejecuta la trayectoria cargada."""
         trajectory = self.trajectory_reader.get_trajectory()
         if not trajectory:
@@ -606,7 +620,7 @@ class MinimalPublisher(Node):
                 self.doInvKin(point.x, point.y, point.z)
             elif point.is_joint():
                 # Use joint coordinates (q1, q2, q3)
-                self.doCmd(point.q1, point.q2, point.q3)
+                self.doCmd(point.q1, point.q2, point.q3)    # TODO: update to include qd and timing parameters if needed
             time.sleep(delay)
 
         if self.state != RobotState.EMERGENCY_STOP:
