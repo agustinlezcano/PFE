@@ -39,10 +39,10 @@ class JointLimits:
         self.q_min = [-90, 60, -25]  # -180°
         self.q_max = [90, 157, 65]     # +180°
         
-        # Velocidad angular máxima (rad/s)
-        self.q_vel_max = [1.57, 1.57, 1.57]  # ~90°/s
+        # Velocidad angular máxima steps/s
+        self.q_vel_max = [500, 500, 500]  # ~90°/s
         
-        # Aceleración angular máxima (rad/s²)
+        # Aceleración angular máxima steps/s²
         self.q_acc_max = [3.14, 3.14, 3.14]  # ~180°/s²
     
     def set_limits(self, q_min: list, q_max: list):
@@ -78,9 +78,6 @@ class WorkspaceLimits:
         
         # Velocidad máxima en espacio Cartesiano (m/s)
         self.v_max = 0.5
-        
-        # Aceleración máxima en espacio Cartesiano (m/s²)
-        self.a_max = 1.0
     
     def set_limits(self, x_min: float, x_max: float, 
                    y_min: float, y_max: float,
@@ -184,7 +181,6 @@ class LimitsValidator:
             'q_min': self.joint_limits.q_min,
             'q_max': self.joint_limits.q_max,
             'q_vel_max': self.joint_limits.q_vel_max,
-            'q_acc_max': self.joint_limits.q_acc_max,
         }
     
     def get_workspace_limits(self) -> dict:
@@ -194,5 +190,4 @@ class LimitsValidator:
             'y_range': [self.workspace_limits.y_min, self.workspace_limits.y_max],
             'z_range': [self.workspace_limits.z_min, self.workspace_limits.z_max],
             'v_max': self.workspace_limits.v_max,
-            'a_max': self.workspace_limits.a_max,
         }

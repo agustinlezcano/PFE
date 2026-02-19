@@ -247,7 +247,7 @@ class RobotUINode(Node):
                 except ValueError:
                     print("Error: Ingresa valores numéricos válidos para tiempo e iteraciones")
                     return
-                
+                print(f"[OK] Parametros: T={t_total:.4f}, N={n_iter:.4f}")
                 self.cmd_publisher.publish(msg)
                 time.sleep(0.25)  # Dar tiempo a ROS de procesar
                 

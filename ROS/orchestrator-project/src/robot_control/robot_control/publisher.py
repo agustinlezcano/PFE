@@ -511,6 +511,9 @@ class MinimalPublisher(Node):
     
     def ui_cmd_callback(self, msg: Trama):
         """Procesa comandos de movimiento directo desde el nodo UI."""
+        # DEBUG: Log valores recibidos
+        self.get_logger().info(f'DEBUG ui_cmd_callback: t_total={msg.t_total}, n_iter={msg.n_iter}')
+
         if self.state == RobotState.EMERGENCY_STOP:
             self.get_logger().warn('E-Stop activado: Comando bloqueado')
             return
@@ -590,9 +593,15 @@ class MinimalPublisher(Node):
         # self.vision_timer = self.create_timer(0.1, self.check_vision_response_callback)
         self.state = RobotState.IDLE
     
-    def load_trajectory_from_csv(self, filepath: str) -> tuple:
-        """Carga una trayectoria desde un archivo CSV."""
-        success, message = self.trajectory_reader.read_file(filepath, has_header=False)
+    def load_trajectory_from_csv(self, filepath: str, coordinate_type: str = 'joint') -> tuple:
+        """
+        Carga una trayectoria desde un archivo CSV.
+        
+        Args:
+            filepath: Ruta al archivo CSV
+            coordinate_type: Tipo de coordenadas ('cartesian' o 'joint'). Por defecto 'joint'
+        """
+        success, message = self.trajectory_reader.read_file(filepath, has_header=False, coordinate_type=coordinate_type)
         if success:
             self.get_logger().info(f'Trayectoria cargada: {message}')
         else:
@@ -600,9 +609,7 @@ class MinimalPublisher(Node):
         return success, message
     
     def execute_trajectory(self, delay: float = 0.1):
-        # TODO: update legacy method to execute loaded trajectory point by point, sending commands to micro-ROS
-        # doCmd should send q, qd, t_total, n_iter for each point, and the micro-ROS node should handle the timing and execution of the trajectory
-        """Ejecuta la trayectoria cargada."""
+        """Ejecuta la trayectoria cargada punto por punto."""
         trajectory = self.trajectory_reader.get_trajectory()
         if not trajectory:
             self.get_logger().warn('No hay trayectoria cargada')
@@ -619,8 +626,12 @@ class MinimalPublisher(Node):
                 # Use Cartesian coordinates (x, y, z) directly
                 self.doInvKin(point.x, point.y, point.z)
             elif point.is_joint():
-                # Use joint coordinates (q1, q2, q3)
-                self.doCmd(point.q1, point.q2, point.q3)    # TODO: update to include qd and timing parameters if needed
+                # Use joint coordinates with default velocities and timing parameters
+                # qd defaults to 100.0 for each joint, t_total and n_iter use doCmd defaults (5.0, 200)
+                qd1 = getattr(point, 'qd1', 100.0)
+                qd2 = getattr(point, 'qd2', 100.0)
+                qd3 = getattr(point, 'qd3', 100.0)
+                self.doCmd(point.q1, point.q2, point.q3, qd1, qd2, qd3)
             time.sleep(delay)
 
         if self.state != RobotState.EMERGENCY_STOP:

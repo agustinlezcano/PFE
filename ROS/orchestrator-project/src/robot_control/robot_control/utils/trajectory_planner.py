@@ -41,6 +41,9 @@ class TrajectoryPlannerNode(Node):
 
         # ------------------------------TEST TRAYECTORIA ------------------------------
         # Create instances
+        # TODO: pedir el dato de angulo (feedback de microROS)
+        # TODO: hacer cinematica directa 
+        # darle valor a last_point
         self.last_point = None  # TODO: check initial point from microcontroller
         #self.execute_trajectory_setup() # TODO: borrar, solo encesito la definicion, llamo de otro lado
 
@@ -70,7 +73,7 @@ class TrajectoryPlannerNode(Node):
         
         # Plan and plot trajectory
         #q, qd, T, N = planner.plan(waypoints, plot=True)
-        return planner.plan(waypoints, plot=True)
+        return planner.plan(waypoints, plot=False)
 
     def objective_callback(self, msg):
         """Handle incoming objective point"""

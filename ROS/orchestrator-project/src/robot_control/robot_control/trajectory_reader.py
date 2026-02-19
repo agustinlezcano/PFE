@@ -72,11 +72,11 @@ class CSVTrajectoryReader:
     """
     Lee archivos CSV de trayectorias y valida puntos.
     
-    Formato esperado del CSV:
-    - Opción 1 (Cartesiano): x,y,z
-    - Opción 2 (Articular): q1,q2,q3
-    - Opción 3 (Mixto): x,y,z,q1,q2,q3
-    - Opción 4 (Con headers): Header1,Header2,Header3 (con nombres personalizados)
+    Formato esperado del CSV (3 columnas):
+    - Cartesiano: x,y,z
+    - Articular: q1,q2,q3
+    
+    El tipo de coordenadas se especifica mediante el parámetro coordinate_type.
     """
     
     def __init__(self, validator: Optional[LimitsValidator] = None):
@@ -92,7 +92,8 @@ class CSVTrajectoryReader:
         self.header: List[str] = []
     
     def read_file(self, filepath: str, has_header: bool = False, 
-                  delimiter: str = ',', skip_empty: bool = True) -> Tuple[bool, str]:
+                  delimiter: str = ',', skip_empty: bool = True,
+                  coordinate_type: str = 'joint') -> Tuple[bool, str]:
         """
         Lee un archivo CSV de trayectoria.
         
@@ -101,6 +102,7 @@ class CSVTrajectoryReader:
             has_header: Si la primera fila es encabezado
             delimiter: Delimitador del CSV (por defecto ',')
             skip_empty: Si salta líneas vacías
+            coordinate_type: Tipo de coordenadas ('cartesian' o 'joint'). Por defecto 'joint'
             
         Returns:
             Tupla (éxito, mensaje)
@@ -115,6 +117,10 @@ class CSVTrajectoryReader:
             
             self.trajectory = []
             self.header = []
+            
+            # Validar coordinate_type
+            if coordinate_type not in ['cartesian', 'joint']:
+                return False, f"coordinate_type inválido: {coordinate_type}. Debe ser 'cartesian' o 'joint'"
             
             with open(filepath, 'r', newline='', encoding='utf-8') as csvfile:
                 reader = csv.reader(csvfile, delimiter=delimiter)
@@ -131,7 +137,7 @@ class CSVTrajectoryReader:
                         continue
                     
                     row_num += 1
-                    success, message = self._parse_row(row, row_num)
+                    success, message = self._parse_row(row, row_num, coordinate_type)
                     
                     if not success:
                         return False, f"Error en fila {row_num}: {message}"
@@ -141,13 +147,14 @@ class CSVTrajectoryReader:
         except Exception as e:
             return False, f"Error al leer archivo: {str(e)}"
     
-    def _parse_row(self, row: List[str], row_num: int) -> Tuple[bool, str]:
+    def _parse_row(self, row: List[str], row_num: int, coordinate_type: str) -> Tuple[bool, str]:
         """
         Parsea una fila del CSV.
         
         Args:
             row: Lista de valores de la fila
             row_num: Número de fila (para reportes de error)
+            coordinate_type: Tipo de coordenadas ('cartesian' o 'joint')
             
         Returns:
             Tupla (éxito, mensaje)
@@ -157,32 +164,30 @@ class CSVTrajectoryReader:
             values = []
             for val in row:
                 if val.strip() == '':
-                    values.append(None)
-                else:
-                    values.append(float(val.strip()))
+                    return False, "Valor vacío encontrado. Todos los valores deben estar presentes"
+                values.append(float(val.strip()))
             
-            # Detectar formato basado en cantidad de columnas
-            if len(values) == 3:  # Cartesiano (X, Y, Z)
+            # Validar cantidad de columnas (debe ser 3)
+            if len(values) != 3:
+                return False, f"Número de columnas inválido: {len(values)} (esperado 3)"
+            
+            # Crear punto según el tipo especificado
+            if coordinate_type == 'cartesian':
                 point = TrajectoryPoint(row_num, x=values[0], y=values[1], z=values[2])
-            
-            elif len(values) == 6:  # Mixto (X, Y, Z, Q1, Q2, Q3)
-                point = TrajectoryPoint(row_num, 
-                                       x=values[0], y=values[1], z=values[2],
-                                       q1=values[3], q2=values[4], q3=values[5])
-            
-            else:
-                return False, f"Número de columnas inválido: {len(values)} (esperado 3 o 6)"
-            
-            # Validar punto
-            if point.is_cartesian():
+                # Validar posición Cartesiana
                 valid, msg = self.validator.validate_cartesian_position(point.x, point.y, point.z)
                 if not valid:
                     return False, f"Posición Cartesiana inválida: {msg}"
             
-            if point.is_joint():
+            elif coordinate_type == 'joint':
+                point = TrajectoryPoint(row_num, q1=values[0], q2=values[1], q3=values[2])
+                # Validar posición articular
                 valid, msg = self.validator.validate_joint_position(point.q1, point.q2, point.q3)
                 if not valid:
                     return False, f"Posición articular inválida: {msg}"
+            
+            else:
+                return False, f"Tipo de coordenada inválido: {coordinate_type}"
             
             self.trajectory.append(point)
             return True, "Punto válido"
