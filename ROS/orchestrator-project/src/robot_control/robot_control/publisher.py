@@ -23,6 +23,15 @@ class RobotState(Enum):
     EMERGENCY_STOP = 2      # E-Stop activated, all commands blocked until released
     BLOCKED = 3             # waiting for vision response after requesting object coordinates
 
+class TrajectorySegment(Enum):
+    '''
+    Segments for multi-segment trajectory workflow (H→A→B→H).
+    '''
+    NONE = 0                # No active segment
+    H_TO_A = 1              # Homing to vision target (object position)
+    A_TO_B = 2              # Vision target to drop-off point
+    B_TO_H = 3              # Drop-off point back to homing
+
 
 class MinimalPublisher(Node):
 
@@ -40,7 +49,9 @@ class MinimalPublisher(Node):
         self.current_object = None
 
         self.request_counter = 0  # Contador de reintentos para solicitudes de visión
-        
+        self.vision_last_coordinates = None  # Coordenadas de Vision [P2P, Vision, P2P]
+        # TODO: Hacer cinemática directa o partir del homing
+
         # Initialize vision client
         self.vision_client = VisionClientNode("127.0.0.1", 65432, timeout=5.0, max_retries=3)
         success, msg = self.vision_client.start()
@@ -58,6 +69,11 @@ class MinimalPublisher(Node):
         # Estado inicial del robot
         self.state = RobotState.IDLE
         
+        # Segment tracking for multi-segment trajectory (H→A→B→H)
+        self.current_segment = TrajectorySegment.NONE
+        self.homing_position = [0.1723, 0.0, 0.17185]  # Homing position in meters
+        self.drop_off_point = [0.15275, -0.15275, 0.05]  # Fixed drop-off point (B)
+        
         # Publishers para Hardware Interface micro-ROS
         self.homing_publisher_ = self.create_publisher(Bool, '/microROS/homing', 10)
         self.current_angles_publisher_ = self.create_publisher(Bool, '/microROS/request_current_angles', 10)
@@ -68,6 +84,9 @@ class MinimalPublisher(Node):
         # Publisher para modo de Planificación de Trayectorias
         # TODO: use this when receiving point from Camera node and sending to Trajectory Planner node
         self.trajectory_planning_publisher = self.create_publisher(Point, 'ROS/trajectory_planning', 10) # Currently not used, but will be needed to send objectives to the trajectory planner node
+        
+        # Publisher para compartir coordenadas de visión con trajectory_planner
+        self.vision_position_publisher = self.create_publisher(Point, '/vision/position', 10)
         
         # # ======================== Subscribers para tópicos de UI ========================
         self.ui_cmd_subscriber = self.create_subscription(
@@ -129,6 +148,13 @@ class MinimalPublisher(Node):
             self.planner_path_callback,
             10)
         
+        # Subscriber for trajectory completion signal from planner
+        self.trajectory_complete_subscriber = self.create_subscription(
+            Bool,
+            'planner/trajectory_complete',
+            self.trajectory_complete_callback,
+            10)
+        
         # ======================== Timer para polling de respuestas de visión ========================
         self.vision_timer = self.create_timer(0.1, self.check_vision_response_callback)  # 10 Hz
 
@@ -145,7 +171,7 @@ class MinimalPublisher(Node):
         timer_period = 0.5  # seconds [0.01] -- Usado en timers [TEST]
         # self.sArray, self.sdArray, self.sddArray, self.t = initialize_and_generate_trajectory()
         # Removed automatic homing - now called from menu
-        # self.doHoming()
+        self.doHoming()
 
         self.get_logger().info("Publisher node initialized. Waiting for UI node commands...")
 
@@ -226,6 +252,13 @@ class MinimalPublisher(Node):
         Args:
             msg: Trama message with q[3], qd[3], t_total, n_iter
         """
+        # TODO: inicializar contador
+
+        # recibir mensaje
+
+        # leer trama
+
+
         if msg.q is None or len(msg.q) != 3:
             self.get_logger().error('Invalid Trama message: q must have 3 elements')
             return
@@ -241,6 +274,59 @@ class MinimalPublisher(Node):
         self.doCmd(msg.q[0], msg.q[1], msg.q[2], msg.qd[0], msg.qd[1], msg.qd[2], msg.t_total, msg.n_iter)
         if (self.state != RobotState.BLOCKED) and (self.state != RobotState.EMERGENCY_STOP):
             self.state = RobotState.RUNNING # TODO: ver si se pasa a IDLE
+
+    def trajectory_complete_callback(self, msg: Bool):
+        """
+        Callback for trajectory completion signal from trajectory planner.
+        
+        Manages segment transitions for the H→A→B→H workflow:
+        - H_TO_A complete → start A_TO_B (vision target to drop-off)
+        - A_TO_B complete → start B_TO_H (drop-off to homing)
+        - B_TO_H complete → set IDLE and request next object
+        """
+        if not msg.data:
+            return  # Only process completion signals
+        
+        if self.state == RobotState.EMERGENCY_STOP:
+            self.get_logger().warn('Trajectory complete received but E-Stop is active')
+            return
+        
+        self.get_logger().info(f'Trajectory segment complete: {self.current_segment.name}')
+        
+        if self.current_segment == TrajectorySegment.H_TO_A:
+            # H→A complete, start A→B (to drop-off point)
+            self.current_segment = TrajectorySegment.A_TO_B
+            self.get_logger().info('Starting segment A→B (vision target to drop-off)')
+            
+            # Send drop-off point as next objective
+            drop_off_msg = self.array_to_point(self.drop_off_point)
+            self.trajectory_planning_publisher.publish(drop_off_msg)
+            self.state = RobotState.RUNNING
+            
+        elif self.current_segment == TrajectorySegment.A_TO_B:
+            # A→B complete, start B→H (back to homing)
+            self.current_segment = TrajectorySegment.B_TO_H
+            self.get_logger().info('Starting segment B→H (drop-off to homing)')
+            
+            # Send homing position as next objective
+            homing_msg = self.array_to_point(self.homing_position)
+            self.trajectory_planning_publisher.publish(homing_msg)
+            self.state = RobotState.RUNNING
+            
+        elif self.current_segment == TrajectorySegment.B_TO_H:
+            # B→H complete, full cycle done - request next object
+            self.current_segment = TrajectorySegment.NONE
+            self.state = RobotState.IDLE
+            self.get_logger().info('Full trajectory cycle H→A→B→H complete')
+            
+            # Clear current object and request next one
+            self.current_object = None
+            self.request_next_object()
+        
+        else:
+            self.get_logger().warn(f'Unexpected segment state: {self.current_segment}')
+            self.current_segment = TrajectorySegment.NONE
+            self.state = RobotState.IDLE
 
     def load_objects_list(self, filepath: str) -> bool:
         """
@@ -324,16 +410,24 @@ class MinimalPublisher(Node):
             # Convertir a Point message (en metros)
             point_msg = self.array_to_point([x_m, y_m, z_m])
             
+            #Almacenar coordenadas del objeto actual para referencia futura (opcional)
+            self.vision_last_coordinates = [x_m, y_m, z_m]
+            
+            # Publicar coordenadas de visión para que trajectory_planner las almacene
+            self.vision_position_publisher.publish(point_msg)
+            
             self.get_logger().info(f'Respuesta de visión validada: x={point_msg.x:.4f}, y={point_msg.y:.4f}, z={point_msg.z:.4f}')
             
-            # Enviar objetivo al trajectory planner
-            self.trajectory_planning_publisher.publish(point_msg)
+            # Start H→A→B→H workflow: first segment is H→A (homing to vision target)
+            self.current_segment = TrajectorySegment.H_TO_A
+            self.get_logger().info(f'Starting segment H→A for object: {self.current_object["name"]}')
             
+            # Enviar objetivo al trajectory planner (punto A = visión)
+            self.trajectory_planning_publisher.publish(point_msg)
+
             # Cambiar a estado RUNNING (trayectoria en ejecución)
-            # TODO: Implementar timeout para planner - si no responde en X segundos, volver a IDLE
-            # self.planner_timeout_timer = self.create_timer(10.0, self._planner_timeout_callback)
             self.state = RobotState.RUNNING
-            self.get_logger().info(f'Objetivo enviado al trajectory planner para {self.current_object["name"]}')
+            self.get_logger().info(f'Trajectory H→A→B→H initiated for {self.current_object["name"]}')
             
             # Resetear contador después de éxito
             self.request_counter = 0
@@ -418,7 +512,8 @@ class MinimalPublisher(Node):
         # Flujo esperado:
         # 1. Recibir mensaje con angleDone=True cuando el movimiento completó
         # 2. Si electroIman=True, el objeto fue capturado
-        # 3. Transicionar a IDLE y solicitar siguiente objeto
+        # 3. Transicionar a IDLE y pasar de estado de trayectoria (puede venir en Trama en al parte de N_iter)
+        # Si N_iter == 3 --> solicitar siguiente objeto (esto afecta a la parte de lectura csv (next_object) y a la parte de UI (mostrar mensaje de éxito))
         #
         # Ejemplo de implementación:
         # if msg.angleDone and not msg.electroIman:
@@ -437,7 +532,6 @@ class MinimalPublisher(Node):
         self.homing_publisher_.publish(do_homing)
         self.get_logger().info(f'Publicado homing = {do_homing.data}')
         self.homing = False
-
     
     def doRequestCurrentAngles(self):
         """Solicita los ángulos actuales de los motores."""
