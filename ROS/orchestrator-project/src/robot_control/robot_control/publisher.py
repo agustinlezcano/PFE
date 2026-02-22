@@ -88,6 +88,9 @@ class MinimalPublisher(Node):
         # Publisher para compartir coordenadas de visión con trajectory_planner
         self.vision_position_publisher = self.create_publisher(Point, '/vision/position', 10)
         
+        # Publisher para estado de trayectoria a micro-ROS (traj_active)
+        self.trajectory_state_publisher = self.create_publisher(Bool, '/microROS/trajectory_state', 10)
+        
         # # ======================== Subscribers para tópicos de UI ========================
         self.ui_cmd_subscriber = self.create_subscription(
             Trama,
@@ -250,7 +253,7 @@ class MinimalPublisher(Node):
         to execute commands for Joint motion.
         
         Args:
-            msg: Trama message with q[3], qd[3], t_total, n_iter
+            msg: Trama message with q[3], qd[3], t_total, n_iter, traj_active
         """
         # TODO: inicializar contador
 
@@ -270,7 +273,16 @@ class MinimalPublisher(Node):
         if msg.n_iter is None:
             self.get_logger().warn('Invalid Trama message: n_iter is required')
             
-        self.get_logger().debug(f'Received planned path point: q={msg.q}, qd={msg.qd}, t_total={msg.t_total}, n_iter={msg.n_iter}')
+        # Extract and forward trajectory active state to micro-ROS
+        traj_active = msg.traj_active if hasattr(msg, 'traj_active') else True
+        self.get_logger().info(f'Received planned path point: q={msg.q}, qd={msg.qd}, t_total={msg.t_total}, n_iter={msg.n_iter}, traj_active={traj_active}')
+        
+        # Publish trajectory state to micro-ROS so it can enter trajectoryControl()
+        traj_state_msg = Bool()
+        traj_state_msg.data = traj_active
+        self.trajectory_state_publisher.publish(traj_state_msg)
+        self.get_logger().debug(f'Published trajectory state to micro-ROS: traj_active={traj_active}')
+        
         self.doCmd(msg.q[0], msg.q[1], msg.q[2], msg.qd[0], msg.qd[1], msg.qd[2], msg.t_total, msg.n_iter)
         if (self.state != RobotState.BLOCKED) and (self.state != RobotState.EMERGENCY_STOP):
             self.state = RobotState.RUNNING # TODO: ver si se pasa a IDLE

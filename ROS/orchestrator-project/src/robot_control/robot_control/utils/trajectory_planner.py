@@ -152,6 +152,9 @@ class TrajectoryPlannerNode(Node):
 
     def publish_trajectory_point(self):
         """Publish trajectory points periodically"""
+        trajectory_active = Bool()
+        trajectory_state = 0  # 0 = not started, 1 = started, 2 = active, 3 = completed
+        
         # Validate trajectory data exists and index is in bounds
         if self.q is None or self.qd is None:
             self.get_logger().error('Trajectory data is None')
@@ -173,18 +176,34 @@ class TrajectoryPlannerNode(Node):
             self.stop_trajectory_publishing()
             return
         
+        #--------------------Trajectory state mapping to Trama.msg--------------------
+        #  - index 0 => start (1)
+        #  - index in (0, len-1) => active (2)
+        #  - index == len-1 => completed (3) (last point published contains completion state)
+        if self.trajectory_index == 0:
+            trajectory_active.data = True
+            trajectory_state = 1  # Trajectory just started
+        elif self.trajectory_index == len(self.q) - 1:
+            # Last point: mark as completed
+            trajectory_active.data = False
+            trajectory_state = 3
+        else:
+            # Still publishing trajectory points - trajectory is active
+            trajectory_active.data = True
+            trajectory_state = 2
+        #----------------------------------------------------------------------------
         # Create and publish message
         msg = Trama()
         msg.q = position.tolist() if hasattr(position, 'tolist') else list(position)
         msg.qd = velocity.tolist() if hasattr(velocity, 'tolist') else list(velocity)
         msg.t_total = float(self.T) if self.T is not None else 0.0
         msg.n_iter = int(self.N) if self.N is not None else 0
+        msg.traj_state = int(trajectory_state)
 
         self.path_publisher.publish(msg)
         
         self.get_logger().debug(f'Published point {self.trajectory_index}/{len(self.q)}: q={position}')
         self.trajectory_index += 1
-
 
 def main(args=None):
     rclpy.init(args=args)
