@@ -80,6 +80,7 @@ class MinimalPublisher(Node):
         self.cmd_publisher_ = self.create_publisher(Trama, '/microROS/cmd', 10)
         self.inv_publisher_ = self.create_publisher(Point, '/microROS/inverse', 10)
         self.estop_publisher_ = self.create_publisher(Bool, '/microROS/emergency_stop', 10) # TODO: make callback
+        self.electroiman_publisher_ = self.create_publisher(Bool, '/microROS/electroiman', 10)
         
         # Publisher para modo de Planificación de Trayectorias
         # TODO: use this when receiving point from Camera node and sending to Trajectory Planner node
@@ -116,10 +117,10 @@ class MinimalPublisher(Node):
             self.ui_estop_callback,
             10)
         
-        self.ui_csv_subscriber = self.create_subscription(
-            String,
-            '/robot_ui/load_csv',
-            self.ui_csv_callback,
+        self.ui_e_magnet_on_subscriber = self.create_subscription(
+            Bool,
+            '/robot_ui/e_magnet_on',
+            self.ui_e_magnet_on_callback,
             10)
         
         self.ui_objects_list_subscriber = self.create_subscription(
@@ -545,6 +546,14 @@ class MinimalPublisher(Node):
         self.get_logger().info(f'Publicado homing = {do_homing.data}')
         self.homing = False
     
+    def doElectroiman(self, activate: bool):
+        """Publica comando de electroimán a micro-ROS."""
+        electroiman_msg = Bool()
+        electroiman_msg.data = activate
+        self.electroiman_publisher_.publish(electroiman_msg)
+        state_str = 'ENCENDIDO' if activate else 'APAGADO'
+        self.get_logger().info(f'Publicado electroimán = {electroiman_msg.data} ({state_str})')
+    
     def doRequestCurrentAngles(self):
         """Solicita los ángulos actuales de los motores."""
         request_msg = Bool()
@@ -644,12 +653,9 @@ class MinimalPublisher(Node):
         else:
             self.release_emergency_stop()
     
-    def ui_csv_callback(self, msg: String):
-        """Procesa comando de cargar CSV desde el nodo UI."""
-        filepath = msg.data
-        success, message = self.load_trajectory_from_csv(filepath)
-        if success:
-            self.execute_trajectory()
+    def ui_e_magnet_on_callback(self, msg: Bool):
+        """Procesa comando de electroimán desde el nodo UI y publica a micro-ROS."""
+        self.doElectroiman(msg.data)
     
     def ui_objects_list_callback(self, msg: String):
         """

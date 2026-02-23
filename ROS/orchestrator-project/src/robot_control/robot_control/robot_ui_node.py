@@ -31,7 +31,7 @@ class RobotUINode(Node):
         self.invkin_publisher = self.create_publisher(Point, '/robot_ui/invkin', 10)
         self.homing_publisher = self.create_publisher(Bool, '/robot_ui/homing', 10)
         self.estop_publisher = self.create_publisher(Bool, '/robot_ui/emergency_stop', 10)
-        self.load_csv_publisher = self.create_publisher(String, '/robot_ui/load_csv', 10)
+        self.e_magnet_on_publisher = self.create_publisher(Bool, '/robot_ui/e_magnet_on', 10)
         self.request_angles_publisher = self.create_publisher(Bool, '/robot_ui/request_current_angles', 10)
         self.objects_list_publisher = self.create_publisher(String, '/robot_ui/load_objects', 10)
         
@@ -74,7 +74,7 @@ class RobotUINode(Node):
         while rclpy.ok():
             try:
                 self._display_menu()
-                choice = input("Selecciona una opción (1-10): ").strip()
+                choice = input("Selecciona una opción (1-9): ").strip()
 
                 # Dictionary mapping choices to handler methods
                 handlers = {
@@ -82,18 +82,17 @@ class RobotUINode(Node):
                     "2": self._handle_direct_movement,
                     "3": self._handle_inverse_kinematics,
                     "4": self._handle_load_trajectory,
-                    "5": self._handle_execute_trajectory,
-                    "6": self._handle_emergency_stop,
-                    "7": self._handle_change_range,
-                    "8": self._handle_request_current_angles,
-                    "9": self._handle_load_objects_list,
-                    "10": lambda: self._exit_program()
+                    "5": self._handle_emergency_stop,
+                    "6": self._handle_change_range,
+                    "7": self._handle_request_current_angles,
+                    "8": self._handle_load_objects_list,
+                    "9": lambda: self._exit_program()
                 }
 
                 if choice in handlers:
                     handlers[choice]()
                 else:
-                    print("Opción inválida. Por favor, intenta de nuevo (1-10).")
+                    print("Opción inválida. Por favor, intenta de nuevo (1-9).")
                 
                 time.sleep(0.1)
             
@@ -130,11 +129,11 @@ class RobotUINode(Node):
     Q2: [{self.q2_min:7.4f}, {self.q2_max:7.4f}]   |   Y: [{self.y_min:7.4f}, {self.y_max:7.4f}]
     Q3: [{self.q3_min:7.4f}, {self.q3_max:7.4f}]   |   Z: [{self.z_min:7.4f}, {self.z_max:7.4f}]
     {'-'*60}
-    1. Homing                        6. Parada de Emergencia
-    2. Movimiento Directo (Joints)   7. Cambiar rangos validación
-    3. Cinemática Inversa (XYZ)      8. Solicitar Ángulos Actuales
-    4. Cargar Trayectoria (CSV)      9. Cargar Lista Objetos (Visión)
-    5. Ejecutar Trayectoria          10. Salir
+    1. Homing                        5. Parada de Emergencia
+    2. Movimiento Directo (Joints)   6. Cambiar rangos validación
+    3. Cinemática Inversa (XYZ)      7. Solicitar Ángulos Actuales
+    4. Control Electroimán           8. Cargar Lista Objetos (Visión)
+                                     9. Salir
     {'='*60}
     """)
 
@@ -280,46 +279,32 @@ class RobotUINode(Node):
             self.get_logger().error(f"Error en cinemática inversa: {str(e)}")
 
     def _handle_load_trajectory(self):
-        """Maneja la carga de trayectoria desde CSV."""
+        """Maneja el control del electroimán."""
         try:
-            print("\n--- Cargar Trayectoria (CSV) ---")
-            filepath = input("Ingresa la ruta del archivo CSV: ").strip()
+            print("\n--- Control de Electroimán ---")
+            print("1. Encender electroimán")
+            print("2. Apagar electroimán")
+            choice = input("Selecciona opción (1-2): ").strip()
             
-            if filepath:
-                # Publicar solicitud de carga de CSV
-                msg = String()
-                msg.data = filepath
-                self.load_csv_publisher.publish(msg)
-                time.sleep(0.5)  # Dar tiempo a ROS de procesar
-                print(f"[OK] Solicitud de carga enviada: {filepath}")
-                self.get_logger().info(f"CSV load request: {filepath}")
+            if choice == '1':
+                msg = Bool()
+                msg.data = True
+                self.e_magnet_on_publisher.publish(msg)
+                time.sleep(0.25)
+                print("[OK] Electroimán ENCENDIDO")
+                self.get_logger().info("Electroimán encendido vía UI")
+            elif choice == '2':
+                msg = Bool()
+                msg.data = False
+                self.e_magnet_on_publisher.publish(msg)
+                time.sleep(0.25)
+                print("[OK] Electroimán APAGADO")
+                self.get_logger().info("Electroimán apagado vía UI")
             else:
-                print("[Cancelado] No se ingresó ruta")
+                print("[Cancelado] Opción inválida")
         
         except Exception as e:
-            self.get_logger().error(f"Error cargando CSV: {str(e)}")
-
-    def _handle_execute_trajectory(self):
-        """Maneja la ejecución de trayectoria."""
-        try:
-            print("\n--- Ejecutar Trayectoria ---")
-            delay_input = input("Ingresa delay entre puntos en segundos (default 0.1): ").strip()
-            
-            try:
-                delay = float(delay_input) if delay_input else 0.1
-            except ValueError:
-                print("[ERROR] Ingresa un valor numérico válido")
-                return
-            
-            confirm = input("¿Ejecutar trayectoria? (s/n): ").strip().lower()
-            if confirm == 's':
-                print(f"[OK] Ejecutando trayectoria con delay de {delay}s")
-                self.get_logger().info(f"Trajectory execution requested with delay={delay}")
-            else:
-                print("[Cancelado] Ejecución cancelada")
-        
-        except Exception as e:
-            self.get_logger().error(f"Error ejecutando trayectoria: {str(e)}")
+            self.get_logger().error(f"Error controlando electroimán: {str(e)}")
 
     def _handle_emergency_stop(self):
         """Maneja la parada de emergencia."""
