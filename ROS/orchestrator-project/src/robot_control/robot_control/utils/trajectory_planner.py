@@ -60,7 +60,7 @@ class TrajectoryPlannerNode(Node):
         self.last_point = None  # TODO: check initial point from microcontroller
         self.homing_position = np.array([0.1723, 0.0, 0.17185])  # TODO: hacer cinematica directa de 0 90 0
         #self.execute_trajectory_setup() # TODO: borrar, solo encesito la definicion, llamo de otro lado
-        self.trajectory_state = 0  # 0 = not started, 1 = started, 2 = active, 3 = completed: como compartir el z entre trajectory_planner y publisher? (para que el planner sepa a que altura planificar, y el publisher a que altura mover el robot) (@emanuel)
+        self.trajectory_state = None  # 0 = not started, 1 = started, 2 = active, 3 = completed: como compartir el z entre trajectory_planner y publisher? (para que el planner sepa a que altura planificar, y el publisher a que altura mover el robot) (@emanuel)
         self._electroiman_state = False
 
         #------------------------------------------------------------------------------
@@ -177,13 +177,13 @@ class TrajectoryPlannerNode(Node):
         #  - index in (0, len-1) => active (2)
         #  - index == len-1 => completed (3) (last point published contains completion state)
         if self.trajectory_index == 0:
-            self.trajectory_state = 1  # Trajectory just started
+            self.trajectory_state = int(1)  # Trajectory just started
         elif self.trajectory_index == len(self.q) - 1:
             # Last point: mark as completed
-            self.trajectory_state = 3
+            self.trajectory_state = int(3)
         else:
             # Still publishing trajectory points - trajectory is active
-            self.trajectory_state = 2
+            self.trajectory_state = int(2)
         #----------------------------------------------------------------------------
         # Create and publish message
         msg = Trama()
@@ -191,7 +191,7 @@ class TrajectoryPlannerNode(Node):
         msg.qd = velocity.tolist() if hasattr(velocity, 'tolist') else list(velocity)
         msg.t_total = float(self.T) if self.T is not None else 0.0
         msg.n_iter = int(self.N) if self.N is not None else 0
-        msg.traj_state = int(self.trajectory_state)
+        msg.traj_state = int(self.trajectory_state) if self.trajectory_state is not None else 0
 
         self.path_publisher.publish(msg)
         
