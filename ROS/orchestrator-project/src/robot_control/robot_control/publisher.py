@@ -284,7 +284,7 @@ class MinimalPublisher(Node):
             
         # Extract and forward trajectory active state to micro-ROS
         traj_active = msg.traj_active if hasattr(msg, 'traj_active') else True
-        self.get_logger().info(f'Received planned path point: q={msg.q}, qd={msg.qd}, t_total={msg.t_total}, n_iter={msg.n_iter}, traj_active={traj_active}')
+        self.get_logger().debug(f'Received planned path point: q={msg.q}, qd={msg.qd}, t_total={msg.t_total}, n_iter={msg.n_iter}, traj_active={traj_active}')
         
         # Publish trajectory state to micro-ROS so it can enter trajectoryControl()
         traj_state_msg = Bool()
@@ -571,40 +571,41 @@ class MinimalPublisher(Node):
         self.get_logger().info(f'Publicado solicitud de ángulos actuales = {request_msg.data}')
         self.request_current_angles = False
 
-    def doCmd(self,q1: float = None, q2: float = None, q3: float = None, qd1: float = None, qd2: float = None, qd3: float = None, t_total: float = 5.0, n_iter: int = 200, traj_state: int = 0):
+    def doCmd(self, msg: Trama):
+        # q1: float = None, q2: float = None, q3: float = None, qd1: float = None, qd2: float = None, qd3: float = None, t_total: float = 5.0, n_iter: int = 200, traj_state: int = 0
         """Publica comando directo con coordenadas articulares."""
         # Validar coordenadas articulares si se proporcionan
         if self.state == RobotState.EMERGENCY_STOP:
             self.get_logger().error('Cannot execute: Emergency stop active')
             return
         
-        if q1 is not None and q2 is not None and q3 is not None and qd1 is not None and qd2 is not None and qd3 is not None:
+        if msg.q[0] is not None and msg.q[1] is not None and msg.q[2] is not None and msg.qd[0] is not None and msg.qd[1] is not None and msg.qd[2] is not None:
             if self.state != RobotState.BLOCKED and self.state != RobotState.EMERGENCY_STOP:
                 self.state = RobotState.RUNNING
-                valid, msg = self.limits_validator.validate_joint_position(q1, q2, q3)
+                valid, msg = self.limits_validator.validate_joint_position(msg.q[0], msg.q[1], msg.q[2])
                 if not valid:
                     self.get_logger().error(f'Joint validation error: {msg}')
                     return
                 # Actualizar variables articulares
-                self.q1 = q1
-                self.q2 = q2
-                self.q3 = q3
-                self.qd1 = qd1
-                self.qd2 = qd2
-                self.qd3 = qd3
+                self.q1 = msg.q[0]
+                self.q2 = msg.q[1]
+                self.q3 = msg.q[2]
+                self.qd1 = msg.qd[0]
+                self.qd2 = msg.qd[1]
+                self.qd3 = msg.qd[2]
             
                 # Publicar comando
                 # TODO: Change values to be dynamic
                 cmd_msg = Trama()
-                cmd_msg.q = [q1, q2, q3]
-                cmd_msg.qd = [qd1, qd2, qd3]
-                cmd_msg.t_total = t_total
-                cmd_msg.n_iter = n_iter
-                cmd_msg.traj_state = traj_state
+                cmd_msg.q = [self.q1, self.q2, self.q3]
+                cmd_msg.qd = [self.qd1, self.qd2, self.qd3]
+                cmd_msg.t_total = msg.t_total
+                cmd_msg.n_iter = msg.n_iter
+                cmd_msg.traj_state = msg.traj_state
                 self.cmd_publisher_.publish(cmd_msg)  # Usa el mismo publisher que los timers
             
-                log_msg = f'Publicado CMD: q1={q1:.4f}, q2={q2:.4f}, q3={q3:.4f}, qd1={qd1:.4f}, qd2={qd2:.4f}, qd3={qd3:.4f}, t_total={t_total}, n_iter={n_iter}, traj_state={traj_state}'
-                self.get_logger().info(log_msg)
+                log_msg = f'Publicado CMD: q1={msg.q[0]:.4f}, q2={msg.q[1]:.4f}, q3={msg.q[2]:.4f}, qd1={msg.qd[0]:.4f}, qd2={msg.qd[1]:.4f}, qd3={msg.qd[2]:.4f}, t_total={msg.t_total}, n_iter={msg.n_iter}, traj_state={msg.traj_state}'
+                self.get_logger().debug(log_msg)
         else:
             self.get_logger().error('doCmd requiere q1, q2, q3, qd1, qd2, qd3 como argumentos.')
 
