@@ -75,7 +75,7 @@ class TrajectoryPlannerNode(Node):
             startPoint = self.homing_position
         config = RobotConfiguration()
         kinematics = KinematicsSolver(config)
-        path_generator = PathGenerator(resolution=50, smoothing=0.5, degree=3)
+        path_generator = PathGenerator(resolution=40, smoothing=0.5, degree=3)
         validator = WorkspaceValidator()
         planner = TrajectoryPlanner(kinematics, path_generator, validator)
     

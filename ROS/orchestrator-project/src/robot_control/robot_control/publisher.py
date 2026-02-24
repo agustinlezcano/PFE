@@ -158,6 +158,12 @@ class MinimalPublisher(Node):
             self.trajectory_complete_callback,
             10)
         
+        self.trajectory_electromagnet_subscriber = self.create_subscription(
+            Bool,
+            'planner/electroiman',
+            self.trajectory_electromagnet_callback,
+            10)
+        
         # ======================== Timer para polling de respuestas de visión ========================
         self.vision_timer = self.create_timer(0.1, self.check_vision_response_callback)  # 10 Hz
 
@@ -681,6 +687,10 @@ class MinimalPublisher(Node):
         """Procesa solicitud de ángulos actuales desde el nodo UI."""
         if msg.data:
             self.doRequestCurrentAngles()
+
+    def trajectory_electromagnet_callback(self, msg: Bool):
+        """Callback para activar/desactivar electroimán desde la planificación de trayectorias."""
+        self.doElectroiman(msg.data)
 
     def cmd_callback(self):
         """Callback periodico para publicar comandos (solo se ejecuta sin UI)."""
