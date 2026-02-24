@@ -138,11 +138,10 @@ class MinimalPublisher(Node):
         
         # ======================== Subscribers para tópicos de micro-ROS ========================
         self.subscriber = self.create_subscription(
-            String,
+            Point,
             '/microROS/string_publisher',
             self.subscriber_callback,
             10) # current communication made here
-
         
         # ======================== Subscribers para tópicos de Planner ========================
         # Subscriber for planned trajectory path from trajectory planner node
@@ -207,7 +206,10 @@ class MinimalPublisher(Node):
         self.z += 0.1
 
     def subscriber_callback(self, msg):
-        self.get_logger().info('I heard: "%s"' % msg.data)
+        msg.x = self.x
+        msg.y = self.y
+        msg.z = self.z
+        self.get_logger().info(f'I heard: x={msg.x}, y={msg.y}, z={msg.z}')
         # add logic to handle the received message if needed
     
     def array_to_point(self, value) -> Point:

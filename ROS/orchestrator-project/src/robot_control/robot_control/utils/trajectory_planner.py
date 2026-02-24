@@ -58,26 +58,24 @@ class TrajectoryPlannerNode(Node):
         # TODO: hacer cinematica directa 
         # darle valor a last_point
         self.last_point = None  # TODO: check initial point from microcontroller
-        self.homing_position = np.array([0.1723, 0.0, 0.17185])  # TODO: set actual homing position
+        self.homing_position = np.array([0.1723, 0.0, 0.17185])  # TODO: hacer cinematica directa de 0 90 0
         #self.execute_trajectory_setup() # TODO: borrar, solo encesito la definicion, llamo de otro lado
-
+        self.trajectory_state = 0  # 0 = not started, 1 = started, 2 = active, 3 = completed: como compartir el z entre trajectory_planner y publisher? (para que el planner sepa a que altura planificar, y el publisher a que altura mover el robot) (@emanuel)
+        self._electroiman_state = False
 
         #------------------------------------------------------------------------------
-
-
         self.trajectory = None
         self.trajectory_index = 0
         self.timer = None
         
         self.get_logger().info('Trajectory Planner Node started')
 
-    # TODO: como compartir el z entre trajectory_planner y publisher? (para que el planner sepa a que altura planificar, y el publisher a que altura mover el robot) (@emanuel)
     def execute_trajectory_setup(self, startPoint=None, endPoint=np.array([0.15275, -0.15275, 0.05])):
         if startPoint is None:
             startPoint = self.homing_position
         config = RobotConfiguration()
         kinematics = KinematicsSolver(config)
-        path_generator = PathGenerator(resolution=200, smoothing=0.5, degree=3)
+        path_generator = PathGenerator(resolution=50, smoothing=0.5, degree=3)
         validator = WorkspaceValidator()
         planner = TrajectoryPlanner(kinematics, path_generator, validator)
     
@@ -105,8 +103,8 @@ class TrajectoryPlannerNode(Node):
     def electroiman(self, logic : Bool = None):
             """Enciende/apaga el electroimán."""
             electroiman_msg = Bool()
-            self.electroiman = logic
-            electroiman_msg.data = self.electroiman
+            self._electroiman_state = logic
+            electroiman_msg.data = self._electroiman_state
             self.electroiman_publisher_.publish(electroiman_msg)
             self.get_logger().info(f'Publicado electroimán = {electroiman_msg.data}')
 
@@ -152,8 +150,6 @@ class TrajectoryPlannerNode(Node):
 
     def publish_trajectory_point(self):
         """Publish trajectory points periodically"""
-        trajectory_active = Bool()
-        trajectory_state = 0  # 0 = not started, 1 = started, 2 = active, 3 = completed
         
         # Validate trajectory data exists and index is in bounds
         if self.q is None or self.qd is None:
@@ -181,16 +177,13 @@ class TrajectoryPlannerNode(Node):
         #  - index in (0, len-1) => active (2)
         #  - index == len-1 => completed (3) (last point published contains completion state)
         if self.trajectory_index == 0:
-            trajectory_active.data = True
-            trajectory_state = 1  # Trajectory just started
+            self.trajectory_state = 1  # Trajectory just started
         elif self.trajectory_index == len(self.q) - 1:
             # Last point: mark as completed
-            trajectory_active.data = False
-            trajectory_state = 3
+            self.trajectory_state = 3
         else:
             # Still publishing trajectory points - trajectory is active
-            trajectory_active.data = True
-            trajectory_state = 2
+            self.trajectory_state = 2
         #----------------------------------------------------------------------------
         # Create and publish message
         msg = Trama()
@@ -198,10 +191,11 @@ class TrajectoryPlannerNode(Node):
         msg.qd = velocity.tolist() if hasattr(velocity, 'tolist') else list(velocity)
         msg.t_total = float(self.T) if self.T is not None else 0.0
         msg.n_iter = int(self.N) if self.N is not None else 0
-        msg.traj_state = int(trajectory_state)
+        msg.traj_state = int(self.trajectory_state)
 
         self.path_publisher.publish(msg)
         
+        self.get_logger().info(f'Index {self.trajectory_index}, State={msg.traj_state}')
         self.get_logger().debug(f'Published point {self.trajectory_index}/{len(self.q)}: q={position}')
         self.trajectory_index += 1
 
