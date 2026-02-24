@@ -292,7 +292,7 @@ class MinimalPublisher(Node):
         self.trajectory_state_publisher.publish(traj_state_msg)
         self.get_logger().debug(f'Published trajectory state to micro-ROS: traj_active={traj_active}')
         
-        self.doCmd(msg.q[0], msg.q[1], msg.q[2], msg.qd[0], msg.qd[1], msg.qd[2], msg.t_total, msg.n_iter, msg.traj_state)
+        self.doCmd(msg)
         if (self.state != RobotState.BLOCKED) and (self.state != RobotState.EMERGENCY_STOP):
             self.state = RobotState.RUNNING # TODO: ver si se pasa a IDLE
 
@@ -642,7 +642,7 @@ class MinimalPublisher(Node):
         if self.state == RobotState.EMERGENCY_STOP:
             self.get_logger().warn('E-Stop activado: Comando bloqueado')
             return
-        self.doCmd(msg.q[0], msg.q[1], msg.q[2], msg.qd[0], msg.qd[1], msg.qd[2], msg.t_total, msg.n_iter, msg.traj_state)
+        self.doCmd(msg)
     
     def ui_invkin_callback(self, msg: Point):
         """Procesa comandos de cinemática inversa desde el nodo UI."""
@@ -693,12 +693,13 @@ class MinimalPublisher(Node):
         """Callback para activar/desactivar electroimán desde la planificación de trayectorias."""
         self.doElectroiman(msg.data)
 
-    def cmd_callback(self):
-        """Callback periodico para publicar comandos (solo se ejecuta sin UI)."""
-        if self.state != RobotState.EMERGENCY_STOP:
-            self.doCmd(self.q1, self.q2, self.q3, self.qd1, self.qd2, self.qd3, self.t_total, self.n_iter, traj_state=0)
-        else:
-            self.get_logger().warn('E-Stop activado: Comando bloqueado')
+    # TODO: delete
+    # def cmd_callback(self):
+    #     """Callback periodico para publicar comandos (solo se ejecuta sin UI)."""
+    #     if self.state != RobotState.EMERGENCY_STOP:
+    #         self.doCmd(self.q1, self.q2, self.q3, self.qd1, self.qd2, self.qd3, self.t_total, self.n_iter, traj_state=0)
+    #     else:
+    #         self.get_logger().warn('E-Stop activado: Comando bloqueado')
     
     def trigger_emergency_stop(self):
         """Activa la parada de emergencia y cancela el timer de visión."""
@@ -757,7 +758,7 @@ class MinimalPublisher(Node):
                 qd1 = getattr(point, 'qd1', 100.0)
                 qd2 = getattr(point, 'qd2', 100.0)
                 qd3 = getattr(point, 'qd3', 100.0)
-                self.doCmd(point.q1, point.q2, point.q3, qd1, qd2, qd3)
+                #self.doCmd(point.q1, point.q2, point.q3, qd1, qd2, qd3) # TODO: delete
             time.sleep(delay)
 
         if self.state != RobotState.EMERGENCY_STOP:
