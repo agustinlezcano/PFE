@@ -1,0 +1,41 @@
+{
+  "categories": [
+    {
+      "id": 0,
+      "name": "llave_fija"
+    },
+    {
+      "id": 1,
+      "name": "llave_tubo"
+    },
+    {
+      "id": 2,
+      "name": "mecha"
+    },
+    {
+      "id": 3,
+      "name": "punta_destornillador"
+    },
+    {
+      "id": 4,
+      "name": "resorte"
+    },
+    {
+      "id": 5,
+      "name": "rodamiento"
+    },
+    {
+      "id": 6,
+      "name": "tornillo"
+    },
+    {
+      "id": 7,
+      "name": "tuerca"
+    }
+  ],
+  "info": {
+    "year": 2026,
+    "version": "1.0",
+    "contributor": "Label Studio"
+  }
+}

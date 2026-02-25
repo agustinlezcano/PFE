@@ -1,0 +1,8 @@
+llave_fija
+llave_tubo
+mecha
+punta_destornillador
+resorte
+rodamiento
+tornillo
+tuerca
