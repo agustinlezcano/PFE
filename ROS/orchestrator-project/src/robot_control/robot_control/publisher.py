@@ -180,9 +180,12 @@ class MinimalPublisher(Node):
         timer_period = 0.5  # seconds [0.01] -- Usado en timers [TEST]
         # self.sArray, self.sdArray, self.sddArray, self.t = initialize_and_generate_trajectory()
         # Removed automatic homing - now called from menu
-        self.doHoming()
+# Wait for microROS agent connection before homing
+        self._homing_retry_count = 0
+        self._homing_max_retries = 5       # 5 * 0.5s = 2.5s max wait
+        self._homing_timer = self.create_timer(0.5, self._wait_and_homing_callback)
 
-        self.get_logger().info("Publisher node initialized. Waiting for UI node commands...")
+        self.get_logger().info("Publisher node initialized. Waiting for microROS agent...")        
 
         # Initialize optional in-process UI when requested
         if enable_ui:
@@ -194,6 +197,26 @@ class MinimalPublisher(Node):
                 self.user_interface = None
         else:
             self.user_interface = None
+
+    def _wait_and_homing_callback(self):
+        """One-shot timer callback: waits for microROS agent then triggers homing."""
+        # Check if homing_publisher_ has subscribers (microROS agent connected)
+        if self.homing_publisher_.get_subscription_count() > 0:
+            self.get_logger().info('microROS agent connected. Executing homing...')
+            self.destroy_timer(self._homing_timer)
+            self._homing_timer = None
+            self.doHoming()
+            return
+
+        self._homing_retry_count += 1
+        self.get_logger().info(
+            f'Waiting for microROS agent... ({self._homing_retry_count}/{self._homing_max_retries})'
+        )
+
+        if self._homing_retry_count >= self._homing_max_retries:
+            self.get_logger().warning('microROS agent not detected after timeout. Homing skipped.')
+            self.destroy_timer(self._homing_timer)
+            self._homing_timer = None
 
     # TODO: delete -> now used to test timer publishing
     def inv_timer_callback(self):

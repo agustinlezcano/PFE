@@ -88,6 +88,7 @@ class TrajectoryPlannerNode(Node):
             # TODO: electroIman apagado
             self.electroiman(False)
         else:
+            endPoint[2] = startPoint[2]
             waypoints = np.array([
                 startPoint,
                 [0.15275, 0.0, 0.18],
