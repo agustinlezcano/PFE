@@ -605,9 +605,9 @@ class MinimalPublisher(Node):
         if msg.q[0] is not None and msg.q[1] is not None and msg.q[2] is not None and msg.qd[0] is not None and msg.qd[1] is not None and msg.qd[2] is not None:
             if self.state != RobotState.BLOCKED and self.state != RobotState.EMERGENCY_STOP:
                 self.state = RobotState.RUNNING
-                valid, msg = self.limits_validator.validate_joint_position(msg.q[0], msg.q[1], msg.q[2])
+                valid, msg_ = self.limits_validator.validate_joint_position(msg.q[0], msg.q[1], msg.q[2])
                 if not valid:
-                    self.get_logger().error(f'Joint validation error: {msg}')
+                    self.get_logger().error(f'Joint validation error: {msg_}')
                     return
                 # Actualizar variables articulares
                 self.q1 = msg.q[0]
