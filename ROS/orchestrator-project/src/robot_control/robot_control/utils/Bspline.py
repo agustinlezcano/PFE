@@ -18,27 +18,34 @@ class PathGenerator:
         self.smoothing = smoothing
         self.degree = degree
     
-    def generate_bspline(self, waypoints=None):
+    def generate_bspline(self, waypoints=None, resolution=None):
         """
         Generate smooth B-spline trajectory from waypoints.
         
         Args:
             waypoints: Nx3 numpy array of [x, y, z] control points
-            
+            resolution: Optional number of interpolated points. If provided,
+                it overrides the default `self.resolution`.
+        
         Returns:
             Tuple of (x, y, z) arrays with interpolated trajectory points
         """
         if waypoints is None:
             raise ValueError("waypoints cannot be None")
-        
+
+        # allow caller to override resolution just for this call
+        res = resolution if resolution is not None else self.resolution
+        if not isinstance(res, int) or res < 2:
+            raise ValueError("resolution must be an integer >= 2")
+
         # Separate coordinates for splprep
         x, y, z = waypoints.T
-        
+
         # Define weights: high weight on endpoints, lower on middle points for smoothing
         W = np.ones(len(x))
         W[0] = 1000   # Initial endpoint
         W[-1] = 1000  # Final endpoint
-        
+
         # Calculate B-Spline (tck contains: knots, coefficients, and degree)
         if len(waypoints) < 4:
             K = len(waypoints) - 1  # Maximum allowed degree
@@ -46,13 +53,13 @@ class PathGenerator:
         else:
             K = self.degree
             S = self.smoothing
-        
+
         tck, u = interpolate.splprep([x, y, z], s=S, k=K, w=W)
-        
+
         # Evaluate trajectory at fine resolution for smooth path
-        u_fine = np.linspace(0, 1, self.resolution)
+        u_fine = np.linspace(0, 1, res)
         x_fine, y_fine, z_fine = interpolate.splev(u_fine, tck)
-        
+
         return x_fine, y_fine, z_fine
 
 

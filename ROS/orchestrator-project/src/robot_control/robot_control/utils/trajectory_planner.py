@@ -75,7 +75,7 @@ class TrajectoryPlannerNode(Node):
             startPoint = self.homing_position
         config = RobotConfiguration()
         kinematics = KinematicsSolver(config)
-        path_generator = PathGenerator(resolution=40, smoothing=0.5, degree=3)
+        path_generator = PathGenerator(resolution=50, smoothing=0.5, degree=3)
         validator = WorkspaceValidator()
         planner = TrajectoryPlanner(kinematics, path_generator, validator)
     
@@ -98,7 +98,7 @@ class TrajectoryPlannerNode(Node):
             self.electroiman(True)
         # Plan and plot trajectory
         #q, qd, T, N = planner.plan(waypoints, plot=True)
-        return planner.plan(waypoints, plot=False)
+        return planner.plan(waypoints, plot=False, dt=0.050)
 
     """Este metodo es llamado para callback de microROS, recibe un booleano para encender o apagar el electroiman, publica el mensaje correspondiente y loguea la accion realizada."""
     def electroiman(self, logic : Bool = None):
