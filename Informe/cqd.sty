@@ -1,0 +1,262 @@
+%%
+%% This is file `cqd.sty'
+%%
+%% This work may be distributed and/or modified under the
+%% conditions of the LaTeX Project Public License, either version 1.3c
+%% of this license or (at your option) any later version.
+%% The latest version of this license is in
+%%   https://www.latex-project.org/lppl.txt
+%% and version 1.3c or later is part of all distributions of LaTeX
+%% version 2005/12/01 or later.
+%%
+%% This work has the LPPL maintenance status `maintained'.
+%%
+%% The Current Maintainer of this work is Thiago de Melo.
+%%
+\ProvidesPackage{cqd}[2019/02/09 CQD]
+\typeout{*************************************************************}
+\typeout{** This is file `cqd.sty'                                  **}
+\typeout{** Criado por Thiago de Melo - IGCE Unesp                  **}
+\typeout{** Data: 2019/02/09                                        **}
+\typeout{** Macros para layout da revista                           **}
+\typeout{**CQD - Revista Eletr\^{o}nica Paulista de Matem\'{a}tica  **}
+\typeout{*************************************************************}
+
+\newif\if@debug
+\newif\if@lineno\@linenotrue
+\newif\if@user\@usertrue
+
+\DeclareOption*{%
+  \PackageWarning{cqd}{Unknown option `\CurrentOption'}%
+}
+
+\DeclareOption{debug}{%
+  \typeout{** Debug mode.}
+  \@debugtrue\@linenotrue\@userfalse
+  \setlength\overfullrule{5pt}
+}
+\DeclareOption{final}{%
+  \typeout{** Final mode.}
+  \@debugfalse\@linenofalse\@userfalse
+  \setlength\overfullrule{0pt}%
+}
+\DeclareOption{user}{%
+  \typeout{** User mode.}
+  \@usertrue\@debugfalse\@linenotrue
+  \setlength\overfullrule{0pt}%
+}
+\DeclareOption{lineno}{%
+  \@linenotrue
+}
+
+\ProcessOptions\relax
+
+\if@lineno
+  \RequirePackage{lineno}
+\fi
+
+\RequirePackage[utf8]{inputenc}
+\RequirePackage{newtxtext,newtxmath} % inclui amsmath
+\RequirePackage{etoolbox}
+\RequirePackage{calc}
+\RequirePackage[english,brazil,spanish]{babel}
+\RequirePackage{graphicx}
+\RequirePackage{geometry}
+\geometry{a4paper,left=1.8cm,right=2.5cm,top=3.5cm,bottom=.75cm,head=1cm,foot=1.5cm,includefoot}
+
+\IfFileExists{lipsum.sty}{\RequirePackage{lipsum}}{%
+  \newcommand{\lipsum}[1][]{Lorem ipsum dolor sit amet, consectetuer adipiscing elit.}
+}
+
+
+\pdfsuppresswarningpagegroup=1
+\newtoggle{@IsFirstEntryInList}
+\let\@afterindentfalse\@afterindenttrue
+\@afterindenttrue
+\setlength\parindent{.6cm}
+
+\newtheorem{teorema}{Teorema}
+\newtheorem{corolario}[teorema]{Corolário}
+\newtheorem{lema}[teorema]{Lema}
+\newtheorem{proposicao}[teorema]{Proposição}
+\newtheorem{definicao}[teorema]{Definição}
+\newtheorem{nota}[teorema]{Nota}
+\newtheorem{observacao}[teorema]{Observação}
+\newtheorem{exemplo}[teorema]{Exemplo}
+\newtheorem{exercicio}[teorema]{Exercício}
+
+\newcommand{\cqd}{Proyecto Final de Estudios}
+\newcommand{\deptoname}{Departamento de Matem\'{a}tica}
+\newcommand{\ReferenciasBibliograficas}{\section{\bibname}}
+
+\newcommand*{\ShowContact}[1]{%
+    \small
+    \noindent\textbf{\csuse{name #1}}\par
+    \noindent\textup{\csuse{depto #1}}\par
+    \noindent\textup{\csuse{work #1}}\par
+    \noindent\textup{\csuse{email #1}}\par
+    \vskip 1cm
+}%
+
+\newcommand*{\@ShowContactCurto}[1]{%
+    \iftoggle{@IsFirstEntryInList}{%
+        \global\togglefalse{@IsFirstEntryInList}%
+    }{%
+       \unskip ;\space% <-- separador entre entradas
+    }%
+    \ShowContactCurto{#1}%
+}
+
+\newcommand*{\ShowContactCurto}[1]{%
+  \MakeUppercase{\csuse{abrev #1}}%
+}%
+
+%% https://tex.stackexchange.com/a/14394/4301
+\newcommand*{\ListaDeAutores}{}
+\newcommand{\AddToListOfContacts}[1]{%
+    \g@addto@macro\ListaDeAutores{{#1}}%
+}
+
+\newcounter{@card}
+\setcounter{@card}{0}
+
+\newcommand*{\FirstAuthor}{\global\toggletrue{@IsFirstEntryInList}}
+\newcommand*{\ListaDeAutoresCurto}{\global\toggletrue{@IsFirstEntryInList}}
+\newcommand{\AddToListOfContactsCurto}[1]{%
+    \stepcounter{@card}
+    \ifnum\value{@card} < 2 \g@addto@macro\FirstAuthor{#1} \fi
+    \g@addto@macro\ListaDeAutoresCurto{{#1}}%
+}
+
+\newcommand{\autor}[5]{%
+    \ifcsdef{name #1}{%
+        \PackageError{cqd}{Autor com nome repetido: '#1'}{}%
+    }{%
+      \csdef{name #1}{#1}%
+      \csdef{depto #1}{#2}%
+      \csdef{work #1}{#3}%
+      \csdef{email #1}{#4}%
+      \csdef{abrev #1}{#5}%
+      \AddToListOfContacts{\unexpanded{\ShowContact{#1}}}%
+      \AddToListOfContactsCurto{\unexpanded{\@ShowContactCurto{#1}}}%
+    }%
+}
+
+\newsavebox\cqdlogo
+\savebox\cqdlogo{\includegraphics[height=1cm]{img/Escudo_uncuyo.jpg}}
+
+\def\ps@capa{%
+  \let\@evenfoot\@empty\let\@oddhead\@empty\let\@evenhead\@empty
+  \def\@oddfoot{%
+      \hfil\thepage\hfil
+  }%
+}
+\def\ps@cqd{%
+  \def\@oddhead{%
+    \makebox[\textwidth][l]{%
+      \rule[-1pt]{\textwidth}{.5pt}%
+      \llap{%
+      {\raisebox{3pt}{\itshape\footnotesize  \cqd, 2026}}\quad% comente para remover texto
+      \usebox\cqdlogo}%
+    }%
+  }
+  \let\@evenhead\@oddhead
+  \let\@evenfoot\@oddfoot
+  \def\@oddfoot{%
+      \hfil\thepage\hfil
+  }%
+}
+
+%% não alterar
+\gdef\@firstpage{1}
+\gdef\@inserir{inserir\dots}
+\gdef\@resumo{\texttt{\textbackslash resumo\{\@inserir\}}}
+\gdef\@palavraschave{\@inserir}
+\gdef\@abstract{\texttt{\textbackslash abstract\{\@inserir\}}}
+\gdef\@keywords{\@inserir}
+\gdef\@titulo{\texttt{\textbackslash titulo\{\@inserir\}}}
+\gdef\@tituloingles{\texttt{\textbackslash tituloingles\{\@inserir\}}}
+
+\let\abstract\relax
+\newcommand{\resumo}[1]{\gdef\@resumo{#1}}
+\newcommand{\palavraschave}[1]{\gdef\@palavraschave{#1}}
+\newcommand{\abstract}[1]{\gdef\@abstract{#1}}
+\newcommand{\keywords}[1]{\gdef\@keywords{#1}}
+\newcommand{\titulo}[1]{\gdef\@titulo{#1}}
+\newcommand{\tituloingles}[1]{\gdef\@tituloingles{#1}}
+
+%% nao mover daqui
+\if@user\else
+  \IfFileExists{editores.sty}%
+    {\RequirePackage{editores}}%
+    {\PackageError{cqd}{%
+      *** Erro: editores.sty nao encontrado.\MessageBreak
+      *** Utilize a opcao `user' no pacote cqd\MessageBreak
+      \@spaces ou entre em contato com os editores}}
+  \if@debug
+    \RequirePackage{showframe}
+  \fi
+\fi
+
+\newcommand{\capa}{%
+  \thispagestyle{capa}
+  \setcounter{page}{\@firstpage}
+  \noindent%
+  \parbox[t][][t]{5.5cm}{%
+    %\if@lineno\internallinenumbers\fi
+    \hrule depth -\baselineskip height 0pt width 0pt%
+    \hfil\includegraphics[width=55mm]{img/FING.PNG}\par%
+  %  \hfil\includegraphics[width=42mm,trim=8.4cm 10.2cm 1.4cm 7.1cm, clip]{logo-cubo.pdf}\par%
+    \begin{center}\small%
+      %ISSN 2316-9664\par
+      
+ %-------------------------------------------------------
+ %--------Linea para configurar la materia
+      \if@user \textit{Proyecto Final de Estudios} \else Volume~\@volume, \@mes.\ \@ano\fi
+    \end{center}
+    \vskip 1cm
+    \ListaDeAutores%
+  }%
+%  \if@debug\rule[-\textheight+\parskip+\baselineskip]{.7pt}{\textheight}\fi
+  \hfill%
+%  \if@debug\rule[-\textheight+\parskip+\baselineskip]{.7pt}{\textheight}\fi
+  \parbox[t][][t]{10.5cm}{%
+    %\if@lineno\internallinenumbers\fi
+    \vskip -\abovedisplayskip
+    \vskip -\abovedisplayskip
+    \vskip -\parskip
+    \begin{center}
+      \textbf{\large\@titulo}\vskip .2cm\@tituloingles
+    \end{center}
+    \vskip .4cm %\vspace{\abovedisplayskip}
+    \noindent\hfil\textbf{Resumen}\par
+    \@resumo\par
+    \textbf{Palabras clave:}\space\@palavraschave\par
+    \vskip .3cm  \vspace{\abovedisplayskip}
+    \noindent\hfil\textbf{Abstract}\par
+    \@abstract\par
+    \textbf{Keywords:}\space\@keywords\par
+  }
+  \clearpage
+  %\if@lineno\linenumbers\fi
+  \pagestyle{cqd}
+}
+
+
+
+
+%\AtBeginDocument{\capa}
+\AtEndDocument{\label{last.page}}
+\AtEndDocument{%
+	\pdfinfo{
+		/Title (\cqd\ \if@user\else Vol.\ \@volume\ (\@ano)\fi)
+		/Author (\deptoname, Unesp Bauru)
+		%/Producer (pdfTeX 1.40.0)
+		/Creator (\string\124\string\150\string\151\string\141\string\147\string\157 \string\144\string\145 \string\115\string\145\string\154\string\157)
+		/Subject (\cqd)
+		/Keywords (\if@user versão do usuário \else versão final\fi)
+	}
+}
+%% 
+%%
+%% End of file `cqd.sty'.
