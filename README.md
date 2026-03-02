@@ -1,6 +1,6 @@
-![Alt text](Informe/img/FING.PNG)
+![Alt text](Informe/img/FING.PNG){width=50%}
 
-![Alt text](Informe/img/Escudo_uncuyo.jpg)
+![Alt text](Informe/img/Escudo_uncuyo.jpg){width=50%}
 
 <h1 style="text-align: center;"> Proyecto Final de Estudios </h1>
 
