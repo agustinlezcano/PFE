@@ -54,7 +54,9 @@ stop_event = threading.Event()
 # =======================
 
 detections_lock = threading.Lock()
-latest_detections = {}  # {classname: (x_mm, y_mm, z_mm)}
+# store one or more detections per class. Each value is a list of
+# (x_mm, y_mm, z_mm) tuples collected during the most recent frame
+latest_detections = {}  # {classname: [(x_mm, y_mm, z_mm), ...]}
 
 
 # =======================
@@ -93,11 +95,16 @@ def socket_server():
                     else:
                         # Buscar el objeto solicitado en las detecciones más recientes
                         with detections_lock:
-                            if cmd in latest_detections:
-                                x_mm, y_mm, z_mm = latest_detections[cmd]
+                            if cmd in latest_detections and latest_detections[cmd]:
+                                # choose detection with smallest radial distance
+                                candidates = latest_detections[cmd]
+                                x_mm, y_mm, z_mm = min(
+                                    candidates,
+                                    key=lambda t: t[0]*t[0] + t[1]*t[1]
+                                )
                                 raw_data = f"X{x_mm:.2f}Y{y_mm:.2f}Z{z_mm:.2f}"
                             else:
-                                # Si no está detectado, responder con ceros
+                                # Si no hay detecciones válidas, responder con ceros
                                 raw_data = "X0Y0Z0"
                         
                         print(f"Enviando: {raw_data}")
@@ -255,6 +262,10 @@ def yolo_detect():
         # Extract results
         detections = results[0].boxes
 
+        # reset detections for this frame so old entries don't linger
+        with detections_lock:
+            latest_detections.clear()
+
         # Initialize variable for basic object counting example
         object_count = 0
 
@@ -319,7 +330,9 @@ def yolo_detect():
 
                 # Guardar detección en datos compartidos entre hilos
                 with detections_lock:
-                    latest_detections[classname] = (x_mm, y_mm, z_mm)
+                    if classname not in latest_detections:
+                        latest_detections[classname] = []
+                    latest_detections[classname].append((x_mm, y_mm, z_mm))
 
                 # Draw center points and info text            
                 #cv2.circle(frame, (cx, cy), 3, (0,0,255), -1)
