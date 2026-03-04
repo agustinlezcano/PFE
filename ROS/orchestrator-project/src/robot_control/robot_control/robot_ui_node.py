@@ -37,7 +37,7 @@ class RobotUINode(Node):
         
         # Subscriber para recibir los ángulos actuales
         self.current_angles_subscriber = self.create_subscription(
-            String,
+            Point,
             '/microROS/string_publisher',
             self.current_angles_callback,
             10)
@@ -137,10 +137,10 @@ class RobotUINode(Node):
     {'='*60}
     """)
 
-    def current_angles_callback(self, msg: String):
+    def current_angles_callback(self, msg: Point):
         """Recibe los ángulos actuales desde el microcontrolador."""
-        self.get_logger().info(f'Ángulos actuales recibidos: {msg.data}')
-        print(f"[INFO] Ángulos actuales: {msg.data}")
+        self.get_logger().info(f'Ángulos actuales recibidos: {msg.x:.4f}, {msg.y:.4f}, {msg.z:.4f}')
+        print(f"[INFO] Ángulos actuales: {msg}")
 
     def _validate_joint_position(self, q1: float, q2: float, q3: float) -> bool:
         """Valida que los valores articulares estén dentro de los rangos permitidos."""
