@@ -7,9 +7,8 @@ import numpy as np
 from robot_control.path_planner import PathPlanner
 from .Bspline import PathGenerator
 from .gen_traj import TrajectoryPlanner
-from .inverse_kinematics import RobotConfiguration
+from .robot_kinematics import RobotConfiguration, KinematicsSolver
 from .verify_point_inside_ws import WorkspaceValidator
-from .inverse_kinematics import KinematicsSolver
 from extra_interfaces.msg import Trama
 from std_msgs.msg import Bool
 
@@ -63,7 +62,10 @@ class TrajectoryPlannerNode(Node):
         # ------------------------------TEST TRAYECTORIA ------------------------------
         # Create instances
         self.last_point = None  # TODO: check initial point from microcontroller
-        self.homing_position = np.array([0.1723, 0.0, 0.17185])  # TODO: hacer cinematica directa de 0 90 0
+        config = RobotConfiguration()
+        kinematics = KinematicsSolver(config)
+        self.homing_position = kinematics.forward_kinematics([0, 90, 0])[:3]  # fkine al punto de homing
+
         #self.execute_trajectory_setup() # TODO: borrar, solo encesito la definicion, llamo de otro lado
         self.trajectory_state = None  # 0 = not started, 1 = started, 2 = active, 3 = completed: como compartir el z entre trajectory_planner y publisher? (para que el planner sepa a que altura planificar, y el publisher a que altura mover el robot) (@emanuel)
         self._electroiman_state = False
@@ -89,7 +91,6 @@ class TrajectoryPlannerNode(Node):
                 startPoint,
                 endPoint
             ]) 
-            # TODO: electroIman apagado
             self.electroiman(False)
         else:
             endPoint[2] = startPoint[2]
@@ -98,10 +99,8 @@ class TrajectoryPlannerNode(Node):
                 [0.15275, 0.0, 0.18],
                 endPoint
             ])
-            # TODO: electroIman encendido
             self.electroiman(True)
         # Plan and plot trajectory
-        #q, qd, T, N = planner.plan(waypoints, plot=True)
         return planner.plan(waypoints, plot=False, dt=0.045)
 
     """Este metodo es llamado para callback de microROS, recibe un booleano para encender o apagar el electroiman, publica el mensaje correspondiente y loguea la accion realizada."""

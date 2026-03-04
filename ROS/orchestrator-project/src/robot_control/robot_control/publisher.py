@@ -5,6 +5,8 @@ from .limits_validator import LimitsValidator
 from .trajectory_reader import CSVTrajectoryReader
 from .user_interface import UserInterface
 from .image_manager import VisionClientNode
+from .utils.robot_kinematics import RobotConfiguration, KinematicsSolver
+from .utils.verify_point_inside_ws import WorkspaceValidator
 from typing import Optional, Dict
 
 from std_msgs.msg import String
@@ -13,6 +15,7 @@ from std_msgs.msg import Bool
 import time
 from extra_interfaces.msg import Trama
 from enum import Enum
+import numpy as np
 
 class RobotState(Enum):
     '''
@@ -218,10 +221,10 @@ class MinimalPublisher(Node):
             self._homing_timer = None
 
     def subscriber_callback(self, msg):
-        msg.x = self.x
-        msg.y = self.y
-        msg.z = self.z
-        self.get_logger().info(f'I heard: x={msg.x}, y={msg.y}, z={msg.z}')
+        self.x = msg.x
+        self.y = msg.y
+        self.z = msg.z
+        self.get_logger().info(f'I heard: q1={self.x}, q2={self.y}, q3={self.z}')
         # add logic to handle the received message if needed
     
     def array_to_point(self, value) -> Point:
@@ -323,7 +326,7 @@ class MinimalPublisher(Node):
         if self.current_segment == TrajectorySegment.H_TO_A:
             # H→A complete, start A→B (to drop-off point)
             self.current_segment = TrajectorySegment.A_TO_B
-            self.get_logger().info('Starting segment A→B (vision target to drop-off)')
+            self.get_logger().info('Starting segment A->B (vision target to drop-off)')
             
             # Send drop-off point as next objective
             drop_off_msg = self.array_to_point(self.drop_off_point)
@@ -333,7 +336,7 @@ class MinimalPublisher(Node):
         elif self.current_segment == TrajectorySegment.A_TO_B:
             # A→B complete, start B→H (back to homing)
             self.current_segment = TrajectorySegment.B_TO_H
-            self.get_logger().info('Starting segment B→H (drop-off to homing)')
+            self.get_logger().info('Starting segment B->H (drop-off to homing)')
             
             # Send homing position as next objective
             homing_msg = self.array_to_point(self.homing_position)
@@ -344,7 +347,7 @@ class MinimalPublisher(Node):
             # B→H complete, full cycle done - request next object
             self.current_segment = TrajectorySegment.NONE
             self.state = RobotState.IDLE
-            self.get_logger().info('Full trajectory cycle H→A→B→H complete')
+            self.get_logger().info('Full trajectory cycle H->A->B->H complete')
             
             # Clear current object and request next one
             self.current_object = None
@@ -447,14 +450,14 @@ class MinimalPublisher(Node):
             
             # Start H→A→B→H workflow: first segment is H→A (homing to vision target)
             self.current_segment = TrajectorySegment.H_TO_A
-            self.get_logger().info(f'Starting segment H→A for object: {self.current_object["name"]}')
+            self.get_logger().info(f'Starting segment H->A for object: {self.current_object["name"]}')
             
             # Enviar objetivo al trajectory planner (punto A = visión)
             self.trajectory_planning_publisher.publish(point_msg)
 
             # Cambiar a estado RUNNING (trayectoria en ejecución)
             self.state = RobotState.RUNNING
-            self.get_logger().info(f'Trajectory H→A→B→H initiated for {self.current_object["name"]}')
+            self.get_logger().info(f'Trajectory H->A->B->H initiated for {self.current_object["name"]}')
             
             # Resetear contador después de éxito
             self.request_counter = 0
@@ -621,21 +624,35 @@ class MinimalPublisher(Node):
             self.get_logger().error('Cannot execute INV KIN: Emergency stop active')
             return
         
-        # Validar coordenadas Cartesianas
-        valid, msg = self.limits_validator.validate_cartesian_position(x, y, z)
+        config = RobotConfiguration()
+        solver = KinematicsSolver(config)
+            
+        T_obj_in = np.array([
+            [1, 0, 0, x],
+            [0, 1, 0, y],
+            [0, 0, 1, z + config.tool_z],
+            [0, 0, 0, 1]
+        ], dtype=float)
+
+        q_motores = solver.inverse_kinematics(T_obj_in)
+
+        # Validar punto dentro del espacio de trabajo antes de publicar
+        validator = WorkspaceValidator()
+        # ensure we pass a 2‑D array to the validator (it will also handle it internally now)
+        valid = validator.validate_trajectory(np.array(q_motores, dtype=float).reshape(1, 3))
         if not valid:
-            self.get_logger().error(f'InvKin validation error: {msg}')
+            self.get_logger().info(f'InvKin validation error: {q_motores} is outside of workspace limits')
             return
         
         # Publicar comando de cinemática inversa
         cmd_msg = Point()
-        cmd_msg.x = x
-        cmd_msg.y = y
-        cmd_msg.z = z
+        cmd_msg.x = round(q_motores[0], 5)
+        cmd_msg.y = round(q_motores[1], 5)
+        cmd_msg.z = round(q_motores[2], 5)
         self.inv_publisher_.publish(cmd_msg)
         self.state = RobotState.RUNNING
         
-        log_msg = f'Publicado INV: x={cmd_msg.x}, y={cmd_msg.y}, z={cmd_msg.z}'
+        log_msg = f'Publicado INV: q1={cmd_msg.x}, q2={cmd_msg.y}, q3={cmd_msg.z}' #Hacemos la ikine acá, solo enviamos los angulos al robot y el resuelve con moveToAbsAngle
         self.get_logger().info(log_msg)
     
     # ======================== UI Callbacks ========================
