@@ -83,14 +83,13 @@ class MinimalPublisher(Node):
         self.electroiman_publisher_ = self.create_publisher(Bool, '/microROS/electroiman', 10)
         
         # Publisher para modo de Planificación de Trayectorias
-        # TODO: use this when receiving point from Camera node and sending to Trajectory Planner node
-        self.trajectory_planning_publisher = self.create_publisher(Point, 'ROS/trajectory_planning', 10) # Currently not used, but will be needed to send objectives to the trajectory planner node
-        
-        # Publisher para compartir coordenadas de visión con trajectory_planner
-        self.vision_position_publisher = self.create_publisher(Point, '/vision/position', 10)
+        self.trajectory_planning_publisher = self.create_publisher(Point, 'ROS/trajectory_planning', 10)
         
         # Publisher para estado de trayectoria a micro-ROS (traj_active)
         self.trajectory_state_publisher = self.create_publisher(Bool, '/microROS/trajectory_state', 10)
+        
+        # Publisher para enviar E-Stop al trajectory planner (cancela trayectoria)
+        self.planner_estop_publisher = self.create_publisher(Bool, '/planner/emergency_stop', 10)
         
         # # ======================== Subscribers para tópicos de UI ========================
         self.ui_cmd_subscriber = self.create_subscription(
@@ -180,7 +179,7 @@ class MinimalPublisher(Node):
         timer_period = 0.5  # seconds [0.01] -- Usado en timers [TEST]
         # self.sArray, self.sdArray, self.sddArray, self.t = initialize_and_generate_trajectory()
         # Removed automatic homing - now called from menu
-# Wait for microROS agent connection before homing
+        # Wait for microROS agent connection before homing
         self._homing_retry_count = 0
         self._homing_max_retries = 5       # 5 * 0.5s = 2.5s max wait
         self._homing_timer = self.create_timer(0.5, self._wait_and_homing_callback)
@@ -217,22 +216,6 @@ class MinimalPublisher(Node):
             self.get_logger().warning('microROS agent not detected after timeout. Homing skipped.')
             self.destroy_timer(self._homing_timer)
             self._homing_timer = None
-
-    # TODO: delete -> now used to test timer publishing
-    def inv_timer_callback(self):
-
-        msg = Point()
-        msg.x = self.x
-        msg.y = self.y
-        msg.z = self.z
-
-        self.inv_publisher_.publish(msg)
-        self.get_logger().info(f'Publicado Inv K: x={msg.x}, y={msg.y}, z={msg.z}')
-
-        # Actualizo valores de ejemplo
-        self.x += 0.1
-        self.y += 0.1
-        self.z += 0.1
 
     def subscriber_callback(self, msg):
         msg.x = self.x
@@ -458,7 +441,7 @@ class MinimalPublisher(Node):
             self.vision_last_coordinates = [x_m, y_m, z_m]
             
             # Publicar coordenadas de visión para que trajectory_planner las almacene
-            self.vision_position_publisher.publish(point_msg)
+            #self.vision_position_publisher.publish(point_msg)
             
             self.get_logger().info(f'Respuesta de visión validada: x={point_msg.x:.4f}, y={point_msg.y:.4f}, z={point_msg.z:.4f}')
             
@@ -715,14 +698,6 @@ class MinimalPublisher(Node):
     def trajectory_electromagnet_callback(self, msg: Bool):
         """Callback para activar/desactivar electroimán desde la planificación de trayectorias."""
         self.doElectroiman(msg.data)
-
-    # TODO: delete
-    # def cmd_callback(self):
-    #     """Callback periodico para publicar comandos (solo se ejecuta sin UI)."""
-    #     if self.state != RobotState.EMERGENCY_STOP:
-    #         self.doCmd(self.q1, self.q2, self.q3, self.qd1, self.qd2, self.qd3, self.t_total, self.n_iter, traj_state=0)
-    #     else:
-    #         self.get_logger().warn('E-Stop activado: Comando bloqueado')
     
     def trigger_emergency_stop(self):
         """Activa la parada de emergencia y cancela el timer de visión."""
@@ -730,15 +705,23 @@ class MinimalPublisher(Node):
         estop_msg = Bool()
         estop_msg.data = True
         self.estop_publisher_.publish(estop_msg)
+        
+        # Enviar E-Stop al trajectory planner para cancelar trayectoria activa
+        self.planner_estop_publisher.publish(estop_msg)
+        
         # TODO: Detener timer de visión durante EMERGENCY_STOP
         # self.vision_timer.cancel()
-        self.get_logger().critical('EMERGENCY STOP ACTIVADO')
+        self.get_logger().info('EMERGENCY STOP ACTIVADO')
     
     def release_emergency_stop(self):
         """Desactiva la parada de emergencia y reinicia el timer de visión."""
         estop_msg = Bool()
         estop_msg.data = False
         self.estop_publisher_.publish(estop_msg)
+        
+        # Notificar al trajectory planner que E-Stop fue liberado
+        self.planner_estop_publisher.publish(estop_msg)
+        
         # TODO: Reiniciar timer de visión al salir de EMERGENCY_STOP
         # self.vision_timer = self.create_timer(0.1, self.check_vision_response_callback)
         self.state = RobotState.IDLE

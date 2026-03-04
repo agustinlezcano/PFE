@@ -30,6 +30,14 @@ class TrajectoryPlannerNode(Node):
             10
         )
         
+        # Subscription to receive E-Stop signal from publisher node
+        self.estop_subscription = self.create_subscription(
+            Bool,
+            '/planner/emergency_stop',
+            self.estop_callback,
+            10
+        )
+        
         # Publisher to send planned trajectory points to publisher node
         self.path_publisher: Publisher = self.create_publisher(
             Trama,
@@ -54,15 +62,11 @@ class TrajectoryPlannerNode(Node):
 
         # ------------------------------TEST TRAYECTORIA ------------------------------
         # Create instances
-        # TODO: pedir el dato de angulo (feedback de microROS)
-        # TODO: hacer cinematica directa 
-        # darle valor a last_point
         self.last_point = None  # TODO: check initial point from microcontroller
         self.homing_position = np.array([0.1723, 0.0, 0.17185])  # TODO: hacer cinematica directa de 0 90 0
         #self.execute_trajectory_setup() # TODO: borrar, solo encesito la definicion, llamo de otro lado
         self.trajectory_state = None  # 0 = not started, 1 = started, 2 = active, 3 = completed: como compartir el z entre trajectory_planner y publisher? (para que el planner sepa a que altura planificar, y el publisher a que altura mover el robot) (@emanuel)
         self._electroiman_state = False
-
         #------------------------------------------------------------------------------
         self.trajectory = None
         self.trajectory_index = 0
@@ -98,7 +102,7 @@ class TrajectoryPlannerNode(Node):
             self.electroiman(True)
         # Plan and plot trajectory
         #q, qd, T, N = planner.plan(waypoints, plot=True)
-        return planner.plan(waypoints, plot=False, dt=0.050)
+        return planner.plan(waypoints, plot=False, dt=0.045)
 
     """Este metodo es llamado para callback de microROS, recibe un booleano para encender o apagar el electroiman, publica el mensaje correspondiente y loguea la accion realizada."""
     def electroiman(self, logic : Bool = None):
@@ -136,18 +140,40 @@ class TrajectoryPlannerNode(Node):
         else:
             self.get_logger().warn('Failed to retrieve trajectory')
 
-    def stop_trajectory_publishing(self):
-        """Stop publishing trajectory points and signal completion."""
+    def stop_trajectory_publishing(self, send_completion: bool = True):
+        """Stop publishing trajectory points and optionally signal completion.
+        
+        Args:
+            send_completion: If True, sends trajectory_complete signal. 
+                           Set to False when stopping due to E-Stop.
+        """ 
         if self.timer is not None:
             self.destroy_timer(self.timer)
             self.timer = None
             self.get_logger().info('Trajectory publishing stopped')
             
-            # Signal trajectory completion to publisher node
-            complete_msg = Bool()
-            complete_msg.data = True
-            self.trajectory_complete_publisher.publish(complete_msg)
-            self.get_logger().info('Trajectory complete signal sent')
+            # Signal trajectory completion to publisher node (unless E-Stop)
+            if send_completion:
+                complete_msg = Bool()
+                complete_msg.data = True
+                self.trajectory_complete_publisher.publish(complete_msg)
+                self.get_logger().info('Trajectory complete signal sent')
+    
+    def estop_callback(self, msg: Bool):
+        """Handle E-Stop signal from publisher node.
+        
+        When E-Stop is activated, immediately stops trajectory publishing
+        without sending completion signal.
+        """
+        if msg.data:
+            self.get_logger().warn('E-STOP received - Cancelling trajectory!')
+            self.stop_trajectory_publishing(send_completion=False)
+            # Clear trajectory data
+            self.q = None
+            self.qd = None
+            self.trajectory_index = 0
+        else:
+            self.get_logger().info('E-STOP released - Ready for new trajectory')
 
     def publish_trajectory_point(self):
         """Publish trajectory points periodically"""

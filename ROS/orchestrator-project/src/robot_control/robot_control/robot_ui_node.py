@@ -159,16 +159,15 @@ class RobotUINode(Node):
         )
 
     def _parse_joint_input(self, input_str: str) -> tuple:
-        """Parsea entrada de usuario en formato 'q1 q2 q3 qd1 qd2 qd3'."""
+        """Parsea entrada de usuario en formato 'q1 q2 q3'."""
         try:
             parts = input_str.strip().split()
             
-            if len(parts) != 6:
-                print("Ingreso inválido. Usa formato: 'q1 q2 q3 qd1 qd2 qd3'")
+            if len(parts) != 3:
+                print("Ingreso inválido. Usa formato: 'q1 q2 q3'")
                 return None
             
             q1, q2, q3 = float(parts[0]), float(parts[1]), float(parts[2])
-            qd1, qd2, qd3 = float(parts[3]), float(parts[4]), float(parts[5])
             
             if not self._validate_joint_position(q1, q2, q3):
                 print(f"Valores fuera de rango:")
@@ -177,7 +176,7 @@ class RobotUINode(Node):
                 print(f"  Q3: {q3:.4f} debe estar en [{self.q3_min:.4f}, {self.q3_max:.4f}]")
                 return None
             
-            return (q1, q2, q3, qd1, qd2, qd3)
+            return (q1, q2, q3)
         
         except ValueError:
             print("Error: Ingresa valores numéricos válidos")
@@ -227,26 +226,30 @@ class RobotUINode(Node):
         """Maneja el movimiento directo Q1,Q2,Q3."""
         try:
             print("\n--- Movimiento Directo (Q1 Q2 Q3) ---")
-            joint_input = input("Ingresa coordenadas articulares (q1 q2 q3) en grados y sus velocidades (qd1 qd2 qd3): ").strip()
-            time_iter_input = input("Ingresa Tiempo Total T y cantidad de Iteraciones N: ").strip()
+            joint_input = input("Ingresa coordenadas articulares (q1 q2 q3):").strip()
+            # time_iter_input = input("Ingresa Tiempo Total T y cantidad de Iteraciones N: ").strip()
             coords = self._parse_joint_input(joint_input)
             
             if coords:
-                q1, q2, q3, qd1, qd2, qd3 = coords
+                # q1, q2, q3, qd1, qd2, qd3 = coords
+                q1, q2, q3 = coords
                 msg = Trama()
                 msg.q = [q1, q2, q3]
-                msg.qd = [qd1, qd2, qd3]
-                try:
-                    if time_iter_input.strip():
-                        t_total, n_iter = map(float, time_iter_input.split())
-                    else:
-                        t_total, n_iter = 5.0, 50  # Default values
-                    msg.t_total = t_total
-                    msg.n_iter = int(n_iter)
-                except ValueError:
-                    print("Error: Ingresa valores numéricos válidos para tiempo e iteraciones")
-                    return
-                print(f"[OK] Parametros: T={t_total:.4f}, N={n_iter:.4f}")
+                # msg.qd = [qd1, qd2, qd3]
+                msg.qd = [0.0, 0.0, 0.0]  # Velocidades fijas (no se usan en este modo)
+                msg.t_total = 5.0  # Tiempo total fijo (no se usa en este modo)
+                msg.n_iter = 50   # Iteraciones fijas (no se usan en este modo)
+                # try:
+                #     if time_iter_input.strip():
+                #         t_total, n_iter = map(float, time_iter_input.split())
+                #     else:
+                #         t_total, n_iter = 5.0, 50  # Default values
+                #     msg.t_total = t_total
+                #     msg.n_iter = int(n_iter)
+                # except ValueError:
+                #     print("Error: Ingresa valores numéricos válidos para tiempo e iteraciones")
+                #     return
+                # print(f"[OK] Parametros: T={t_total:.4f}, N={n_iter:.4f}")
                 self.cmd_publisher.publish(msg)
                 time.sleep(0.25)  # Dar tiempo a ROS de procesar
                 
