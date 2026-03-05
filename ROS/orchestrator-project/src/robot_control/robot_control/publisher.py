@@ -81,7 +81,7 @@ class MinimalPublisher(Node):
         self.homing_publisher_ = self.create_publisher(Bool, '/microROS/homing', 10)
         self.current_angles_publisher_ = self.create_publisher(Bool, '/microROS/request_current_angles', 10)
         self.cmd_publisher_ = self.create_publisher(Trama, '/microROS/cmd', 10)
-        self.inv_publisher_ = self.create_publisher(Point, '/microROS/inverse', 10)
+        #self.inv_publisher_ = self.create_publisher(Point, '/microROS/inverse', 10)
         self.estop_publisher_ = self.create_publisher(Bool, '/microROS/emergency_stop', 10) # TODO: make callback
         self.electroiman_publisher_ = self.create_publisher(Bool, '/microROS/electroiman', 10)
         
@@ -221,9 +221,9 @@ class MinimalPublisher(Node):
             self._homing_timer = None
 
     def subscriber_callback(self, msg):
-        self.x = msg.x
-        self.y = msg.y
-        self.z = msg.z
+        self.x = round(msg.x, 2)
+        self.y = round(msg.y, 2)
+        self.z = round(msg.z, 2)
         self.get_logger().info(f'I heard: q1={self.x}, q2={self.y}, q3={self.z}')
         # add logic to handle the received message if needed
     
@@ -645,14 +645,16 @@ class MinimalPublisher(Node):
             return
         
         # Publicar comando de cinemática inversa
-        cmd_msg = Point()
-        cmd_msg.x = round(q_motores[0], 5)
-        cmd_msg.y = round(q_motores[1], 5)
-        cmd_msg.z = round(q_motores[2], 5)
-        self.inv_publisher_.publish(cmd_msg)
+        cmd_msg = Trama()
+        cmd_msg.q = [q_motores[0], q_motores[1], q_motores[2]]
+        cmd_msg.qd = [0.0, 0.0, 0.0]
+        cmd_msg.t_total = 0.0
+        cmd_msg.n_iter = 0
+        cmd_msg.traj_state = 0 # 0 es para moveToAbsAngle y Homing
+        self.cmd_publisher_.publish(cmd_msg)  # Usa el mismo publisher que los timers
         self.state = RobotState.RUNNING
         
-        log_msg = f'Publicado INV: q1={cmd_msg.x}, q2={cmd_msg.y}, q3={cmd_msg.z}' #Hacemos la ikine acá, solo enviamos los angulos al robot y el resuelve con moveToAbsAngle
+        log_msg = f'Publicado INV: q1={cmd_msg.q[0]}, q2={cmd_msg.q[1]}, q3={cmd_msg.q[2]}' #Hacemos la ikine acá, solo enviamos los angulos al robot y el resuelve con moveToAbsAngle
         self.get_logger().info(log_msg)
     
     # ======================== UI Callbacks ========================
@@ -660,7 +662,7 @@ class MinimalPublisher(Node):
     def ui_cmd_callback(self, msg: Trama):
         """Procesa comandos de movimiento directo desde el nodo UI."""
         # DEBUG: Log valores recibidos
-        self.get_logger().info(f'DEBUG ui_cmd_callback: t_total={msg.t_total}, n_iter={msg.n_iter}')
+        self.get_logger().debug(f'DEBUG ui_cmd_callback: t_total={msg.t_total}, n_iter={msg.n_iter}')
 
         if self.state == RobotState.EMERGENCY_STOP:
             self.get_logger().warn('E-Stop activado: Comando bloqueado')
@@ -758,8 +760,8 @@ class MinimalPublisher(Node):
             self.get_logger().error(f'Error cargando trayectoria: {message}')
         return success, message
     
-    def execute_trajectory(self, delay: float = 0.1):
-        """Ejecuta la trayectoria cargada punto por punto."""
+    """ def execute_trajectory(self, delay: float = 0.1):
+        #Ejecuta la trayectoria cargada punto por punto.
         trajectory = self.trajectory_reader.get_trajectory()
         if not trajectory:
             self.get_logger().warn('No hay trayectoria cargada')
@@ -785,7 +787,7 @@ class MinimalPublisher(Node):
             time.sleep(delay)
 
         if self.state != RobotState.EMERGENCY_STOP:
-            self.state = RobotState.IDLE    # when finish point, set to IDLE and wait for next command
+            self.state = RobotState.IDLE    # when finish point, set to IDLE and wait for next command """
             
             
     
