@@ -144,6 +144,9 @@ class LimitsValidator:
         Returns:
             Tupla (válido, mensaje)
         """
+        if x == 0.0 and y == 0.0 and z == 0.0:
+            return False, "Posición (0, 0, 0) no es válida (puede ser un error de lectura)"
+
         if x < self.workspace_limits.x_min or x > self.workspace_limits.x_max:
             return False, f"X fuera de rango: {x:.4f} (permitido: [{self.workspace_limits.x_min}, {self.workspace_limits.x_max}])"
         
