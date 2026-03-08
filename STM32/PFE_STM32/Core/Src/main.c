@@ -64,6 +64,7 @@ I2C_HandleTypeDef hi2c1;
 
 TIM_HandleTypeDef htim2;
 TIM_HandleTypeDef htim3;
+TIM_HandleTypeDef htim7;
 TIM_HandleTypeDef htim13;
 
 UART_HandleTypeDef huart2;
@@ -75,78 +76,55 @@ DMA_HandleTypeDef hdma_usart2_tx;
 osThreadId_t defaultTaskHandle;
 const osThreadAttr_t defaultTask_attributes = {
   .name = "defaultTask",
-  .stack_size = 5500 * 4,
+  .stack_size = 6100 * 4,
   .priority = (osPriority_t) osPriorityNormal,
 };
 /* Definitions for mControlTask */
 osThreadId_t mControlTaskHandle;
 const osThreadAttr_t mControlTask_attributes = {
   .name = "mControlTask",
-  .stack_size = 980 * 4,
+  .stack_size = 1000 * 4,
   .priority = (osPriority_t) osPriorityHigh,
 };
 /* Definitions for KinematicsTask */
 osThreadId_t KinematicsTaskHandle;
 const osThreadAttr_t KinematicsTask_attributes = {
   .name = "KinematicsTask",
-  .stack_size = 1020 * 4,
-  .priority = (osPriority_t) osPriorityAboveNormal,
-};
-/* Definitions for xPubMutex */
-osMutexId_t xPubMutexHandle;
-const osMutexAttr_t xPubMutex_attributes = {
-  .name = "xPubMutex"
+  .stack_size = 128 * 4,
+  .priority = (osPriority_t) osPriorityLow,
 };
 /* USER CODE BEGIN PV */
+
+// PubMutex not used: changed for BitFlags
+
 // micro-ROS publisher
 rcl_publisher_t publisher;
-std_msgs__msg__String pub_msg;
+std_msgs__msg__String pub_msg;								            // used if there is no tim_msg
+geometry_msgs__msg__Point tim_msg;							          // One publisher used by Timer (callback uses printf)
 
-osMessageQueueId_t mid_JointQueue[N_MOTORS];				// motor cmd (1 each DOF)
-osMessageQueueId_t mid_PositionQueue;                		// message queue id (QueueHandle_t CMSIS wrapper)
+osMessageQueueId_t mid_JointQueue;							          // motor cmd (1 for each DOF triplet)
+osMessageQueueId_t mid_PositionQueue;                		  // message queue id (QueueHandle_t CMSIS wrapper)
+osMessageQueueId_t mid_FeedbackQueue;                		  // message queue id (QueueHandle_t CMSIS wrapper)
 
-osThreadId_t tid_Thread_MsgQueue1;              			// thread id 1
-osThreadId_t tid_Thread_MsgQueue2;              			// thread id 2
+// TODO: check uses
+osEventFlagsId_t evt_id;                        			    // Event group: event flags id Callback-Task communication
 
 // Constantes de transmisión
-const int STEPS_PER_REV = 200*8; // 8 micropasos
+const uint16_t STEPS_PER_REV = 200*8; // 8 micropasos
+const float DEG_TO_STEPS = STEPS_PER_REV / 360.0;
 
-//CONSTANTES CINEMATICAS DEL ROBOT
-const float L1 = 0.078;   //[m]
-const float L2 = 0.135;   //[m]
-const float L3 = 0.147;   //[m]
-const float L4 = 0.0253;  //[m]
-
-// DH: [theta, d, a, alpha] por fila
-float dh[4][4] = {
-	{0, L1,  0,   PI/2},
-	{0, 0,  L2,   0.0f},   // L2
-	{0, 0,  L3,   0.0f},   // L3
-	{0, 0,  L4,   0.0f}    // L4
-};
-
-float Tool[4][4] = {
-            {1,0,0,0},
-            {0,1,0,0},
-            {0,0,1,0},
-            {0,0,0,1}
-};
-
-float tool_z = 0.04115;
-
-float Base[4][4] = {
-		{1,0,0,0},
-		{0,1,0,0},
-		{0,0,1,0},
-		{0,0,0,1}
-};
-
-float offset[4] = {0, PI/2, -PI/2, 0};
-float lim[3][2] = {
-	{ -90*PI/180, 90*PI/180},
-	{ 60*PI/180, 143*PI/180},
-	{ -20*PI/180, 60*PI/180}
-};
+//Maquina de estados I2C
+typedef enum {
+    I2C_IDLE,
+    I2C_MUX_TX,
+    I2C_AS5600_RX
+} I2C_State_t;
+volatile I2C_State_t i2c_state = I2C_IDLE;
+volatile int i2c_last_ret = 0;
+volatile int current_motor = 0;
+uint8_t mux_data;
+uint8_t as5600_buf[2];
+uint8_t sensor_index = 1;
 
 /* USER CODE END PV */
 
@@ -160,15 +138,18 @@ static void MX_TIM2_Init(void);
 static void MX_TIM3_Init(void);
 static void MX_TIM13_Init(void);
 static void MX_I2C1_Init(void);
+static void MX_TIM7_Init(void);
 void StartDefaultTask(void *argument);
 void StartMotorControlTask(void *argument);
 void StartKinematicsTask(void *argument);
 
 /* USER CODE BEGIN PFP */
-void subscription_callback(const void * msgin);
 void homing_callback(const void * msgin);
-void inverse_kinematics_callback(const void * msgin);
+//void inverse_kinematics_callback(const void * msgin);
 void cmd_callback(const void * msgin);
+void timer_callback(rcl_timer_t * timer, int64_t last_call_time);
+void request_angles_callback(const void * msgin);
+void estop_callback(const void * msgin);
 
 /* USER CODE END PFP */
 
@@ -213,27 +194,27 @@ int main(void)
   MX_TIM3_Init();
   MX_TIM13_Init();
   MX_I2C1_Init();
+  MX_TIM7_Init();
   /* USER CODE BEGIN 2 */
-  //Measure motors 2 & 3
+
+  motor1.currentAngle = readAngle_AS5600(1);
   motor2.currentAngle = readAngle_AS5600(2);
   motor3.currentAngle = readAngle_AS5600(3);
+  electromagnetOn(false);
+  //HAL_TIM_Base_Start_IT(&htim6);
+  HAL_TIM_Base_Start_IT(&htim7);
 
-  //	HAL_TIM_Base_Start_IT(&htim13);
-  //	HAL_TIM_Base_Start_IT(&htim2);
-  //	HAL_TIM_Base_Start_IT(&htim3);
+  __HAL_DBGMCU_FREEZE_TIM13(); ///////////////////////////////////////////////////////////
+  __HAL_DBGMCU_FREEZE_TIM2();  // Sirve para que los timers se detengan en los breakpoints
+  __HAL_DBGMCU_FREEZE_TIM3();  ///////////////////////////////////////////////////////////
+
   printf("System ready.\r\n");
-  printf("Angle2 = %.2f ---- Angle3 = %.2f\r\n", motor2.currentAngle,
-  			motor3.currentAngle);
-  //doHoming(1, GPIO_PIN_RESET);
-  //doHoming(2, GPIO_PIN_RESET);
-  //doHoming(3, GPIO_PIN_RESET);
+  printf("Angle1 = %.2f ---- Angle2 = %.2f ---- Angle3 = %.2f\r\n", motor1.currentAngle, motor2.currentAngle, motor3.currentAngle);
+
   /* USER CODE END 2 */
 
   /* Init scheduler */
   osKernelInitialize();
-  /* Create the mutex(es) */
-  /* creation of xPubMutex */
-  xPubMutexHandle = osMutexNew(&xPubMutex_attributes);
 
   /* USER CODE BEGIN RTOS_MUTEX */
   /* add mutexes, ... */
@@ -250,23 +231,33 @@ int main(void)
   /* USER CODE BEGIN RTOS_QUEUES */
   /* add queues, ... */
   // Mailbox or queue - TODO: check for need to save setpoints (not lost SP)
-  mid_PositionQueue = osMessageQueueNew(1, sizeof(CARTESIAN_POS_t), NULL);	// This function cannot be called from Interrupt Service Routines.
-  if (mid_PositionQueue == NULL) {
+	mid_PositionQueue = osMessageQueueNew(1, sizeof(CARTESIAN_POS_t), NULL); // This function cannot be called from Interrupt Service Routines.
+	if (mid_PositionQueue == NULL) {
 		printf("Could not create CARTESIAN_POS_t queue.\r\n"); // Message Queue object not created, handle failure
-  }
-  // 3 mailbox or 1 queue 3 values --> must be individual queues
-  for(int i = 0; i<N_MOTORS; i++){
-	  mid_JointQueue[i] = osMessageQueueNew(1, sizeof(float), NULL);
-	    if (mid_JointQueue[i] == NULL) {
-	  	printf("Could not create mid_JointQueue %d queue.\r\n",i); // Message Queue object not created, handle failure
-	    }
-  }
+	}
 
+	mid_JointQueue = osMessageQueueNew(1, sizeof(JOINT_POS_t), NULL); // This function cannot be called from Interrupt Service Routines.
+	if (mid_JointQueue == NULL) {
+		printf("Could not create Joint_FeedbackQueue queue.\r\n"); // Message Queue object not created, handle failure
+	}
+
+	// TODO: check if CARTESIAN or JOINT
+	mid_FeedbackQueue = osMessageQueueNew(1, sizeof(CARTESIAN_POS_t), NULL); // This function cannot be called from Interrupt Service Routines.
+	if (mid_FeedbackQueue == NULL) {
+		printf("Could not create mid_FeedbackQueue queue.\r\n"); // Message Queue object not created, handle failure
+	}
 
   /* USER CODE END RTOS_QUEUES */
 
   /* Create the thread(s) */
   /* creation of defaultTask */
+  defaultTaskHandle = osThreadNew(StartDefaultTask, NULL, &defaultTask_attributes);
+
+  /* creation of mControlTask */
+  mControlTaskHandle = osThreadNew(StartMotorControlTask, NULL, &mControlTask_attributes);
+
+  /* creation of KinematicsTask */
+  KinematicsTaskHandle = osThreadNew(StartKinematicsTask, NULL, &KinematicsTask_attributes);
 
   /* USER CODE BEGIN RTOS_THREADS */
   /* add threads, ... */
@@ -274,6 +265,17 @@ int main(void)
 
   /* USER CODE BEGIN RTOS_EVENTS */
   /* add events, ... */
+  // Event Group (CMSIS Layer)
+// 	evt_id = osEventFlagsNew(NULL);
+// 	if (evt_id == NULL) {
+// 		printf("Event flag creation failed\r\n"); // Event Flags object not created, handle failure
+// 	}
+ 	// First set to true to begin OK TODO: optional- check doing doHoming() and it sets to true
+ 	// TODO: revisar esto porque si se pone en alto y luego no se lee el mensaje, pasa de largo
+ 	//osEventFlagsSet(evt_id, FLAGS_MSK1);		// flag to be read by TaskControlMotor
+
+  // Task creation (CMSIS Layer).
+  // TODO: check when rebuild .ioc (automatic creation of tasks) if it overwrites this part of code
   MX_Tasks_Init();
   /* USER CODE END RTOS_EVENTS */
 
@@ -493,6 +495,44 @@ static void MX_TIM3_Init(void)
 }
 
 /**
+  * @brief TIM7 Initialization Function
+  * @param None
+  * @retval None
+  */
+static void MX_TIM7_Init(void)
+{
+
+  /* USER CODE BEGIN TIM7_Init 0 */
+
+  /* USER CODE END TIM7_Init 0 */
+
+  TIM_MasterConfigTypeDef sMasterConfig = {0};
+
+  /* USER CODE BEGIN TIM7_Init 1 */
+
+  /* USER CODE END TIM7_Init 1 */
+  htim7.Instance = TIM7;
+  htim7.Init.Prescaler = 83;
+  htim7.Init.CounterMode = TIM_COUNTERMODE_UP;
+  htim7.Init.Period = 9999;
+  htim7.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_ENABLE;
+  if (HAL_TIM_Base_Init(&htim7) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  sMasterConfig.MasterOutputTrigger = TIM_TRGO_UPDATE;
+  sMasterConfig.MasterSlaveMode = TIM_MASTERSLAVEMODE_DISABLE;
+  if (HAL_TIMEx_MasterConfigSynchronization(&htim7, &sMasterConfig) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  /* USER CODE BEGIN TIM7_Init 2 */
+
+  /* USER CODE END TIM7_Init 2 */
+
+}
+
+/**
   * @brief TIM13 Initialization Function
   * @param None
   * @retval None
@@ -679,8 +719,9 @@ static void MX_GPIO_Init(void)
 
   /*Configure GPIO pin : PC7 */
   GPIO_InitStruct.Pin = GPIO_PIN_7;
-  GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
+  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
+  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
   HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
 
   /*Configure GPIO pin : PB6 */
@@ -701,7 +742,6 @@ int __io_putchar(int ch) { //Sirve para redirigir el printf a la UART3
 	return ch;
 }
 
-
 void parseCmd(const geometry_msgs__msg__Point *msg,
 		CARTESIAN_POS_t *xSetpointToSend) {
 	xSetpointToSend->x = msg->x;
@@ -710,15 +750,30 @@ void parseCmd(const geometry_msgs__msg__Point *msg,
 }
 
 void sendJointCmd(osMessageQueueId_t mid_PositionQueue, CARTESIAN_POS_t xSetpointToSend) {
+	// Poner message type Point en queue
+	osStatus_t xStatus;	// container para Overwrite wrapper
+	CARTESIAN_POS_t dummy;
+
+	if (osMessageQueueGetSpace(mid_PositionQueue) == 0) {
+			osMessageQueueGet(mid_PositionQueue, &dummy, NULL, 0); // eliminar el más antiguo
+		}
+	xStatus = osMessageQueuePut(mid_PositionQueue, &xSetpointToSend, osPriorityNormal, 10);
+	if (xStatus != osOK) {
+		printf( "Could not send to the queue.\r\n" );
+	}
+
+}
+
+void sendFeedbackCmd(osMessageQueueId_t mid_FeedbackQueue, CARTESIAN_POS_t xSetpointToSend) {
 	// put message type Point in queue
 	osStatus_t xStatus;	// container for Overwrite wrapper
 	CARTESIAN_POS_t dummy;
 
 	// mailbox: populate message one by one Point - CARTESIAN_POS_t TODO: check for requirements/control
-	if (osMessageQueueGetSpace(mid_PositionQueue) == 0) {
-			osMessageQueueGet(mid_PositionQueue, &dummy, NULL, 0); // eliminar el más antiguo
+	if (osMessageQueueGetSpace(mid_FeedbackQueue) == 0) {
+			osMessageQueueGet(mid_FeedbackQueue, &dummy, NULL, 0); // clean the oldest
 		}
-	xStatus = osMessageQueuePut(mid_PositionQueue, &xSetpointToSend, osPriorityNormal, 10); // Used for only one position in queue
+	xStatus = osMessageQueuePut(mid_FeedbackQueue, &xSetpointToSend, osPriorityNormal, 10); // Used for only one position in queue
 	if (xStatus != osOK) {
 		printf( "Could not send to the queue.\r\n" );
 	}
@@ -726,87 +781,151 @@ void sendJointCmd(osMessageQueueId_t mid_PositionQueue, CARTESIAN_POS_t xSetpoin
 }
 
 void cmd_callback(const void * msgin) {
-	// TODO: make and cast direct kinematics cmd
-	const geometry_msgs__msg__Point *msg = (const geometry_msgs__msg__Point *)msgin;
-	char buffer[100];
-//	char data[] = "Ingreso a Callback\r\n";
-//	snprintf(buffer, sizeof(buffer), "ACK: %s");
-	// Asignar al mensaje global
-	publish_text("CMD-ACK");
-	float cmd[3];
+	// Cast to Trama message type
+	const extra_interfaces__msg__Trama *msg = (const extra_interfaces__msg__Trama *)msgin;
+	//printf("CMD-ACK\r\n");
+
+	// Build JOINT_POS_t from Trama message
+	JOINT_POS_t cmd;
 	osStatus_t status;
-	cmd[0] = (float) msg->x;
-	cmd[1] = (float) msg->y;
-	cmd[2] = (float) msg->z;
 
-//	printf("cmd_callback\r\n");
-//	char data[] = "cmd_callback\r\n";
-//	HAL_UART_Transmit(&huart3, &data, sizeof(data), 10);
+	// Copy joint positions q[3]
+	for (int i = 0; i < 3; i++) {
+		cmd.q[i] = msg->q[i];
+		cmd.qd[i] = msg->qd[i];
+	}
+	cmd.t_total = msg->t_total;
+	cmd.n_iter = msg->n_iter;
+	cmd.traj_state = msg->traj_state;  // Use value from trajectory planner
 
-    for (int i=0; i<N_MOTORS; i++) {
-    	status = osMessageQueuePut(mid_JointQueue[i], &cmd[i], 0, 0);	//TODO: validate inner fields
-    	if(status != 0){
-    		printf("Error creating mid_JointQueue element in cmd_callback\r\n");
-    	}
-    }
+	//printf("Trama: q=[%.2f, %.2f, %.2f] qd=[%.2f, %.2f, %.2f] t=%.2f n=%ld traj_state=%d\r\n",
+		   //cmd.q[0], cmd.q[1], cmd.q[2],
+		   //cmd.qd[0], cmd.qd[1], cmd.qd[2],
+		   //cmd.t_total, (long)cmd.n_iter, cmd.traj_state);
+
+	// Put in queue (overwrite if full)
+	status = osMessageQueuePut(mid_JointQueue, &cmd, 0, 0);
+	//if (status != osOK)
+		//printf("Error putting Trama in mid_JointQueue\r\n");
 }
 
-void inverse_kinematics_callback(const void * msgin)
-{
-	CARTESIAN_POS_t xSetpointToSend;
-//	char data2[] = "Ingreso a Callback\r\n";
-//	HAL_UART_Transmit(&huart3, &data2, sizeof(data2), 10);
-	const geometry_msgs__msg__Point *msg = (const geometry_msgs__msg__Point *)msgin;
-	// Asignar al mensaje global
-	publish_text("CMD-KIN");
-	// Callback managed by executor
-	parseCmd(msg, &xSetpointToSend);						// parse geometry_msgs__msg__Point to CARTESIAN_POS_t
-	sendJointCmd(mid_PositionQueue, xSetpointToSend);		// put setpoint in Position Queue
-}
-
-void subscription_callback(const void * msgin)
-{
-//	char data2[] = "Ingreso a Callback\r\n";
-//	HAL_UART_Transmit(&huart3, &data2, sizeof(data2), 10);
-	const geometry_msgs__msg__Point *msg = (const geometry_msgs__msg__Point *)msgin;
-//	char buffer[100];
-//	snprintf(buffer, sizeof(buffer), "ACK: ");
-//	char data[50];
-//	snprintf(data, sizeof(data), "PRE-ASSIGN");
-//	HAL_UART_Transmit(&huart3, &data, sizeof(data), 10);
-	// Asignar al mensaje global
-	publish_text("CMD-SUB");
-}
+//void inverse_kinematics_callback(const void * msgin)
+//{
+//	CARTESIAN_POS_t xSetpointToSend;
+//	const geometry_msgs__msg__Point *msg = (const geometry_msgs__msg__Point *)msgin;
+//	//printf("CMD-KIN\r\n");
+//	// Callback managed by executor
+//	//parseCmd(msg, &xSetpointToSend);						// parse geometry_msgs__msg__Point to CARTESIAN_POS_t
+//	//sendJointCmd(mid_PositionQueue, xSetpointToSend);		// put setpoint in Position Queue
+//	moveToAbsAngle(&motor1, msg->x);
+//	moveToAbsAngle(&motor2, msg->y);
+//	moveToAbsAngle(&motor3, msg->z);
+//}
 
 void homing_callback(const void * msgin)
 {
+	// TODO: trigger
+	// TODO: implementar homing: cola o if el de motorCmd, o en task Nueva
+	// TODO: hacer cola homing o flag global pero para Joint en vez de Position
+	// TODO: validate inner fileds to be put in queue
 	const std_msgs__msg__Bool * msg = (const std_msgs__msg__Bool *) msgin;
-	char buffer[100];
-	snprintf(buffer, sizeof(buffer), "HOM: %d", msg->data);
-    publish_text(buffer);
-    // TODO: implementar homing --> cola o if el de motorCmd, o en una task nueva 
-  // TODO: hacer cola homing o flag global pero para Joint en vez de Position
-  
-  // *****************************
-  // OPCION 2: mas bloqueante callback
-  // flagHoming = true;
-  // doHoming()
-  // *****************************
-  float cmd[3];
-	osStatus_t status;
-	cmd[0] = (float) 0;
-	cmd[1] = (float) 0;
-	cmd[2] = (float) 0;
+	if (msg->data) {
+		printf("Homing enabled\r\n");
 
+		// Homing command: zero positions trigger homing sequence
+		JOINT_POS_t cmd = {
+			.q = {-100.0, -100.0, -100.0},
+			.qd = {0.0, 0.0, 0.0},
+			.t_total = 0.0,
+			.n_iter = 0,
+			.traj_state = 0
+		};
+		osStatus_t status = osMessageQueuePut(mid_JointQueue, &cmd, 0, 0);
 
-    for (int i=0; i<N_MOTORS; i++) {
-    	status = osMessageQueuePut(mid_JointQueue[i], &cmd[i], 0, 0);	//TODO: validate inner fields
-    	if(status != 0){
-    		printf("Error creating mid_JointQueue element in homing_callback\r\n");
-    	}
-    }
+		//if (status != osOK)
+			//printf("Error sending homing command to queue\r\n");
+	}
 }
 
+void timer_callback(rcl_timer_t *timer, int64_t last_call_time) {
+	// OPTIONAL: if queues logic failed, use topics  and publish odometry on demand
+	CARTESIAN_POS_t xReceivedStructure;
+	osStatus_t xStatus;
+	// TODO: check for use Point and no Mutex
+	xStatus = osMessageQueueGet(mid_FeedbackQueue, &xReceivedStructure, NULL,
+	0);
+
+	if (xStatus == osOK) {
+		printf("Received Kinematics setpoint: [%lf %lf %lf].\r\n",
+				xReceivedStructure.x, xReceivedStructure.y,
+				xReceivedStructure.z);
+		// Assign values to Point message
+		tim_msg.x = xReceivedStructure.x;
+		tim_msg.y = xReceivedStructure.y;
+		tim_msg.z = xReceivedStructure.z;
+
+		if (timer != NULL) {
+			// Publish Point message
+			rcl_publish(&publisher, &tim_msg, NULL);
+		}
+	}
+
+}
+
+
+void electromagnet_callback(const void * msgin)
+{
+	const std_msgs__msg__Bool * msg = (const std_msgs__msg__Bool *)msgin;
+
+  // Read requested state and act (no E-Stop override here)
+  bool requested_state = msg->data;
+
+	// Actuate the electromagnet (non-blocking HAL_GPIO call)
+	electromagnetOn(requested_state);
+	// Fallback: UART printf as heartbeat confirmation
+	printf("Electromagnet CB: requested=%s actual=%s\r\n", msg->data ? "ON" : "OFF", requested_state ? "ON" : "OFF");
+
+  // State echo publisher removed; rely on other feedback channels (printf)
+}
+
+void estop_callback(const void * msgin){
+  const std_msgs__msg__Bool * msg = (const std_msgs__msg__Bool *)msgin;
+
+  // Read E-Stop state
+  bool estop_engaged = msg->data;
+
+  // Actuate E-Stop: if engaged, stop all motors immediately; if disengaged, allow normal operation (no override here)
+  if (estop_engaged) {
+    // Stop all motors: set PWM to zero and optionally set a flag to ignore further commands until reset
+    for (int i = 0; i < 3; i++) {
+	  Motor* m = motors[i];
+      m->state = MOTOR_ERROR;
+    }
+    printf("E-Stop ENGAGED: Motors stopped.\r\n");
+  } else {
+    for (int i = 0; i < 3; i++) {
+	  Motor* m = motors[i];
+      m->state = IDLE;
+    }
+    printf("E-Stop DISENGAGED: Motors can operate.\r\n");
+  }
+}
+
+void request_angles_callback(const void * msgin)
+{
+  const std_msgs__msg__Bool * msg = (const std_msgs__msg__Bool *)msgin;
+
+  if (msg->data) {
+    // Publish current angles using the Point message
+    tim_msg.x = (double)motor1.currentAngle;
+    tim_msg.y = (double)motor2.currentAngle;
+    tim_msg.z = (double)motor3.currentAngle;
+
+    rcl_publish(&publisher, &tim_msg, NULL);
+    printf("Current angles published: [%.2f, %.2f, %.2f]\r\n",
+           motor1.currentAngle, motor2.currentAngle, motor3.currentAngle);
+  }
+}
 
 //### Configura PWM de los motores ###
 void Stepper_SetSpeed(TIM_HandleTypeDef *htim, uint32_t channel, uint32_t freq_hz) {
@@ -837,10 +956,13 @@ float readAngle_AS5600(int motor) { //Lee el angulo del sensor AS5600 en la I2C1
       TCA9548A_SelectChannel(0); // Seleccionar canal 0 → leer sensor 2
       invert = false;
     }
+    else if(motor == 1){
+      TCA9548A_SelectChannel(2); // Seleccionar canal 0 → leer sensor 2
+      invert = true;
+    }
     else{
       return 0.0;
     }
-    //HAL_Delay(2); // tiempo corto de estabilización
 
     HAL_I2C_Mem_Read(&hi2c1, AS5600_ADDR, ANGLE_REG_HIGH, I2C_MEMADD_SIZE_8BIT, &data[0], 1, HAL_MAX_DELAY);
     HAL_I2C_Mem_Read(&hi2c1, AS5600_ADDR, ANGLE_REG_LOW,  I2C_MEMADD_SIZE_8BIT, &data[1], 1, HAL_MAX_DELAY);
@@ -870,166 +992,162 @@ float filterAngle(float angleReaded, float lastAngle){
 	}
 }
 
-bool inverseKinematics(const float x, const float y, const float z) {
-    float T_obj[4][4] = {
-            {1, 0,  0, x},
-            {0, 1,  0, y},
-            {0, 0,  1, z},
-            {0, 0,  0, 1}
-            };
+//bool inverseKinematics(const float x, const float y, const float z) {
+//    float T_obj[4][4] = {
+//            {1, 0,  0, x},
+//            {0, 1,  0, y},
+//            {0, 0,  1, z},
+//            {0, 0,  0, 1}
+//            };
+//
+//    float qm[3];
+//	bool ok = cinv_geometrica_f32(dh, T_obj, Base, Tool, offset, lim, qm);
+//
+//	if(ok){
+//		printf("C_Inv OK\r\n");
+//
+//		motor1.targetAngle = qm[0]*180/M_PI;
+//		motor2.targetAngle = qm[1]*180/M_PI;
+//		motor3.targetAngle = qm[2]*180/M_PI;
+//	}
+//	else{
+//		printf("C_Inv NO OK\r\n");
+//	}
+//	return ok;
+//}
 
-    float qm[3];
-	bool ok = cinv_geometrica_f32(dh, T_obj, Base, Tool, offset, lim, qm);
+void moveToAbsAngle(Motor *m, float angulo_abs){
+    float angulo_rel = angulo_abs - m->currentAngle;
+    m->targetAngle = angulo_abs;
 
-	if(ok){
-		printf("C_Inv OK\r\n");
+    if(fabs(angulo_rel) > ANGLE_TOLERANCE){
+    	GPIO_PinState dir = (angulo_rel >= 0) ? GPIO_PIN_SET : GPIO_PIN_RESET;
 
-		motor1.targetAngle = qm[0]*180/PI;
-		motor2.targetAngle = qm[1]*180/PI;
-		motor3.targetAngle = qm[2]*180/PI;
-	}
-	else{
-		printf("C_Inv NO OK\r\n");
-	}
-	return ok;
-}
+		m->dir = dir;
+		m->state = P2P;
+		m->speed = 300;
 
-void moveToAbsAngle(int motor, float angulo_abs, int velocidad){
-	//velocidad [steps/s] = freq [Hz]  xq 1 paso es 1 periodo de PWM
-	float angulo_actual;
-	float relacion;
+		HAL_GPIO_WritePin(m->DIR_PORT, m->DIR_PIN, dir);
+		Stepper_SetSpeed(m->timer, m->timerChannel, m->speed);
 
-	switch (motor) {
-	  case 1: angulo_actual = motor1.currentAngle; motor1.targetAngle = angulo_abs; relacion = motor1.i; Stepper_SetSpeed(&htim13, TIM_CHANNEL_1, velocidad); break;
-	  case 2:
-		  angulo_actual = motor2.currentAngle;
-		  motor2.targetAngle = angulo_abs;
-		  relacion = motor2.i;
-		  Stepper_SetSpeed(&htim2, TIM_CHANNEL_2, motor2.minSpeed);
-		  motor2.startAngle = motor2.currentAngle;
-		  motor2.currentSpeed = motor2.minSpeed;
-		  motor2.nextAccelPoint = 0.5;
-		  break;
-	  case 3:
-		  angulo_actual = motor3.currentAngle;
-		  motor3.targetAngle = angulo_abs;
-		  relacion = motor3.i;
-		  Stepper_SetSpeed(&htim3, TIM_CHANNEL_2, motor3.minSpeed);
-		  motor3.startAngle = motor3.currentAngle;
-		  motor3.currentSpeed = motor3.minSpeed;
-		  motor3.nextAccelPoint = 0.5;
-		  break;
-	  default: return;
-	}
-
-	float angulo_rel = angulo_abs - angulo_actual;
-	printf("Motor %d targetAngle %.2f relativeAngle %.2f\r\n", motor, angulo_abs, angulo_rel);
-	GPIO_PinState dir = (angulo_rel >= 0) ? GPIO_PIN_SET : GPIO_PIN_RESET;
-	float pasos = (fabs(angulo_rel) / 360.0) * STEPS_PER_REV * relacion;
-
-	switch (motor) {
-	      case 1:
-	    	  HAL_GPIO_WritePin(motor1.dirPort, motor1.dirPin, dir);
-	    	  motor1.currentStep = 0;
-	    	  motor1.targetStep = pasos;
-	    	  motor1.dir = dir;
-	    	  motor1.angleDone = false;
-	    	  HAL_TIM_Base_Start_IT(&htim13);
-	    	  HAL_TIM_PWM_Start(&htim13, TIM_CHANNEL_1);
-	    	  break;
-	      case 2:
-	    	  HAL_GPIO_WritePin(motor2.dirPort, motor2.dirPin, dir);
-	    	  motor2.angleDone = false;
-	    	  HAL_TIM_Base_Start_IT(&htim2);
-			    HAL_TIM_PWM_Start(&htim2, TIM_CHANNEL_2);
-	    	  break;
-	      case 3:
-	    	  HAL_GPIO_WritePin(motor3.dirPort, motor3.dirPin, dir);
-	    	  motor3.angleDone = false;
-	    	  HAL_TIM_Base_Start_IT(&htim3);
-			    HAL_TIM_PWM_Start(&htim3, TIM_CHANNEL_2);
-	    	  break;
-	      default: return;
-	    }
+		HAL_TIM_PWM_Start(m->timer, m->timerChannel);
+    	HAL_TIM_Base_Start_IT(m->timer);
+    }
 }
 
 void electromagnetOn(bool turn_on){
 	if(turn_on){
 		HAL_GPIO_WritePin(ELECTROMAGNET_GPIO, ELECTROMAGNET_PIN, GPIO_PIN_RESET);
+		HAL_GPIO_WritePin(LED_EMAGNET_GPIO, LED_EMAGNET_PIN, GPIO_PIN_SET);
 	}
 	else {
 		HAL_GPIO_WritePin(ELECTROMAGNET_GPIO, ELECTROMAGNET_PIN, GPIO_PIN_SET);
+		HAL_GPIO_WritePin(LED_EMAGNET_GPIO, LED_EMAGNET_PIN, GPIO_PIN_RESET);
 	}
 }
 
-void doHoming(int motor, GPIO_PinState dir) {
-  GPIO_TypeDef* dirPort;
-  uint16_t dirPin;
-  float angleHoming;
-
-  switch (motor) {
-    case 1: dirPort = motor1.dirPort; dirPin = motor1.dirPin; break;
-    case 2: dirPort = motor2.dirPort; dirPin = motor2.dirPin; angleHoming = motor2.angleHoming; break;
-    case 3: dirPort = motor3.dirPort; dirPin = motor3.dirPin; angleHoming = motor3.angleHoming; break;
-    default: return;
-  }
-
-  if (motor == 1){
-	  HAL_GPIO_WritePin(dirPort, dirPin, dir); // 1. Configurar dirección hacia el fin de carrera
-	  Stepper_SetSpeed(&htim13, TIM_CHANNEL_1, 250); // 2. Configurar velocidad lenta para homing
-
-	  motor1.homing = true;
-	  motor1.totalSteps = 0; // 3. Inicializar contadores
-	  motor1.currentStep = 0;
-
-	  HAL_TIM_Base_Start_IT(&htim13);
-	  HAL_TIM_PWM_Start(&htim13, TIM_CHANNEL_1); // 4. Iniciar PWM
-  }
-  else if(motor == 2 || motor == 3){
-	  moveToAbsAngle(motor, angleHoming, 500);
-  }
-
+void doHoming(Motor *m) {
+	moveToAbsAngle(m, m->angleHoming);
 }
 
-void syncSpeeds(Motor *m1, Motor *m2, Motor *m3)
-{
-    // 1. Distancias de movimiento
-    float d1 = fabsf(m1->targetAngle - m1->currentAngle);
-    float d2 = fabsf(m2->targetAngle - m2->currentAngle);
-    float d3 = fabsf(m3->targetAngle - m3->currentAngle);
+void trajectoryControl(Motor *m, float q_ref, float qd_ref){
+	float v_cmd, q_err;
+	//m->targetAngle = q_ref;
 
-    // 2. Encontrar el máximo
-    float dmax = fmaxf(d1, fmaxf(d2, d3));
+	switch(m->state){
+	case TRAJ:
+		q_err = q_ref - m->currentAngle;
+		v_cmd = qd_ref + KP_POS * q_err; //feedforward de velocidad + feedback proporcional de posicion
+		break;
+	case APPROX:
+		q_err = m->targetAngle - m->currentAngle;
+		v_cmd = KP_APPROX * q_err; //se compensa error de posicion al final de trayectoria
+		break;
+	default: return;
+	}
 
-    if (dmax < 0.01f) {
-        // Movimiento despreciable: evitar divisiones
-        m1->syncedMaxSpeed = m1->minSpeed;
-        m2->syncedMaxSpeed = m2->minSpeed;
-        m3->syncedMaxSpeed = m3->minSpeed;
+	//Se aplican los cambios: direccion con HAL_GPIO_WritePin y amplitud de velocidad en Stepper_SetSpeed
+    float v_hz = fabsf(v_cmd) * DEG_TO_STEPS * m->i;
+
+    if(v_hz > 1000) v_hz = 1000;
+    if(v_hz < 1) v_hz = 1; //para evitar la division por cero
+
+    m->dir = (v_cmd >= 0) ? GPIO_PIN_SET : GPIO_PIN_RESET;
+    m->speed = v_hz;
+	HAL_GPIO_WritePin(m->DIR_PORT, m->DIR_PIN, m->dir);
+	Stepper_SetSpeed(m->timer, m->timerChannel, m->speed);
+}
+
+void AS5600_StartRead_IT(int motor){
+    if (i2c_state != I2C_IDLE)
         return;
+
+    current_motor = motor;
+
+    if (motor == 1) mux_data = 1 << 2;
+    else if (motor == 2) mux_data = 1 << 1;
+    else if (motor == 3) mux_data = 1 << 0;
+    else return;
+
+  HAL_StatusTypeDef ret = HAL_I2C_Master_Transmit_IT(&hi2c1, TCA9548A_ADDR, &mux_data, 1);
+  if (ret == HAL_OK) {
+    i2c_state = I2C_MUX_TX;
+  }
+}
+
+//////////////////////INTERRUPCIONES I2C
+
+void HAL_I2C_MasterTxCpltCallback(I2C_HandleTypeDef *hi2c){
+    if (hi2c != &hi2c1) return;
+
+  if (i2c_state == I2C_MUX_TX){
+    HAL_StatusTypeDef ret = HAL_I2C_Mem_Read_IT(&hi2c1, AS5600_ADDR, ANGLE_REG_HIGH, I2C_MEMADD_SIZE_8BIT, as5600_buf, 2);
+    if (ret == HAL_OK){
+      i2c_state = I2C_AS5600_RX;
+    } else {
+      i2c_last_ret = (int)ret;
+      i2c_state = I2C_IDLE; // reset state so next timer can retry
     }
+  }
+}
 
-    // 3. Calcular velocidades sincronizadas
-    // El motor con dmax usará MAX_SPEED_HZ
-    // Los demás usarán velocidad proporcional a su distancia
-    m1->syncedMaxSpeed = MAX_SPEED_HZ * (d1 / dmax);
-    m2->syncedMaxSpeed = MAX_SPEED_HZ * (d2 / dmax);
-    m3->syncedMaxSpeed = MAX_SPEED_HZ * (d3 / dmax);
+void HAL_I2C_MemRxCpltCallback(I2C_HandleTypeDef *hi2c){
+    if (hi2c != &hi2c1) return;
 
-    printf("Proportions %.3f %.3f %.3f\r\n", (d1 / dmax), (d2 / dmax), (d3 / dmax));
-    printf("Max speeds sin correccion synced %.3f %.3f %.3f\r\n", m1->syncedMaxSpeed,m2->syncedMaxSpeed,m3->syncedMaxSpeed);
+    if (i2c_state == I2C_AS5600_RX)
+    {
+        uint16_t raw = ((uint16_t)as5600_buf[0] << 8) | as5600_buf[1];
+        raw &= 0x0FFF;
+        bool invert;
 
-    // 4. Aplicar límites mínimos
-    //if (m1->syncedMaxSpeed < m1->minSpeed) m1->syncedMaxSpeed = m1->minSpeed;
-    //if (m2->syncedMaxSpeed < m2->minSpeed) m2->syncedMaxSpeed = m2->minSpeed;
-    //if (m3->syncedMaxSpeed < m3->minSpeed) m3->syncedMaxSpeed = m3->minSpeed;
+        switch(current_motor){
+        case 1:
+        case 2: invert = true; break;
+        case 3: invert = false; break;
+        default: return;
+        }
 
-    // 5. Aplicar límites máximos propios del motor
-    if (m1->syncedMaxSpeed > m1->maxSpeed) m1->syncedMaxSpeed = m1->maxSpeed;
-    if (m2->syncedMaxSpeed > m2->maxSpeed) m2->syncedMaxSpeed = m2->maxSpeed;
-    if (m3->syncedMaxSpeed > m3->maxSpeed) m3->syncedMaxSpeed = m3->maxSpeed;
+		if (invert){
+			raw = (4096 - raw) & 0x0FFF;
+		}
+		float currentAngle = (raw * 360.0f) / 4096.0f; // El ángulo es de 12 bits -> 4096 en 360°
+		if (currentAngle > 180.0f) currentAngle -= 360.0f;
 
-    printf("Max speeds synced %.2f %.2f %.2f\r\n", m1->syncedMaxSpeed,m2->syncedMaxSpeed,m3->syncedMaxSpeed);
+		switch(current_motor){
+		    case 1: motor1.currentAngle = filterAngle(currentAngle, motor1.currentAngle); break;
+		    case 2: motor2.currentAngle = filterAngle(currentAngle, motor2.currentAngle); break;
+		    case 3: motor3.currentAngle = filterAngle(currentAngle, motor3.currentAngle); break;
+		    default: return;
+        }
+
+        i2c_state = I2C_IDLE;
+    }
+}
+
+void HAL_I2C_ErrorCallback(I2C_HandleTypeDef *hi2c){
+  if (hi2c != &hi2c1) return;
+  i2c_last_ret = (int)hi2c->ErrorCode;
+  i2c_state = I2C_IDLE; // free the state machine so timer can retry
 }
 
 /* USER CODE END 4 */
@@ -1043,13 +1161,13 @@ void syncSpeeds(Motor *m1, Motor *m2, Motor *m3)
 /* USER CODE END Header_StartDefaultTask */
 //void StartDefaultTask(void *argument)
 //{
-//  /* USER CODE BEGIN 5 */
-//////  /* Infinite loop */
-//////  for(;;)
-//////  {
-//////    osDelay(1);
-//////  }
-//  /* USER CODE END 5 */
+  /* USER CODE BEGIN 5 */
+  /* Infinite loop */
+  //for(;;)
+  //{
+  //  osDelay(1);
+  //}
+  /* USER CODE END 5 */
 //}
 
 /* USER CODE BEGIN Header_StartMotorControlTask */
@@ -1061,13 +1179,13 @@ void syncSpeeds(Motor *m1, Motor *m2, Motor *m3)
 /* USER CODE END Header_StartMotorControlTask */
 //void StartMotorControlTask(void *argument)
 //{
-//  /* USER CODE BEGIN StartMotorControlTask */
-//////  /* Infinite loop */
-//////  for(;;)
-//////  {
-//////    osDelay(1);
-//////  }
-//  /* USER CODE END StartMotorControlTask */
+  /* USER CODE BEGIN StartMotorControlTask */
+  /* Infinite loop */
+  //for(;;)
+  //{
+  //  osDelay(1);
+  //}
+  /* USER CODE END StartMotorControlTask */
 //}
 
 /* USER CODE BEGIN Header_StartKinematicsTask */
@@ -1079,13 +1197,13 @@ void syncSpeeds(Motor *m1, Motor *m2, Motor *m3)
 /* USER CODE END Header_StartKinematicsTask */
 //void StartKinematicsTask(void *argument)
 //{
-//  /* USER CODE BEGIN StartKinematicsTask */
-//////  /* Infinite loop */
-//////  for(;;)
-//////  {
-//////    osDelay(1);
-//////  }
-//  /* USER CODE END StartKinematicsTask */
+  /* USER CODE BEGIN StartKinematicsTask */
+  /* Infinite loop */
+  //for(;;)
+  //{
+    //osDelay(1);
+  //}
+  /* USER CODE END StartKinematicsTask */
 //}
 
 /**
@@ -1102,159 +1220,123 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 
   // Motor 1 → TIM1 (PWM13/1)
   if (htim->Instance == TIM13){
-	  if(motor1.homing){ // Hace el homing
-		  if (!HAL_GPIO_ReadPin(HALL_SENSOR_GPIO, HALL_SENSOR_PIN)){
-			  motor1.homing = false;
-			  motor1.totalSteps = 0;
-			  motor1.currentStep = 0;
-			  motor1.currentAngle = motor1.angleHoming;
-			  motor1.angleDone = true;
-
-		      HAL_TIM_Base_Stop_IT(&htim13);
-		      HAL_TIM_PWM_Stop(&htim13, TIM_CHANNEL_1);
-		  }
-	  }
-	  else{ // Mueve el motor 1 con normalidad
-		  motor1.currentStep++;
-
-		  if (motor1.dir == CW){
-			  motor1.totalSteps++;
-		  }
-		  else{
-			  motor1.totalSteps--;
-		  }
-
-		  if (motor1.currentStep >= motor1.targetStep){
-			  motor1.angleDone = true;
-			  HAL_TIM_Base_Stop_IT(&htim13);
-			  HAL_TIM_PWM_Stop(&htim13, TIM_CHANNEL_1);
-		  }
-
-		  motor1.currentAngle = (motor1.totalSteps * 360.0f / STEPS_PER_REV) / motor1.i;
+	  switch (motor1.state){
+		  case APPROX:
+		  case HOMING:
+		  case P2P:
+			  float err = fabsf(motor1.currentAngle - motor1.targetAngle);
+			  if(err < 3){
+			  	  motor1.speed = err * 60;
+			  	  if(motor1.speed < 20.0f) motor1.speed = 20.0f;
+				  Stepper_SetSpeed(motor1.timer, motor1.timerChannel, motor1.speed);
+			  }
+			  if((motor1.dir && motor1.currentAngle >= (motor1.targetAngle - ANGLE_TOLERANCE)) || (!motor1.dir && motor1.currentAngle <= (motor1.targetAngle + ANGLE_TOLERANCE))){
+				  motor1.state = IDLE;
+				  if(ALL_MOTORS_IDLE){ // Ultimo motor que se detiene publica y lo lee el publisher
+					  CARTESIAN_POS_t xFeedback_ = {
+							.x = motor1.currentAngle,
+							.y = motor2.currentAngle,
+							.z = motor3.currentAngle
+						};
+					  BaseType_t xHigherPriorityTaskWoken = pdFALSE;
+					  xQueueSendFromISR(mid_FeedbackQueue, &xFeedback_, &xHigherPriorityTaskWoken);
+                      portYIELD_FROM_ISR(xHigherPriorityTaskWoken);
+				  }
+				  HAL_TIM_Base_Stop_IT(motor1.timer);
+				  HAL_TIM_PWM_Stop(motor1.timer, motor1.timerChannel);
+			  }
+			  break;
+		      case MOTOR_ERROR:
+		  		  HAL_TIM_Base_Stop_IT(motor1.timer);
+		  		  HAL_TIM_PWM_Stop(motor1.timer, motor1.timerChannel);
+		  		break;
+		  default: break;
 	  }
   }
 
-  // Motor 2 → TIM2 (PWM2/2) //FUNCION VIEJA
-//  else if (htim->Instance == TIM2){
-//	  motor2.currentStep++;
-//	  //motor2.currentAngle = readAngle_AS5600(2);
-//
-//	  if (motor2.currentStep >= motor2.targetStep){
-//		  motor2.angleDone = true;
-//		  HAL_TIM_Base_Stop_IT(&htim2);
-//		  HAL_TIM_PWM_Stop(&htim2, TIM_CHANNEL_2);
-//	  }
-//  }
-
-  // Motor 3 → TIM3 (PWM3/2) //FUNCION VIEJA con pasos
-//  else if (htim->Instance == TIM3){
-//	  motor3.currentStep++;
-//	  motor3.currentAngle = readAngle_AS5600(3);
-//
-//	  if (motor3.currentStep >= motor3.targetStep){
-//		  motor3.angleDone = true;
-//		  HAL_TIM_Base_Stop_IT(&htim3);
-//		  HAL_TIM_PWM_Stop(&htim3, TIM_CHANNEL_2);
-//	  }
-//  }
-
-
-//  else if (htim->Instance == TIM2){ // Funcion nueva con lectura de angulo
-//  	  float readedAngle = readAngle_AS5600(2);
-//    	  motor2.currentAngle = filterAngle(readedAngle, motor2.currentAngle);
-//
-//    	  if (fabs(motor2.currentAngle - motor2.targetAngle) <= ANGLE_TOLERANCE){
-//    		  HAL_TIM_Base_Stop_IT(&htim2);
-//    		  HAL_TIM_PWM_Stop(&htim2, TIM_CHANNEL_2);
-//    		  motor2.angleDone = true;
-//    	  }
-//      }
-//  else if (htim->Instance == TIM3){
-//  	  float readedAngle = readAngle_AS5600(3);
-//    	  motor3.currentAngle = filterAngle(readedAngle, motor3.currentAngle);
-//
-//    	  if (fabs(motor3.currentAngle - motor3.targetAngle) <= ANGLE_TOLERANCE){
-//    		  HAL_TIM_Base_Stop_IT(&htim3);
-//    		  HAL_TIM_PWM_Stop(&htim3, TIM_CHANNEL_2);
-//    		  motor3.angleDone = true;
-//    	  }
-//      }
-
   else if (htim->Instance == TIM2){
-
-          float readedAngle = readAngle_AS5600(2);
-          motor2.currentAngle = filterAngle(readedAngle, motor2.currentAngle);
-
-          float distRemaining = fabs(motor2.targetAngle - motor2.currentAngle);
-
-          // ---- LLEGÓ AL DESTINO ----
-          if (distRemaining <= ANGLE_TOLERANCE){
-              motor2.currentSpeed = motor2.minSpeed;
-              HAL_TIM_Base_Stop_IT(&htim2);
-              HAL_TIM_PWM_Stop(&htim2, TIM_CHANNEL_2);
-              motor2.angleDone = true;
-              return;
+          switch(motor2.state){
+			  case APPROX:
+			  case HOMING:
+			  case P2P:
+				  float err = fabsf(motor2.currentAngle - motor2.targetAngle);
+				  if(err < 3){
+					  motor2.speed = err * 60;
+					  if(motor2.speed < 20.0f) motor2.speed = 20.0f;
+					  Stepper_SetSpeed(motor2.timer, motor2.timerChannel, motor2.speed);
+				  }
+				  if((motor2.dir && motor2.currentAngle >= (motor2.targetAngle - ANGLE_TOLERANCE)) || (!motor2.dir && motor2.currentAngle <= (motor2.targetAngle + ANGLE_TOLERANCE))){
+					motor2.state = IDLE;
+					if(ALL_MOTORS_IDLE){ // Ultimo motor que se detiene publica y lo lee el publisher
+						CARTESIAN_POS_t xFeedback_ = {
+							.x = motor1.currentAngle,
+							.y = motor2.currentAngle,
+							.z = motor3.currentAngle
+						};
+						BaseType_t xHigherPriorityTaskWoken = pdFALSE;
+						xQueueSendFromISR(mid_FeedbackQueue, &xFeedback_, &xHigherPriorityTaskWoken);
+						portYIELD_FROM_ISR(xHigherPriorityTaskWoken);
+					}
+					HAL_TIM_Base_Stop_IT(motor2.timer);
+					HAL_TIM_PWM_Stop(motor2.timer, motor2.timerChannel);
+				  }
+				  break;
+			  case MOTOR_ERROR:
+				  HAL_TIM_Base_Stop_IT(motor2.timer);
+				  HAL_TIM_PWM_Stop(motor2.timer, motor2.timerChannel);
+				  break;
+			  default: break;
           }
-
-          // ---- FASE DE ACELERACIÓN ----
-          float distTravelled = fabs(motor2.currentAngle - motor2.startAngle);
-
-          if (distTravelled >= motor2.nextAccelPoint && motor2.currentSpeed < motor2.syncedMaxSpeed){
-              motor2.currentSpeed *= 1.1; // subir 10%
-              if (motor2.currentSpeed > motor2.syncedMaxSpeed)
-                  motor2.currentSpeed = motor2.syncedMaxSpeed;
-
-              motor2.nextAccelPoint += 0.5;  // próximo punto de aceleración
-          }
-
-          // ---- FASE DE DESACELERACIÓN ----
-          if (distRemaining <= 10.0){
-              motor2.currentSpeed /= 1.1; // bajar 10%
-              if (motor2.currentSpeed < motor2.minSpeed)
-                  motor2.currentSpeed = motor2.minSpeed;
-          }
-
-          // ---- ACTUALIZAR PWM ----
-          Stepper_SetSpeed(&htim2, TIM_CHANNEL_2, motor2.currentSpeed);
       }
 
   else if (htim->Instance == TIM3){
+	  switch (motor3.state){
+		  case APPROX:
+		  case HOMING:
+		  case P2P:
+			  float err = fabsf(motor3.currentAngle - motor3.targetAngle);
+			  if(err < 3){
+				  motor3.speed = err * 60;
+				  if(motor1.speed < 20.0f) motor1.speed = 20.0f;
+				  Stepper_SetSpeed(motor3.timer, motor3.timerChannel, motor3.speed);
+			  }
+			  if((motor3.dir && motor3.currentAngle >= (motor3.targetAngle - ANGLE_TOLERANCE)) || (!motor3.dir && motor3.currentAngle <= (motor3.targetAngle + ANGLE_TOLERANCE))){
+				  motor3.state = IDLE;
+				  if(ALL_MOTORS_IDLE){ // Ultimo motor que se detiene publica y lo lee el publisher
+					  CARTESIAN_POS_t xFeedback_ = {
+						.x = motor1.currentAngle,
+						.y = motor2.currentAngle,
+						.z = motor3.currentAngle
+					  };
+					  BaseType_t xHigherPriorityTaskWoken = pdFALSE;
+					  xQueueSendFromISR(mid_FeedbackQueue, &xFeedback_, &xHigherPriorityTaskWoken);
+					  portYIELD_FROM_ISR(xHigherPriorityTaskWoken);
+				  }
+				  HAL_TIM_Base_Stop_IT(motor3.timer);
+				  HAL_TIM_PWM_Stop(motor3.timer, motor3.timerChannel);
+			  }
+			  break;
+		  case MOTOR_ERROR:
+		  	  HAL_TIM_Base_Stop_IT(motor3.timer);
+		  	  HAL_TIM_PWM_Stop(motor3.timer, motor3.timerChannel);
+		  	  break;
+		  default: break;
+	  }
+  }
 
-            float readedAngle = readAngle_AS5600(3);
-            motor3.currentAngle = filterAngle(readedAngle, motor3.currentAngle);
-
-            float distRemaining = fabs(motor3.targetAngle - motor3.currentAngle);
-
-            // ---- LLEGÓ AL DESTINO ----
-            if (distRemaining <= ANGLE_TOLERANCE){
-                motor3.currentSpeed = motor3.minSpeed;
-                HAL_TIM_Base_Stop_IT(&htim3);
-                HAL_TIM_PWM_Stop(&htim3, TIM_CHANNEL_2);
-                motor3.angleDone = true;
-                return;
-            }
-
-            // ---- FASE DE ACELERACIÓN ----
-            float distTravelled = fabs(motor3.currentAngle - motor3.startAngle);
-
-            if (distTravelled >= motor3.nextAccelPoint && motor3.currentSpeed < motor3.syncedMaxSpeed){
-                motor3.currentSpeed *= 1.1; // subir 10%
-                if (motor3.currentSpeed > motor3.syncedMaxSpeed)
-                    motor3.currentSpeed = motor3.syncedMaxSpeed;
-
-                motor3.nextAccelPoint += 0.5;  // próximo punto de aceleración
-            }
-
-            // ---- FASE DE DESACELERACIÓN ----
-            if (distRemaining <= 10.0){
-                motor3.currentSpeed /= 1.1; // bajar 10%
-                if (motor3.currentSpeed < motor3.minSpeed)
-                    motor3.currentSpeed = motor3.minSpeed;
-            }
-
-            // ---- ACTUALIZAR PWM ----
-            Stepper_SetSpeed(&htim3, TIM_CHANNEL_2, motor3.currentSpeed);
+    else if(htim->Instance == TIM7){
+    	//float angle1 = readAngle_AS5600(1);
+    	//motor1.currentAngle = filterAngle(angle1, motor1.currentAngle);
+    	//float angle2 = readAngle_AS5600(2);
+    	//motor2.currentAngle = filterAngle(angle2, motor2.currentAngle);
+    	//float angle3 = readAngle_AS5600(3);
+    	//motor3.currentAngle = filterAngle(angle3, motor3.currentAngle);
+        if (i2c_state == I2C_IDLE){
+          AS5600_StartRead_IT(sensor_index);
+          sensor_index++;
+          if (sensor_index > 3) sensor_index = 1;
         }
+    }
 
   /* USER CODE END Callback 0 */
   if (htim->Instance == TIM1)

@@ -17,14 +17,18 @@ extern "C"
 
 // Constants defined in the message
 
-// Include directives for member types
-// Member 'data'
-#include "rosidl_runtime_c/string.h"
-
 /// Struct defined in msg/Trama in the package extra_interfaces.
 typedef struct extra_interfaces__msg__Trama
 {
-  rosidl_runtime_c__String data;
+  /// float64[3] q - Joint positions
+  double q[3];
+  /// float64[3] qd - Joint velocities
+  double qd[3];
+  /// float64 t_total - Total time
+  double t_total;
+  /// int32 n_iter - Number of iterations
+  int32_t n_iter;
+  int32_t traj_state;
 } extra_interfaces__msg__Trama;
 
 // Struct for a sequence of extra_interfaces__msg__Trama.

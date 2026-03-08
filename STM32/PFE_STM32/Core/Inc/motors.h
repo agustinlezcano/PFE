@@ -8,13 +8,23 @@
 #ifndef INC_MOTORS_H_
 #define INC_MOTORS_H_
 
-#include "main.h"
+#include "stm32f4xx_hal.h"
 #include "cmsis_os.h"
 #include <stdio.h>
 #include <stdlib.h>
-#include <arm_math.h>
+//#include <arm_math.h>
 #include <math.h>
 #include <stdbool.h>
+
+//Maquina de estados (una por motor)
+typedef enum {
+    IDLE,      // detenido, sin control
+    TRAJ,      // siguiendo trayectoria
+	P2P,      // siguiendo trayectoria
+    APPROX,      // sosteniendo posición final
+    HOMING,    // búsqueda de referencia
+    MOTOR_ERROR      // fallo (opcional)
+} MotorState;
 
 //Estructura para los motores
 typedef struct {
@@ -22,30 +32,24 @@ typedef struct {
 	const float i;
 	const float angleHoming;
 
-	GPIO_TypeDef *dirPort;
-    uint16_t dirPin;
+	GPIO_TypeDef *DIR_PORT;
+    uint16_t DIR_PIN;
 
-    float currentAngle;
-    float targetAngle;
-    uint16_t currentStep;
-    uint16_t targetStep;
-    int16_t totalSteps;
-    bool dir;
+    TIM_HandleTypeDef *timer;
+    uint32_t timerChannel;
 
-    bool angleDone;
-    bool homing;
+    volatile float currentAngle;
+    volatile float targetAngle;
+    GPIO_PinState dir;
 
-    const uint16_t minSpeed;     // Hz
-    const uint16_t maxSpeed;    // Hz
-    uint16_t currentSpeed;
-    float nextAccelPoint;
-    float startAngle;
-
-    float syncedMaxSpeed;
+    MotorState state;
+    uint16_t speed;
 } Motor;
 
 extern Motor motor1;
 extern Motor motor2;
 extern Motor motor3;
+
+extern Motor* motors[];
 
 #endif /* INC_MOTORS_H_ */

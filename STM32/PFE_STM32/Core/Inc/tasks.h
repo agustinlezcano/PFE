@@ -9,10 +9,11 @@
 #define INC_TASKS_H_
 
 
-#include "cmsis_os.h"
-#include "tasks.h"
-#include "main.h"
-#include "cmsis_os.h"
+// DELETE these lines:
+#include "cmsis_os.h"    // duplicate
+#include "tasks.h"       // self-include (useless)
+#include "main.h"        // causes circular dependency
+#include <stdint.h>
 #include <rcl/rcl.h>
 #include <rcl/error_handling.h>
 #include <rclc/rclc.h>
@@ -30,6 +31,16 @@
 #include <example_interfaces/msg/w_string.h>
 #include <extra_interfaces/extra_interfaces/msg/trama.h>
 
+
+/* Joint trajectory command structure - matches Trama.msg */
+typedef struct {
+    double q[3];      // Joint positions [rad]
+    double qd[3];     // Joint velocities [rad/s]
+    double t_total;   // Total trajectory time [s]
+    int32_t n_iter;   // Number of iterations/points
+    int32_t traj_state;
+} JOINT_POS_t;
+
 /* Handles declaration */
 extern osThreadId_t defaultTaskHandle;
 extern osThreadId_t mControlTaskHandle;
@@ -39,6 +50,9 @@ extern osThreadId_t KinematicsTaskHandle;
 void StartDefaultTask(void *argument);
 void StartMotorControlTask(void *argument);
 void StartKinematicsTask(void *argument);
+
+/* Queue helper for overwrite pattern (Producer side) */
+osStatus_t Queue_OverwriteLatest(osMessageQueueId_t queueId, const JOINT_POS_t *pJointCmd);
 
 bool cubemx_transport_open(struct uxrCustomTransport * transport);
 bool cubemx_transport_close(struct uxrCustomTransport * transport);

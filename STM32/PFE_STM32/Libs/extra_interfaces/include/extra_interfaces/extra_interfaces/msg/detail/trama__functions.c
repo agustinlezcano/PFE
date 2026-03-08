@@ -11,21 +11,17 @@
 #include "rcutils/allocator.h"
 
 
-// Include directives for member types
-// Member `data`
-#include "rosidl_runtime_c/string_functions.h"
-
 bool
 extra_interfaces__msg__Trama__init(extra_interfaces__msg__Trama * msg)
 {
   if (!msg) {
     return false;
   }
-  // data
-  if (!rosidl_runtime_c__String__init(&msg->data)) {
-    extra_interfaces__msg__Trama__fini(msg);
-    return false;
-  }
+  // Initialize fixed-size arrays to zero
+  memset(msg->q, 0, sizeof(msg->q));
+  memset(msg->qd, 0, sizeof(msg->qd));
+  msg->t_total = 0.0;
+  msg->n_iter = 0;
   return true;
 }
 
@@ -35,8 +31,8 @@ extra_interfaces__msg__Trama__fini(extra_interfaces__msg__Trama * msg)
   if (!msg) {
     return;
   }
-  // data
-  rosidl_runtime_c__String__fini(&msg->data);
+  // No dynamic memory to free for fixed-size arrays and primitives
+  (void)msg;
 }
 
 bool
@@ -45,10 +41,24 @@ extra_interfaces__msg__Trama__are_equal(const extra_interfaces__msg__Trama * lhs
   if (!lhs || !rhs) {
     return false;
   }
-  // data
-  if (!rosidl_runtime_c__String__are_equal(
-      &(lhs->data), &(rhs->data)))
-  {
+  // q
+  for (size_t i = 0; i < 3; ++i) {
+    if (lhs->q[i] != rhs->q[i]) {
+      return false;
+    }
+  }
+  // qd
+  for (size_t i = 0; i < 3; ++i) {
+    if (lhs->qd[i] != rhs->qd[i]) {
+      return false;
+    }
+  }
+  // t_total
+  if (lhs->t_total != rhs->t_total) {
+    return false;
+  }
+  // n_iter
+  if (lhs->n_iter != rhs->n_iter) {
     return false;
   }
   return true;
@@ -62,12 +72,14 @@ extra_interfaces__msg__Trama__copy(
   if (!input || !output) {
     return false;
   }
-  // data
-  if (!rosidl_runtime_c__String__copy(
-      &(input->data), &(output->data)))
-  {
-    return false;
-  }
+  // q
+  memcpy(output->q, input->q, sizeof(input->q));
+  // qd
+  memcpy(output->qd, input->qd, sizeof(input->qd));
+  // t_total
+  output->t_total = input->t_total;
+  // n_iter
+  output->n_iter = input->n_iter;
   return true;
 }
 

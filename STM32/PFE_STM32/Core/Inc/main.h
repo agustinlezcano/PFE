@@ -33,10 +33,18 @@ extern "C" {
 /* USER CODE BEGIN Includes */
 #include <stdio.h>
 #include <stdlib.h>
-#include <arm_math.h>
+//#include <arm_math.h>
 #include <math.h>
+#include <rcl/rcl.h>
+#include <rcl/error_handling.h>
+#include <rclc/rclc.h>
+#include <rclc/executor.h>
+#include <uxr/client/transport.h>
+#include <rmw_microxrcedds_c/config.h>
+#include <rmw_microros/rmw_microros.h>
 #include <motors.h>
 #include <tasks.h>
+#include <queue.h>
 /* USER CODE END Includes */
 
 /* Exported types ------------------------------------------------------------*/
@@ -56,25 +64,35 @@ extern "C" {
 
 void HAL_TIM_MspPostInit(TIM_HandleTypeDef *htim);
 
+/* Exported variables --------------------------------------------------------*/
+extern TIM_HandleTypeDef htim2;
+extern TIM_HandleTypeDef htim3;
+extern TIM_HandleTypeDef htim13;
+
 /* Exported functions prototypes ---------------------------------------------*/
 void Error_Handler(void);
 
 /* USER CODE BEGIN EFP */
 int __io_putchar(int ch);
 void cmd_callback(const void * msgin);
-void inverse_kinematics_callback(const void * msgin);
+//void inverse_kinematics_callback(const void * msgin);
 void subscription_callback(const void * msgin);
 void homing_callback(const void * msgin);
+void electromagnet_callback(const void * msgin);
 
 void Stepper_SetSpeed(TIM_HandleTypeDef *htim, uint32_t channel, uint32_t freq_hz);
 HAL_StatusTypeDef TCA9548A_SelectChannel(uint8_t channel);
 float readAngle_AS5600(int motor);
 float filterAngle(float angleReaded, float lastAngle);
 bool inverseKinematics(const float x, const float y, const float z);
-void moveToAbsAngle(int motor, float angulo_abs, int velocidad);
+void moveToAbsAngle(Motor *m, float angulo_abs);
 void electromagnetOn(bool turn_on);
-void doHoming(int motor, GPIO_PinState dir);
-//void syncSpeeds(Motor *m1, Motor *m2, Motor *m3);
+void doHoming(Motor *m);
+void timer_callback(rcl_timer_t * timer, int64_t last_call_time);
+void AS5600_StartRead_IT(int motor);
+void trajectoryControl(Motor *m, float q_ref, float qd_ref);
+void request_angles_callback(const void * msgin);
+void estop_callback(const void * msgin);
 
 /* USER CODE END EFP */
 
@@ -100,12 +118,9 @@ void doHoming(int motor, GPIO_PinState dir);
 #define DIR3_GPIO    GPIOA
 #define DIR3_PIN     GPIO_PIN_8  //DIR 3 -> PA_8 = D7
 
-#define CW  1
-#define CCW 0
-
 // Sensor Hall - limite de carrera motor 1
-#define HALL_SENSOR_GPIO GPIOC
-#define HALL_SENSOR_PIN  GPIO_PIN_7 //PC_7 = D9 - X limit switch en CNC Shield
+#define LED_EMAGNET_GPIO GPIOC
+#define LED_EMAGNET_PIN  GPIO_PIN_7 //PC_7 = D9 - X limit switch en CNC Shield
 
 //Electroiman
 #define ELECTROMAGNET_GPIO GPIOC
@@ -122,20 +137,34 @@ void doHoming(int motor, GPIO_PinState dir);
 #define RCSOFTCHECK(fn) { rcl_ret_t temp_rc = fn; if((temp_rc != RCL_RET_OK)){printf("Failed status on line %d: %d. Continuing.\n",__LINE__,(int)temp_rc);}}
 #define MSGQUEUE_OBJECTS 1                     // number of Message Queue Objects
 #define N_MOTORS 3
+#define ALL_MOTORS_IDLE (motor1.state == IDLE && motor2.state == IDLE && motor3.state == IDLE)
 
-#define ANGLE_TOLERANCE     0.25f    // grados aceptables para considerar "llegado"
-#define ANGLE_REJECT_DEG   20.0f    // rechazo de saltos grandes (umbral de tu filtro original)
-#define MAX_SPEED_HZ   500.0f       //Velocidad maxima de todos los motores
+// Event Flags for Motor-Kinematics synchronization
+#define MOTOR_READY_BIT     0x00000001U   // Set when all motors finished movement
+#define NEW_TARGET_BIT      0x00000002U   // Set when new target is available
+#define FLAGS_MSK1          MOTOR_READY_BIT   // Backward compatibility
 
-//extern Motor motor1;
-//extern Motor motor2;
-//extern Motor motor3;
+#define ANGLE_TOLERANCE     0.10f    // grados aceptables para considerar que llego
+#define ANGLE_REJECT_DEG   20.0f    // rechazo de saltos grandes (umbral de filtro)
+
+#define KP_POS 5.0f
+#define KP_APPROX 5.0f
 
 typedef struct {
 	double x;
 	double y;
 	double z;
 } CARTESIAN_POS_t;
+
+// typedef struct {
+// 	float m1;
+// 	float m2;
+// 	float m3;
+// } JOINT_POS_t;
+
+// TODO: typedef for float Joint position instead of three queues
+
+
 /* USER CODE END Private defines */
 
 #ifdef __cplusplus
