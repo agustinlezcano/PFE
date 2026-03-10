@@ -60,3 +60,6 @@ CMakeFiles/
 *~
 *.orig
 
+# === Python cache ===
+__pycache__/
+*.pyc
