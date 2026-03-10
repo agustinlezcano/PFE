@@ -1,0 +1,1524 @@
+Input file: D:\Facultad\PFE Proyecto Final de Estudios\PFE\Robot\SolidEdge\RobotCompleto.minp
+
+Solver running in Simcenter Mode
+
+Copyright Siemens 2024
+
+
+[9998]
+Error opening the Simcenter error message file.
+
+[9998]
+Error opening the Simcenter error message file.
+
+Solver: Simcenter 3D Motion Version 2406 (13.0) Mar  8 2024 15:31:23 Intel Release 64bit
+Interface: unknown
+Hostname: DESKTOP-6INCN8V
+OS Type: Windows
+Release: 6.2
+Version: Build 9200
+Machine: 8664
+Integer size:    5000000
+Real size:    5000000
+Mcheps: 0.22204460492503E-15
+
+[9998]
+Error opening the Simcenter error message file.
+
+[9998]
+Error opening the Simcenter error message file.
+
+[9998]
+Error opening the Simcenter error message file.
+
+[9998]
+Error opening the Simcenter error message file.
+
+[9998]
+Error opening the Simcenter error message file.
+
+[9998]
+Error opening the Simcenter error message file.
+
+[9998]
+Error opening the Simcenter error message file.
+
+[9998]
+Error opening the Simcenter error message file.
+
+[9998]
+Error opening the Simcenter error message file.
+
+[9998]
+Error opening the Simcenter error message file.
+
+[9998]
+Error opening the Simcenter error message file.
+
+[9998]
+Error opening the Simcenter error message file.
+
+[9998]
+Error opening the Simcenter error message file.
+
+[9998]
+Error opening the Simcenter error message file.
+
+[9998]
+Error opening the Simcenter error message file.
+
+[9998]
+Error opening the Simcenter error message file.
+
+[9998]
+Error opening the Simcenter error message file.
+
+[9998]
+Error opening the Simcenter error message file.
+
+[9998]
+Error opening the Simcenter error message file.
+
+[9998]
+Error opening the Simcenter error message file.
+ The GGL formulation is turned on.
+
+License Enabled by UI
+
+[9998]
+Error opening the Simcenter error message file.
+
+Results achieved by the model assembly process with drivers:
+
+  Number of function evaluations =     1
+  Maximum constraint violation   =   0.725253E-13
+
+ Element: 001_base.par:1
+    Coordinate    New Value     Original Value  Difference
+    X              0.0000         0.0000         0.0000    
+    Y              0.0000         0.0000         0.0000    
+    Z              0.0000         0.0000         0.0000    
+    E0             1.0000         1.0000         0.0000    
+    E1             0.0000         0.0000         0.0000    
+    E2             0.0000         0.0000         0.0000    
+    E3             0.0000         0.0000         0.0000    
+
+ Element: 002_mainarm.par:1
+    Coordinate    New Value     Original Value  Difference
+    X            -0.25613E-02   -0.25613E-02     0.0000    
+    Y            -0.15616E-01   -0.15616E-01     0.0000    
+    Z             0.17351        0.17351         0.0000    
+    E0            0.70323        0.70323         0.0000    
+    E1            0.65756E-01    0.65756E-01     0.0000    
+    E2           -0.67545E-01   -0.67545E-01     0.0000    
+    E3            0.70469        0.70469         0.0000    
+
+ Element: 003 VArm.par:1
+    Coordinate    New Value     Original Value  Difference
+    X             0.17187E-01    0.17187E-01     0.0000    
+    Y             0.19140E-01    0.19140E-01     0.0000    
+    Z             0.11023        0.11023         0.0000    
+    E0            0.59255        0.59255         0.0000    
+    E1            0.39895        0.39895         0.0000    
+    E2            0.58072        0.58072         0.0000    
+    E3            0.39050        0.39050         0.0000    
+
+ Element: 004_link 135.par:1
+    Coordinate    New Value     Original Value  Difference
+    X             0.19428E-01    0.19428E-01     0.0000    
+    Y             0.38692E-01    0.38692E-01     0.0000    
+    Z             0.16802        0.16802         0.0000    
+    E0            0.70170        0.70170         0.0000    
+    E1            0.68140E-01    0.68140E-01     0.0000    
+    E2            0.70589        0.70589         0.0000    
+    E3            0.68541E-01    0.68541E-01     0.0000    
+
+ Element: 005_link 135angled.par:1
+    Coordinate    New Value     Original Value  Difference
+    X            -0.15388E-01   -0.15388E-01     0.0000    
+    Y             0.34912E-01    0.34912E-01     0.0000    
+    Z             0.20552        0.20552         0.0000    
+    E0           -0.60943E-01   -0.60943E-01     0.0000    
+    E1            0.70451        0.70451         0.0000    
+    E2            0.68034E-01    0.68034E-01     0.0000    
+    E3           -0.70379       -0.70379         0.0000    
+
+ Element: 006_horarm.par:1
+    Coordinate    New Value     Original Value  Difference
+    X             0.44660E-02    0.44660E-02     0.0000    
+    Y            -0.55650E-01   -0.55650E-01     0.0000    
+    Z             0.27535        0.27535         0.0000    
+    E0            0.69187        0.69187         0.0000    
+    E1           -0.14927       -0.14927         0.0000    
+    E2           -0.14774       -0.14774         0.0000    
+    E3           -0.69080       -0.69080         0.0000    
+
+ Element: 007_trialink.par:1
+    Coordinate    New Value     Original Value  Difference
+    X            -0.21498E-01   -0.21498E-01     0.0000    
+    Y            -0.23654E-01   -0.23654E-01     0.0000    
+    Z             0.26459        0.26459         0.0000    
+    E0            0.70675        0.70675         0.0000    
+    E1           -0.42000E-01   -0.42000E-01     0.0000    
+    E2           -0.40105E-01   -0.40105E-01     0.0000    
+    E3           -0.70507       -0.70507         0.0000    
+
+ Element: 008_link 147.par:1
+    Coordinate    New Value     Original Value  Difference
+    X            -0.11139E-01   -0.11139E-01     0.0000    
+    Y            -0.12061       -0.12061         0.0000    
+    Z             0.30404        0.30404         0.0000    
+    E0            0.59016        0.59016         0.0000    
+    E1            0.39341        0.39341         0.0000    
+    E2           -0.58656       -0.58656         0.0000    
+    E3           -0.39101       -0.39101         0.0000    
+
+ Element: 009_trialinkfront.par:1
+    Coordinate    New Value     Original Value  Difference
+    X            -0.79523E-03   -0.79523E-03     0.0000    
+    Y            -0.18501       -0.18501         0.0000    
+    Z             0.31553        0.31553         0.0000    
+    E0            0.99993        0.99993         0.0000    
+    E1           -0.70596E-02   -0.70596E-02     0.0000    
+    E2            0.45387E-02    0.45387E-02     0.0000    
+    E3           -0.81692E-02   -0.81692E-02     0.0000    
+
+ Element: GlobalGround
+    Coordinate    New Value     Original Value  Difference
+    X              0.0000         0.0000         0.0000    
+    Y              0.0000         0.0000         0.0000    
+    Z              0.0000         0.0000         0.0000    
+    E0             1.0000         1.0000         0.0000    
+    E1             0.0000         0.0000         0.0000    
+    E2             0.0000         0.0000         0.0000    
+    E3             0.0000         0.0000         0.0000    
+
+ Element: MG946R.par:1
+    Coordinate    New Value     Original Value  Difference
+    X             0.55500E-01    0.55500E-01     0.0000    
+    Y              0.0000         0.0000         0.0000    
+    Z             0.10765        0.10765         0.0000    
+    E0            0.70711        0.70711         0.0000    
+    E1           -0.26054E-13   -0.26054E-13     0.0000    
+    E2           -0.70711       -0.70711         0.0000    
+    E3           -0.26054E-13   -0.26054E-13     0.0000    
+
+ Element: MG946R.par:2
+    Coordinate    New Value     Original Value  Difference
+    X            -0.55500E-01   -0.55500E-01     0.0000    
+    Y              0.0000         0.0000         0.0000    
+    Z             0.10765        0.10765         0.0000    
+    E0            0.25959E-13    0.25959E-13     0.0000    
+    E1            0.70711        0.70711         0.0000    
+    E2           -0.25738E-13   -0.25738E-13     0.0000    
+    E3            0.70711        0.70711         0.0000    
+
+ Element: RobotCompleto.asm
+    Coordinate    New Value     Original Value  Difference
+    X             0.55500E-01    0.55500E-01     0.0000    
+    Y              0.0000         0.0000         0.0000    
+    Z             0.10765        0.10765         0.0000    
+    E0            0.70711        0.70711         0.0000    
+    E1           -0.26054E-13   -0.26054E-13     0.0000    
+    E2           -0.70711       -0.70711         0.0000    
+    E3           -0.26054E-13   -0.26054E-13     0.0000    
+
+ Element: ServosBase.asm:1
+    Coordinate    New Value     Original Value  Difference
+    X            -0.81551E-03   -0.81551E-03     0.0000    
+    Y             0.64805E-03    0.64805E-03     0.0000    
+    Z             0.98583E-01    0.98583E-01     0.0000    
+    E0           -0.33256E-03   -0.33256E-03     0.0000    
+    E1            0.41786E-03    0.41786E-03     0.0000    
+    E2           -0.33228E-03   -0.33228E-03     0.0000    
+    E3             1.0000         1.0000         0.0000    
+
+ Element: ball.par:1
+    Coordinate    New Value     Original Value  Difference
+    X              0.0000         0.0000         0.0000    
+    Y             0.31073E-01    0.31073E-01     0.0000    
+    Z             0.56527E-01    0.56527E-01     0.0000    
+    E0            0.95383        0.95383         0.0000    
+    E1           -0.26616       -0.26616         0.0000    
+    E2            0.14329E-01    0.14329E-01     0.0000    
+    E3            0.13845        0.13845         0.0000    
+
+ Element: baseExt.par:1
+    Coordinate    New Value     Original Value  Difference
+    X            -0.19000E-01   -0.19000E-01     0.0000    
+    Y            -0.25974E-01   -0.25974E-01     0.0000    
+    Z             0.24988        0.24988         0.0000    
+    E0            0.70590        0.70590         0.0000    
+    E1           -0.41265E-01   -0.41265E-01     0.0000    
+    E2           -0.41265E-01   -0.41265E-01     0.0000    
+    E3           -0.70590       -0.70590         0.0000    
+
+ Element: baseNueva.asm:1
+    Coordinate    New Value     Original Value  Difference
+    X             0.12733E-03    0.12733E-03     0.0000    
+    Y             0.67550E-01    0.67550E-01     0.0000    
+    Z             0.40500E-01    0.40500E-01     0.0000    
+    E0             1.0000         1.0000         0.0000    
+    E1             0.0000         0.0000         0.0000    
+    E2             0.0000         0.0000         0.0000    
+    E3             0.0000         0.0000         0.0000    
+
+ Element: brazoServo.par:1
+    Coordinate    New Value     Original Value  Difference
+    X             0.53249E-02    0.53249E-02     0.0000    
+    Y            -0.21738       -0.21738         0.0000    
+    Z             0.29350        0.29350         0.0000    
+    E0            0.51094        0.51094         0.0000    
+    E1            0.49560        0.49560         0.0000    
+    E2           -0.50416       -0.50416         0.0000    
+    E3           -0.48902       -0.48902         0.0000    
+
+ Element: engranajeBase.par:1
+    Coordinate    New Value     Original Value  Difference
+    X             -30.648        -30.648         0.0000    
+    Y              30.641         30.641         0.0000    
+    Z             0.74150E-01    0.74150E-01     0.0000    
+    E0             0.0000         0.0000         0.0000    
+    E1             1.0000         1.0000         0.0000    
+    E2             0.0000         0.0000         0.0000    
+    E3             0.0000         0.0000         0.0000    
+
+ Element: motor_nema_17.par:1
+    Coordinate    New Value     Original Value  Difference
+    X             0.12733E-03    0.12733E-03     0.0000    
+    Y             0.67550E-01    0.67550E-01     0.0000    
+    Z             0.40500E-01    0.40500E-01     0.0000    
+    E0             1.0000         1.0000         0.0000    
+    E1             0.0000         0.0000         0.0000    
+    E2             0.0000         0.0000         0.0000    
+    E3             0.0000         0.0000         0.0000    
+
+ Element: polea.par:1
+    Coordinate    New Value     Original Value  Difference
+    X              0.0000         0.0000         0.0000    
+    Y              0.0000         0.0000         0.0000    
+    Z             0.56000E-01    0.56000E-01     0.0000    
+    E0            0.18041E-15    0.18041E-15     0.0000    
+    E1             0.0000         0.0000         0.0000    
+    E2             0.0000         0.0000         0.0000    
+    E3             1.0000         1.0000         0.0000    
+
+ Element: servo TowerPro SG90.par:1
+    Coordinate    New Value     Original Value  Difference
+    X            -0.45000E-03   -0.45000E-03     0.0000    
+    Y            -0.22870       -0.22870         0.0000    
+    Z             0.29875        0.29875         0.0000    
+    E0            0.10773E-01    0.10773E-01     0.0000    
+    E1            0.70702        0.70702         0.0000    
+    E2           -0.70702       -0.70702         0.0000    
+    E3            0.10773E-01    0.10773E-01     0.0000    
+
+ Element: soporteElectroiman.asm:1
+    Coordinate    New Value     Original Value  Difference
+    X             0.37833E-03    0.37833E-03     0.0000    
+    Y            -0.22637       -0.22637         0.0000    
+    Z             0.30052        0.30052         0.0000    
+    E0            0.70659        0.70659         0.0000    
+    E1           -0.17106E-01   -0.17106E-01     0.0000    
+    E2           -0.17708E-01   -0.17708E-01     0.0000    
+    E3           -0.70719       -0.70719         0.0000    
+
+ Element: soporteElectroiman.par:1
+    Coordinate    New Value     Original Value  Difference
+    X            -0.20268E-01   -0.20268E-01     0.0000    
+    Y            -0.24800       -0.24800         0.0000    
+    Z             0.29471        0.29471         0.0000    
+    E0            0.48902        0.48902         0.0000    
+    E1           -0.50416       -0.50416         0.0000    
+    E2           -0.49560       -0.49560         0.0000    
+    E3            0.51094        0.51094         0.0000    
+
+ Element: soporteMotorPaP.par:1
+    Coordinate    New Value     Original Value  Difference
+    X              0.0000         0.0000         0.0000    
+    Y              0.0000         0.0000         0.0000    
+    Z             0.48000E-01    0.48000E-01     0.0000    
+    E0           -0.21589E-15   -0.21589E-15     0.0000    
+    E1           -0.21589E-15   -0.21589E-15     0.0000    
+    E2            0.70711        0.70711         0.0000    
+    E3            0.70711        0.70711         0.0000    
+
+ Element: soporteServo.par:1
+    Coordinate    New Value     Original Value  Difference
+    X            -0.20268E-01   -0.20268E-01     0.0000    
+    Y            -0.24800       -0.24800         0.0000    
+    Z             0.29471        0.29471         0.0000    
+    E0            0.48902        0.48902         0.0000    
+    E1           -0.50416       -0.50416         0.0000    
+    E2           -0.49560       -0.49560         0.0000    
+    E3            0.51094        0.51094         0.0000    
+ 
+******************************************************************************************************************************
+                        Mass Properties                                   
+******************************************************************************************************************************
+ 
+ Mass units = KILOGRAM            
+ Mass Conversion Factor =    1.00000000000000     
+ Length units = METER               
+ 
+                               Mass            IXX            IYY            IZZ            IXY            IXZ            IYZ
+001_base.par:1                1.0000         1.0000         1.0000         1.0000         0.0000         0.0000         0.0000    
+002_mainarm.par:1            0.10000E-18    0.10000E-21    0.10000E-21    0.10000E-21     0.0000         0.0000         0.0000    
+003 VArm.par:1               0.10000E-18    0.10000E-21    0.10000E-21    0.10000E-21     0.0000         0.0000         0.0000    
+004_link 135.par:1           0.10000E-18    0.10000E-21    0.10000E-21    0.10000E-21     0.0000         0.0000         0.0000    
+005_link 135angled.par:1     0.10000E-18    0.10000E-21    0.10000E-21    0.10000E-21     0.0000         0.0000         0.0000    
+006_horarm.par:1             0.10000E-18    0.10000E-21    0.10000E-21    0.10000E-21     0.0000         0.0000         0.0000    
+007_trialink.par:1           0.10000E-18    0.10000E-21    0.10000E-21    0.10000E-21     0.0000         0.0000         0.0000    
+008_link 147.par:1           0.10000E-18    0.10000E-21    0.10000E-21    0.10000E-21     0.0000         0.0000         0.0000    
+009_trialinkfront.par:1      0.10000E-18    0.10000E-21    0.10000E-21    0.10000E-21     0.0000         0.0000         0.0000    
+GlobalGround                  1.0000         1.0000         1.0000         1.0000         0.0000         0.0000         0.0000    
+MG946R.par:1                 0.10000E-18    0.10000E-21    0.10000E-21    0.10000E-21     0.0000         0.0000         0.0000    
+MG946R.par:2                 0.10000E-18    0.10000E-21    0.10000E-21    0.10000E-21     0.0000         0.0000         0.0000    
+RobotCompleto.asm             1.0000         1.0000         1.0000         1.0000         0.0000         0.0000         0.0000    
+ServosBase.asm:1              204.85        0.24142        0.23281        0.11570         0.0000         0.0000         0.0000    
+ball.par:1                   0.10000E-18    0.10000E-21    0.10000E-21    0.10000E-21     0.0000         0.0000         0.0000    
+baseExt.par:1                 1.0000         1.0000         1.0000         1.0000         0.0000         0.0000         0.0000    
+baseNueva.asm:1               1.0000         1.0000         1.0000         1.0000         0.0000         0.0000         0.0000    
+brazoServo.par:1             0.10000E-18    0.10000E-21    0.10000E-21    0.10000E-21     0.0000         0.0000         0.0000    
+engranajeBase.par:1          0.10000E-18    0.10000E-21    0.10000E-21    0.10000E-21     0.0000         0.0000         0.0000    
+motor_nema_17.par:1          0.10000E-18    0.10000E-21    0.10000E-21    0.10000E-21     0.0000         0.0000         0.0000    
+polea.par:1                  0.10000E-18    0.10000E-21    0.10000E-21    0.10000E-21     0.0000         0.0000         0.0000    
+servo TowerPro SG90.par:1    0.10000E-18    0.10000E-21    0.10000E-21    0.10000E-21     0.0000         0.0000         0.0000    
+soporteElectroiman.asm:1      22.755        0.80307E-02    0.75601E-02    0.31302E-02     0.0000         0.0000         0.0000    
+soporteElectroiman.par:1     0.10000E-18    0.10000E-21    0.10000E-21    0.10000E-21     0.0000         0.0000         0.0000    
+soporteMotorPaP.par:1        0.10000E-18    0.10000E-21    0.10000E-21    0.10000E-21     0.0000         0.0000         0.0000    
+soporteServo.par:1            1.0000         1.0000         1.0000         1.0000         0.0000         0.0000         0.0000    
+ 
+
+[9998]
+Error opening the Simcenter error message file.
+
+ Name: Revolución2
+    Type:  Revolute joint                 ( 4) relative rotation about X axis of "Revolución2_j"
+
+ Name: Revolución
+    Type:  Revolute joint                 ( 4) relative rotation about X axis of "Revolución_j"
+
+ Name: Revolución4
+    Type:  Revolute joint                 ( 4) relative rotation about X axis of "Revolución4_j"
+
+ Name: Traslacional
+    Type:  Translational joint            ( 6) relative rotation about Z axis of "Traslacional_j"
+
+ Name: Revolución5
+    Type:  Revolute joint                 ( 5) relative rotation about Y axis of "Revolución5_j"
+
+ Name: Traslacional
+    Type:  Translational joint            ( 5) relative rotation about Y axis of "Traslacional_j"
+
+ Name: Revolución6
+    Type:  Revolute joint                 ( 5) relative rotation about Y axis of "Revolución6_j"
+
+ Name: Axial35
+    Type:  Cylindrical joint              ( 2) relative translation along Y axis of "Axial35_j"
+
+ Name: Plana19
+    Type:  Planar joint                   ( 6) relative rotation about Z axis of "Plana19_j (transformed)"
+
+ Name: Revolución
+    Type:  Revolute joint                 ( 5) relative rotation about Y axis of "Revolución_j"
+
+ Name: Axial25
+    Type:  Cylindrical joint              ( 5) relative rotation about Y axis of "Axial25_j"
+
+
+The remaining constraints in which the redundant
+constraints are linearly dependent to are summarized as:
+
+Name: Revolución2
+     constraint ( 4) relative rotation about X axis of "Revolución2_j"
+     is linearly dependent to:
+
+     Name: Axial32
+        Constraint: ( 4) relative rotation about X axis of "Axial32_j"  Factor:   -1.000    
+     Name: Revolución5
+        Constraint: ( 4) relative rotation about X axis of "Revolución5_j"  Factor:    1.000    
+     Name: Revolución7
+        Constraint: ( 4) relative rotation about X axis of "Revolución7_j"  Factor:   -1.000    
+     Name: Revolución3
+        Constraint: ( 4) relative rotation about X axis of "Revolución3_j"  Factor:    1.000    
+
+Name: Revolución
+     constraint ( 4) relative rotation about X axis of "Revolución_j"
+     is linearly dependent to:
+
+     Name: Axial28
+        Constraint: ( 4) relative rotation about X axis of "Axial28_j"  Factor:   -1.000    
+     Name: Axial32
+        Constraint: ( 4) relative rotation about X axis of "Axial32_j"  Factor:   -1.000    
+     Name: Revolución5
+        Constraint: ( 4) relative rotation about X axis of "Revolución5_j"  Factor:    1.000    
+     Name: Revolución6
+        Constraint: ( 4) relative rotation about X axis of "Revolución6_j"  Factor:    1.000    
+     Name: Revolución7
+        Constraint: ( 4) relative rotation about X axis of "Revolución7_j"  Factor:   -1.000    
+     Name: Revolución3
+        Constraint: ( 4) relative rotation about X axis of "Revolución3_j"  Factor:    1.000    
+
+Name: Revolución4
+     constraint ( 4) relative rotation about X axis of "Revolución4_j"
+     is linearly dependent to:
+
+     Name: Axial25
+        Constraint: ( 4) relative rotation about X axis of "Axial25_j"  Factor:   -1.000    
+     Name: Axial18
+        Constraint: ( 4) relative rotation about X axis of "Axial18_j"  Factor:   -1.000    
+     Name: Revolución6
+        Constraint: ( 4) relative rotation about X axis of "Revolución6_j"  Factor:    1.000    
+     Name: Revolución3
+        Constraint: ( 4) relative rotation about X axis of "Revolución3_j"  Factor:    1.000    
+
+Name: Traslacional
+     constraint ( 6) relative rotation about Z axis of "Traslacional_j"
+     is linearly dependent to:
+
+     Name: Axial35
+        Constraint: ( 4) relative rotation about X axis of "Axial35_j"  Factor:    1.000    
+
+Name: Revolución5
+     constraint ( 5) relative rotation about Y axis of "Revolución5_j"
+     is linearly dependent to:
+
+     Name: Revolución3
+        Constraint: ( 5) relative rotation about Y axis of "Revolución3_j"  Factor:    1.000    
+     Name: Revolución2
+        Constraint: ( 5) relative rotation about Y axis of "Revolución2_j"  Factor:   -1.000    
+     Name: Revolución7
+        Constraint: ( 5) relative rotation about Y axis of "Revolución7_j"  Factor:   -1.000    
+     Name: Axial32
+        Constraint: ( 5) relative rotation about Y axis of "Axial32_j"  Factor:    1.000    
+
+Name: Traslacional
+     constraint ( 5) relative rotation about Y axis of "Traslacional_j"
+     is linearly dependent to:
+
+     Name: Axial35
+        Constraint: ( 5) relative rotation about Y axis of "Axial35_j"  Factor:   -1.000    
+     Name: Traslacional
+        Constraint: ( 4) relative rotation about X axis of "Traslacional_j"  Factor:   0.3048E-01
+
+Name: Revolución6
+     constraint ( 5) relative rotation about Y axis of "Revolución6_j"
+     is linearly dependent to:
+
+     Name: Plana19
+        Constraint: ( 4) relative rotation about X axis of "Plana19_j (transformed)"  Factor:    1.000    
+     Name: Axial18
+        Constraint: ( 5) relative rotation about Y axis of "Axial18_j"  Factor:    1.000    
+
+Name: Axial35
+     constraint ( 2) relative translation along Y axis of "Axial35_j"
+     is linearly dependent to:
+
+     Name: Traslacional
+        Constraint: ( 1) relative translation along X axis of "Traslacional_j"  Factor:  -0.3048E-01
+     Name: Traslacional
+        Constraint: ( 2) relative translation along Y axis of "Traslacional_j"  Factor:   -1.000    
+
+Name: Plana19
+     constraint ( 6) relative rotation about Z axis of "Plana19_j (transformed)"
+     is linearly dependent to:
+
+     Name: Axial18
+        Constraint: ( 4) relative rotation about X axis of "Axial18_j"  Factor:    1.000    
+     Name: Revolución6
+        Constraint: ( 4) relative rotation about X axis of "Revolución6_j"  Factor:   -1.000    
+
+Name: Revolución
+     constraint ( 5) relative rotation about Y axis of "Revolución_j"
+     is linearly dependent to:
+
+     Name: Revolución2
+        Constraint: ( 5) relative rotation about Y axis of "Revolución2_j"  Factor:    1.000    
+     Name: Plana19
+        Constraint: ( 4) relative rotation about X axis of "Plana19_j (transformed)"  Factor:   -1.000    
+     Name: Axial28
+        Constraint: ( 5) relative rotation about Y axis of "Axial28_j"  Factor:   -1.000    
+     Name: Axial18
+        Constraint: ( 5) relative rotation about Y axis of "Axial18_j"  Factor:   -1.000    
+
+Name: Axial25
+     constraint ( 5) relative rotation about Y axis of "Axial25_j"
+     is linearly dependent to:
+
+     Name: Revolución3
+        Constraint: ( 5) relative rotation about Y axis of "Revolución3_j"  Factor:    1.000    
+     Name: Plana19
+        Constraint: ( 4) relative rotation about X axis of "Plana19_j (transformed)"  Factor:   -1.000    
+     Name: Revolución4
+        Constraint: ( 5) relative rotation about Y axis of "Revolución4_j"  Factor:   -1.000    
+
+Ignoring Initial conditions, the following were chosen
+as independent coordinates:
+
+
+ Element: MG946R.par:2
+    Coordinate:  E1        
+
+ Element: MG946R.par:2
+    Coordinate:  E2        
+
+ Element: MG946R.par:1
+    Coordinate:  Z         
+
+ Element: MG946R.par:1
+    Coordinate:  E1        
+
+ Element: MG946R.par:1
+    Coordinate:  E3        
+
+ Element: brazoServo.par:1
+    Coordinate:  X         
+
+ Element: brazoServo.par:1
+    Coordinate:  Y         
+
+ Element: brazoServo.par:1
+    Coordinate:  Z         
+
+ Element: ball.par:1
+    Coordinate:  X         
+
+ Element: brazoServo.par:1
+    Coordinate:  E1        
+
+ Element: brazoServo.par:1
+    Coordinate:  E2        
+
+ Element: brazoServo.par:1
+    Coordinate:  E3        
+
+ Element: engranajeBase.par:1
+    Coordinate:  X         
+
+ Element: engranajeBase.par:1
+    Coordinate:  Y         
+
+ Element: engranajeBase.par:1
+    Coordinate:  Z         
+
+ Element: engranajeBase.par:1
+    Coordinate:  E0        
+
+ Element: 006_horarm.par:1
+    Coordinate:  E2        
+
+ Element: engranajeBase.par:1
+    Coordinate:  E2        
+
+ Element: engranajeBase.par:1
+    Coordinate:  E3        
+
+ Element: motor_nema_17.par:1
+    Coordinate:  X         
+
+ Element: motor_nema_17.par:1
+    Coordinate:  Y         
+
+ Element: motor_nema_17.par:1
+    Coordinate:  Z         
+
+ Element: ball.par:1
+    Coordinate:  Y         
+
+ Element: motor_nema_17.par:1
+    Coordinate:  E1        
+
+ Element: motor_nema_17.par:1
+    Coordinate:  E2        
+
+ Element: motor_nema_17.par:1
+    Coordinate:  E3        
+
+ Element: polea.par:1
+    Coordinate:  X         
+
+ Element: polea.par:1
+    Coordinate:  Y         
+
+ Element: polea.par:1
+    Coordinate:  Z         
+
+ Element: polea.par:1
+    Coordinate:  E0        
+
+ Element: polea.par:1
+    Coordinate:  E1        
+
+ Element: polea.par:1
+    Coordinate:  E2        
+
+ Element: 005_link 135angled.par:1
+    Coordinate:  Z         
+
+ Element: servo TowerPro SG90.par:1
+    Coordinate:  X         
+
+ Element: servo TowerPro SG90.par:1
+    Coordinate:  Y         
+
+ Element: servo TowerPro SG90.par:1
+    Coordinate:  Z         
+
+ Element: ball.par:1
+    Coordinate:  E2        
+
+ Element: servo TowerPro SG90.par:1
+    Coordinate:  E1        
+
+ Element: servo TowerPro SG90.par:1
+    Coordinate:  E2        
+
+ Element: servo TowerPro SG90.par:1
+    Coordinate:  E3        
+
+ Element: 005_link 135angled.par:1
+    Coordinate:  E2        
+
+ Element: ServosBase.asm:1
+    Coordinate:  E1        
+
+ Element: MG946R.par:2
+    Coordinate:  Z         
+
+ Element: ball.par:1
+    Coordinate:  Z         
+
+ Element: MG946R.par:2
+    Coordinate:  Y         
+
+ Element: MG946R.par:2
+    Coordinate:  X         
+
+ Element: ServosBase.asm:1
+    Coordinate:  E0        
+
+ Element: soporteElectroiman.par:1
+    Coordinate:  X         
+
+ Element: soporteElectroiman.par:1
+    Coordinate:  Y         
+
+ Element: soporteElectroiman.par:1
+    Coordinate:  Z         
+
+ Element: ball.par:1
+    Coordinate:  E3        
+
+ Element: soporteElectroiman.par:1
+    Coordinate:  E1        
+
+ Element: soporteElectroiman.par:1
+    Coordinate:  E2        
+
+ Element: soporteElectroiman.par:1
+    Coordinate:  E3        
+
+ Element: soporteMotorPaP.par:1
+    Coordinate:  X         
+
+ Element: soporteMotorPaP.par:1
+    Coordinate:  Y         
+
+ Element: soporteMotorPaP.par:1
+    Coordinate:  Z         
+
+ Element: soporteMotorPaP.par:1
+    Coordinate:  E0        
+
+ Element: soporteMotorPaP.par:1
+    Coordinate:  E1        
+
+ Element: MG946R.par:1
+    Coordinate:  X         
+
+ Element: soporteMotorPaP.par:1
+    Coordinate:  E3        
+
+ Element: MG946R.par:1
+    Coordinate:  Y         
+
+ Element: MG946R.par:1
+    Coordinate:  E2        
+
+ Element: 006_horarm.par:1
+    Coordinate:  Y         
+
+ Element: ball.par:1
+    Coordinate:  E1        
+
+ Element: 003 VArm.par:1
+    Coordinate:  X         
+
+ Element: 009_trialinkfront.par:1
+    Coordinate:  E1        
+
+ Element: MG946R.par:2
+    Coordinate:  E3        
+
+[9998]
+Error opening the Simcenter error message file.
+Solution of initial velocities, using QR method:
+
+ Element: 001_base.par:1
+    Coordinate    Velocity
+    X              0.00000    
+    Y              0.00000    
+    Z              0.00000    
+    E0             0.00000    
+    E1             0.00000    
+    E2             0.00000    
+    E3             0.00000    
+
+ Element: 002_mainarm.par:1
+    Coordinate    Velocity
+    X              0.00000    
+    Y              0.00000    
+    Z              0.00000    
+    E0             0.00000    
+    E1             0.00000    
+    E2             0.00000    
+    E3             0.00000    
+
+ Element: 003 VArm.par:1
+    Coordinate    Velocity
+    X              0.00000    
+    Y              0.00000    
+    Z              0.00000    
+    E0             0.00000    
+    E1             0.00000    
+    E2             0.00000    
+    E3             0.00000    
+
+ Element: 004_link 135.par:1
+    Coordinate    Velocity
+    X              0.00000    
+    Y              0.00000    
+    Z              0.00000    
+    E0             0.00000    
+    E1             0.00000    
+    E2             0.00000    
+    E3             0.00000    
+
+ Element: 005_link 135angled.par:1
+    Coordinate    Velocity
+    X              0.00000    
+    Y              0.00000    
+    Z              0.00000    
+    E0             0.00000    
+    E1             0.00000    
+    E2             0.00000    
+    E3             0.00000    
+
+ Element: 006_horarm.par:1
+    Coordinate    Velocity
+    X              0.00000    
+    Y              0.00000    
+    Z              0.00000    
+    E0             0.00000    
+    E1             0.00000    
+    E2             0.00000    
+    E3             0.00000    
+
+ Element: 007_trialink.par:1
+    Coordinate    Velocity
+    X              0.00000    
+    Y              0.00000    
+    Z              0.00000    
+    E0             0.00000    
+    E1             0.00000    
+    E2             0.00000    
+    E3             0.00000    
+
+ Element: 008_link 147.par:1
+    Coordinate    Velocity
+    X              0.00000    
+    Y              0.00000    
+    Z              0.00000    
+    E0             0.00000    
+    E1             0.00000    
+    E2             0.00000    
+    E3             0.00000    
+
+ Element: 009_trialinkfront.par:1
+    Coordinate    Velocity
+    X              0.00000    
+    Y              0.00000    
+    Z              0.00000    
+    E0             0.00000    
+    E1             0.00000    
+    E2             0.00000    
+    E3             0.00000    
+
+ Element: GlobalGround
+    Coordinate    Velocity
+    X              0.00000    
+    Y              0.00000    
+    Z              0.00000    
+    E0             0.00000    
+    E1             0.00000    
+    E2             0.00000    
+    E3             0.00000    
+
+ Element: MG946R.par:1
+    Coordinate    Velocity
+    X              0.00000    
+    Y              0.00000    
+    Z              0.00000    
+    E0             0.00000    
+    E1             0.00000    
+    E2             0.00000    
+    E3             0.00000    
+
+ Element: MG946R.par:2
+    Coordinate    Velocity
+    X              0.00000    
+    Y              0.00000    
+    Z              0.00000    
+    E0             0.00000    
+    E1             0.00000    
+    E2             0.00000    
+    E3             0.00000    
+
+ Element: RobotCompleto.asm
+    Coordinate    Velocity
+    X              0.00000    
+    Y              0.00000    
+    Z              0.00000    
+    E0             0.00000    
+    E1             0.00000    
+    E2             0.00000    
+    E3             0.00000    
+
+ Element: ServosBase.asm:1
+    Coordinate    Velocity
+    X              0.00000    
+    Y              0.00000    
+    Z              0.00000    
+    E0             0.00000    
+    E1             0.00000    
+    E2             0.00000    
+    E3             0.00000    
+
+ Element: ball.par:1
+    Coordinate    Velocity
+    X              0.00000    
+    Y              0.00000    
+    Z              0.00000    
+    E0             0.00000    
+    E1             0.00000    
+    E2             0.00000    
+    E3             0.00000    
+
+ Element: baseExt.par:1
+    Coordinate    Velocity
+    X              0.00000    
+    Y              0.00000    
+    Z              0.00000    
+    E0             0.00000    
+    E1             0.00000    
+    E2             0.00000    
+    E3             0.00000    
+
+ Element: baseNueva.asm:1
+    Coordinate    Velocity
+    X              0.00000    
+    Y              0.00000    
+    Z              0.00000    
+    E0             0.00000    
+    E1             0.00000    
+    E2             0.00000    
+    E3             0.00000    
+
+ Element: brazoServo.par:1
+    Coordinate    Velocity
+    X              0.00000    
+    Y              0.00000    
+    Z              0.00000    
+    E0             0.00000    
+    E1             0.00000    
+    E2             0.00000    
+    E3             0.00000    
+
+ Element: engranajeBase.par:1
+    Coordinate    Velocity
+    X              0.00000    
+    Y              0.00000    
+    Z              0.00000    
+    E0             0.00000    
+    E1             0.00000    
+    E2             0.00000    
+    E3             0.00000    
+
+ Element: motor_nema_17.par:1
+    Coordinate    Velocity
+    X              0.00000    
+    Y              0.00000    
+    Z              0.00000    
+    E0             0.00000    
+    E1             0.00000    
+    E2             0.00000    
+    E3             0.00000    
+
+ Element: polea.par:1
+    Coordinate    Velocity
+    X              0.00000    
+    Y              0.00000    
+    Z              0.00000    
+    E0             0.00000    
+    E1             0.00000    
+    E2             0.00000    
+    E3             0.00000    
+
+ Element: servo TowerPro SG90.par:1
+    Coordinate    Velocity
+    X              0.00000    
+    Y              0.00000    
+    Z              0.00000    
+    E0             0.00000    
+    E1             0.00000    
+    E2             0.00000    
+    E3             0.00000    
+
+ Element: soporteElectroiman.asm:1
+    Coordinate    Velocity
+    X              0.00000    
+    Y              0.00000    
+    Z              0.00000    
+    E0             0.00000    
+    E1             0.00000    
+    E2             0.00000    
+    E3             0.00000    
+
+ Element: soporteElectroiman.par:1
+    Coordinate    Velocity
+    X              0.00000    
+    Y              0.00000    
+    Z              0.00000    
+    E0             0.00000    
+    E1             0.00000    
+    E2             0.00000    
+    E3             0.00000    
+
+ Element: soporteMotorPaP.par:1
+    Coordinate    Velocity
+    X              0.00000    
+    Y              0.00000    
+    Z              0.00000    
+    E0             0.00000    
+    E1             0.00000    
+    E2             0.00000    
+    E3             0.00000    
+
+ Element: soporteServo.par:1
+    Coordinate    Velocity
+    X              0.00000    
+    Y              0.00000    
+    Z              0.00000    
+    E0             0.00000    
+    E1             0.00000    
+    E2             0.00000    
+    E3             0.00000    
+
+Solution of velocities in local coordinates:
+
+ Element: 001_base.par:1
+    Coordinate    Velocity
+    X              0.00000    
+    Y              0.00000    
+    Z              0.00000    
+    OMEGA_XL       0.00000    
+    OMEGA_YL       0.00000    
+    OMEGA_ZL       0.00000    
+
+ Element: 002_mainarm.par:1
+    Coordinate    Velocity
+    X              0.00000    
+    Y              0.00000    
+    Z              0.00000    
+    OMEGA_XL       0.00000    
+    OMEGA_YL       0.00000    
+    OMEGA_ZL       0.00000    
+
+ Element: 003 VArm.par:1
+    Coordinate    Velocity
+    X              0.00000    
+    Y              0.00000    
+    Z              0.00000    
+    OMEGA_XL       0.00000    
+    OMEGA_YL       0.00000    
+    OMEGA_ZL       0.00000    
+
+ Element: 004_link 135.par:1
+    Coordinate    Velocity
+    X              0.00000    
+    Y              0.00000    
+    Z              0.00000    
+    OMEGA_XL       0.00000    
+    OMEGA_YL       0.00000    
+    OMEGA_ZL       0.00000    
+
+ Element: 005_link 135angled.par:1
+    Coordinate    Velocity
+    X              0.00000    
+    Y              0.00000    
+    Z              0.00000    
+    OMEGA_XL       0.00000    
+    OMEGA_YL       0.00000    
+    OMEGA_ZL       0.00000    
+
+ Element: 006_horarm.par:1
+    Coordinate    Velocity
+    X              0.00000    
+    Y              0.00000    
+    Z              0.00000    
+    OMEGA_XL       0.00000    
+    OMEGA_YL       0.00000    
+    OMEGA_ZL       0.00000    
+
+ Element: 007_trialink.par:1
+    Coordinate    Velocity
+    X              0.00000    
+    Y              0.00000    
+    Z              0.00000    
+    OMEGA_XL       0.00000    
+    OMEGA_YL       0.00000    
+    OMEGA_ZL       0.00000    
+
+ Element: 008_link 147.par:1
+    Coordinate    Velocity
+    X              0.00000    
+    Y              0.00000    
+    Z              0.00000    
+    OMEGA_XL       0.00000    
+    OMEGA_YL       0.00000    
+    OMEGA_ZL       0.00000    
+
+ Element: 009_trialinkfront.par:1
+    Coordinate    Velocity
+    X              0.00000    
+    Y              0.00000    
+    Z              0.00000    
+    OMEGA_XL       0.00000    
+    OMEGA_YL       0.00000    
+    OMEGA_ZL       0.00000    
+
+ Element: GlobalGround
+    Coordinate    Velocity
+    X              0.00000    
+    Y              0.00000    
+    Z              0.00000    
+    OMEGA_XL       0.00000    
+    OMEGA_YL       0.00000    
+    OMEGA_ZL       0.00000    
+
+ Element: MG946R.par:1
+    Coordinate    Velocity
+    X              0.00000    
+    Y              0.00000    
+    Z              0.00000    
+    OMEGA_XL       0.00000    
+    OMEGA_YL       0.00000    
+    OMEGA_ZL       0.00000    
+
+ Element: MG946R.par:2
+    Coordinate    Velocity
+    X              0.00000    
+    Y              0.00000    
+    Z              0.00000    
+    OMEGA_XL       0.00000    
+    OMEGA_YL       0.00000    
+    OMEGA_ZL       0.00000    
+
+ Element: RobotCompleto.asm
+    Coordinate    Velocity
+    X              0.00000    
+    Y              0.00000    
+    Z              0.00000    
+    OMEGA_XL       0.00000    
+    OMEGA_YL       0.00000    
+    OMEGA_ZL       0.00000    
+
+ Element: ServosBase.asm:1
+    Coordinate    Velocity
+    X              0.00000    
+    Y              0.00000    
+    Z              0.00000    
+    OMEGA_XL       0.00000    
+    OMEGA_YL       0.00000    
+    OMEGA_ZL       0.00000    
+
+ Element: ball.par:1
+    Coordinate    Velocity
+    X              0.00000    
+    Y              0.00000    
+    Z              0.00000    
+    OMEGA_XL       0.00000    
+    OMEGA_YL       0.00000    
+    OMEGA_ZL       0.00000    
+
+ Element: baseExt.par:1
+    Coordinate    Velocity
+    X              0.00000    
+    Y              0.00000    
+    Z              0.00000    
+    OMEGA_XL       0.00000    
+    OMEGA_YL       0.00000    
+    OMEGA_ZL       0.00000    
+
+ Element: baseNueva.asm:1
+    Coordinate    Velocity
+    X              0.00000    
+    Y              0.00000    
+    Z              0.00000    
+    OMEGA_XL       0.00000    
+    OMEGA_YL       0.00000    
+    OMEGA_ZL       0.00000    
+
+ Element: brazoServo.par:1
+    Coordinate    Velocity
+    X              0.00000    
+    Y              0.00000    
+    Z              0.00000    
+    OMEGA_XL       0.00000    
+    OMEGA_YL       0.00000    
+    OMEGA_ZL       0.00000    
+
+ Element: engranajeBase.par:1
+    Coordinate    Velocity
+    X              0.00000    
+    Y              0.00000    
+    Z              0.00000    
+    OMEGA_XL       0.00000    
+    OMEGA_YL       0.00000    
+    OMEGA_ZL       0.00000    
+
+ Element: motor_nema_17.par:1
+    Coordinate    Velocity
+    X              0.00000    
+    Y              0.00000    
+    Z              0.00000    
+    OMEGA_XL       0.00000    
+    OMEGA_YL       0.00000    
+    OMEGA_ZL       0.00000    
+
+ Element: polea.par:1
+    Coordinate    Velocity
+    X              0.00000    
+    Y              0.00000    
+    Z              0.00000    
+    OMEGA_XL       0.00000    
+    OMEGA_YL       0.00000    
+    OMEGA_ZL       0.00000    
+
+ Element: servo TowerPro SG90.par:1
+    Coordinate    Velocity
+    X              0.00000    
+    Y              0.00000    
+    Z              0.00000    
+    OMEGA_XL       0.00000    
+    OMEGA_YL       0.00000    
+    OMEGA_ZL       0.00000    
+
+ Element: soporteElectroiman.asm:1
+    Coordinate    Velocity
+    X              0.00000    
+    Y              0.00000    
+    Z              0.00000    
+    OMEGA_XL       0.00000    
+    OMEGA_YL       0.00000    
+    OMEGA_ZL       0.00000    
+
+ Element: soporteElectroiman.par:1
+    Coordinate    Velocity
+    X              0.00000    
+    Y              0.00000    
+    Z              0.00000    
+    OMEGA_XL       0.00000    
+    OMEGA_YL       0.00000    
+    OMEGA_ZL       0.00000    
+
+ Element: soporteMotorPaP.par:1
+    Coordinate    Velocity
+    X              0.00000    
+    Y              0.00000    
+    Z              0.00000    
+    OMEGA_XL       0.00000    
+    OMEGA_YL       0.00000    
+    OMEGA_ZL       0.00000    
+
+ Element: soporteServo.par:1
+    Coordinate    Velocity
+    X              0.00000    
+    Y              0.00000    
+    Z              0.00000    
+    OMEGA_XL       0.00000    
+    OMEGA_YL       0.00000    
+    OMEGA_ZL       0.00000    
+
+Number of real data in the system     =    271578
+Number of integer data in the system  =    164420
+
+
+Solution of accelerations in local coordinates:
+
+ Element: 001_base.par:1
+    Coordinate    Acceleration
+    X              0.00000    
+    Y              0.00000    
+    Z              0.00000    
+    OMEGAD_XL      0.00000    
+    OMEGAD_YL      0.00000    
+    OMEGAD_ZL      0.00000    
+
+ Element: 002_mainarm.par:1
+    Coordinate    Acceleration
+    X            -0.305314E-19
+    Y             0.888784E-15
+    Z             -9.81000    
+    OMEGAD_XL     0.363948E-16
+    OMEGAD_YL     0.159897E-13
+    OMEGAD_ZL     0.377163E-16
+
+ Element: 003 VArm.par:1
+    Coordinate    Acceleration
+    X            -0.153425E-19
+    Y             0.180792E-15
+    Z             -9.81000    
+    OMEGAD_XL     0.541271E-15
+    OMEGAD_YL     0.153881E-16
+    OMEGAD_ZL     0.263810E-13
+
+ Element: 004_link 135.par:1
+    Coordinate    Acceleration
+    X            -0.536585E-19
+    Y             0.183097E-14
+    Z             -9.81000    
+    OMEGAD_XL     0.104581E-15
+    OMEGAD_YL    -0.531684E-18
+    OMEGAD_ZL    -0.176722E-13
+
+ Element: 005_link 135angled.par:1
+    Coordinate    Acceleration
+    X            -0.706722E-19
+    Y             0.129761E-14
+    Z             -9.81000    
+    OMEGAD_XL    -0.251858E-17
+    OMEGAD_YL    -0.193945E-15
+    OMEGAD_ZL     0.192832E-13
+
+ Element: 006_horarm.par:1
+    Coordinate    Acceleration
+    X            -0.625602E-19
+    Y             0.117291E-14
+    Z             -9.81000    
+    OMEGAD_XL     0.722349E-16
+    OMEGAD_YL     0.367831E-13
+    OMEGAD_ZL     0.666296E-16
+
+ Element: 007_trialink.par:1
+    Coordinate    Acceleration
+    X            -0.724066E-19
+    Y             0.242542E-14
+    Z             -9.81000    
+    OMEGAD_XL    -0.537658E-16
+    OMEGAD_YL    -0.214452E-13
+    OMEGAD_ZL    -0.539698E-16
+
+ Element: 008_link 147.par:1
+    Coordinate    Acceleration
+    X            -0.459985E-19
+    Y             0.172401E-14
+    Z             -9.81000    
+    OMEGAD_XL     0.234882E-15
+    OMEGAD_YL     0.246831E-18
+    OMEGAD_ZL    -0.382433E-13
+
+ Element: 009_trialinkfront.par:1
+    Coordinate    Acceleration
+    X            -0.210778E-19
+    Y             0.243446E-15
+    Z             -9.81000    
+    OMEGAD_XL    -0.161709E-13
+    OMEGAD_YL    -0.263707E-15
+    OMEGAD_ZL    -0.148202E-15
+
+ Element: GlobalGround
+    Coordinate    Acceleration
+    X              0.00000    
+    Y              0.00000    
+    Z              0.00000    
+    OMEGAD_XL      0.00000    
+    OMEGAD_YL      0.00000    
+    OMEGAD_ZL      0.00000    
+
+ Element: MG946R.par:1
+    Coordinate    Acceleration
+    X              0.00000    
+    Y              0.00000    
+    Z             -9.81000    
+    OMEGAD_XL      0.00000    
+    OMEGAD_YL      0.00000    
+    OMEGAD_ZL      0.00000    
+
+ Element: MG946R.par:2
+    Coordinate    Acceleration
+    X              0.00000    
+    Y              0.00000    
+    Z             -9.81000    
+    OMEGAD_XL      0.00000    
+    OMEGAD_YL      0.00000    
+    OMEGAD_ZL      0.00000    
+
+ Element: RobotCompleto.asm
+    Coordinate    Acceleration
+    X              0.00000    
+    Y              0.00000    
+    Z              0.00000    
+    OMEGAD_XL      0.00000    
+    OMEGAD_YL      0.00000    
+    OMEGAD_ZL      0.00000    
+
+ Element: ServosBase.asm:1
+    Coordinate    Acceleration
+    X            -0.684625E-21
+    Y            -0.686299E-19
+    Z             -9.81000    
+    OMEGAD_XL    -0.439847E-15
+    OMEGAD_YL     0.793915E-18
+    OMEGAD_ZL     0.844553E-18
+
+ Element: ball.par:1
+    Coordinate    Acceleration
+    X              0.00000    
+    Y              0.00000    
+    Z             -9.81000    
+    OMEGAD_XL      0.00000    
+    OMEGAD_YL      0.00000    
+    OMEGAD_ZL      0.00000    
+
+ Element: baseExt.par:1
+    Coordinate    Acceleration
+    X              0.00000    
+    Y              0.00000    
+    Z              0.00000    
+    OMEGAD_XL      0.00000    
+    OMEGAD_YL      0.00000    
+    OMEGAD_ZL      0.00000    
+
+ Element: baseNueva.asm:1
+    Coordinate    Acceleration
+    X              0.00000    
+    Y              0.00000    
+    Z              0.00000    
+    OMEGAD_XL      0.00000    
+    OMEGAD_YL      0.00000    
+    OMEGAD_ZL      0.00000    
+
+ Element: brazoServo.par:1
+    Coordinate    Acceleration
+    X              0.00000    
+    Y              0.00000    
+    Z             -9.81000    
+    OMEGAD_XL      0.00000    
+    OMEGAD_YL      0.00000    
+    OMEGAD_ZL      0.00000    
+
+ Element: engranajeBase.par:1
+    Coordinate    Acceleration
+    X              0.00000    
+    Y              0.00000    
+    Z             -9.81000    
+    OMEGAD_XL      0.00000    
+    OMEGAD_YL      0.00000    
+    OMEGAD_ZL      0.00000    
+
+ Element: motor_nema_17.par:1
+    Coordinate    Acceleration
+    X              0.00000    
+    Y              0.00000    
+    Z             -9.81000    
+    OMEGAD_XL      0.00000    
+    OMEGAD_YL      0.00000    
+    OMEGAD_ZL      0.00000    
+
+ Element: polea.par:1
+    Coordinate    Acceleration
+    X              0.00000    
+    Y              0.00000    
+    Z             -9.81000    
+    OMEGAD_XL      0.00000    
+    OMEGAD_YL      0.00000    
+    OMEGAD_ZL      0.00000    
+
+ Element: servo TowerPro SG90.par:1
+    Coordinate    Acceleration
+    X              0.00000    
+    Y              0.00000    
+    Z             -9.81000    
+    OMEGAD_XL      0.00000    
+    OMEGAD_YL      0.00000    
+    OMEGAD_ZL      0.00000    
+
+ Element: soporteElectroiman.asm:1
+    Coordinate    Acceleration
+    X             0.616327E-20
+    Y             0.617834E-18
+    Z             -9.81000    
+    OMEGAD_XL     0.144715E-16
+    OMEGAD_YL    -0.161737E-13
+    OMEGAD_ZL     0.138842E-16
+
+ Element: soporteElectroiman.par:1
+    Coordinate    Acceleration
+    X              0.00000    
+    Y              0.00000    
+    Z             -9.81000    
+    OMEGAD_XL      0.00000    
+    OMEGAD_YL      0.00000    
+    OMEGAD_ZL      0.00000    
+
+ Element: soporteMotorPaP.par:1
+    Coordinate    Acceleration
+    X              0.00000    
+    Y              0.00000    
+    Z             -9.81000    
+    OMEGAD_XL      0.00000    
+    OMEGAD_YL      0.00000    
+    OMEGAD_ZL      0.00000    
+
+ Element: soporteServo.par:1
+    Coordinate    Acceleration
+    X              0.00000    
+    Y              0.00000    
+    Z              0.00000    
+    OMEGAD_XL      0.00000    
+    OMEGAD_YL      0.00000    
+    OMEGAD_ZL      0.00000    
+
+Total Number of Bodies             =   26
+
+Total Number of Degrees of Freedom =  156
+Number of Kinematic Constraints    =   88
+Number of Drivers                  =    0
+Number of Initial Conditions       =    0
+Number of Degrees of Freedom       =   68
+
+The number of symbolic factorizations of the Acceleration matrix =                    1
+
+The number of symbolic factorizations of BDF Jacobian matrix =                    1
+
+[9998]
+Error opening the Simcenter error message file.
+Average Integration Order =   2.287037037037    
+Average Step Size         =  0.9261296296296E-02
+
+Userdef was internal
+
+    Total elapsed CPU time:  0.1670000    
+    Total clock time:          0
