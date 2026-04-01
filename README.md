@@ -34,6 +34,10 @@ Finalmente, se implementa una arquitectura de comunicacion mediante ROS2, por me
 
 ![Diagrama objetos ROS](Informe/img/diagramaObjetosROS_completo.png)
 
+![Nodos ROS2](Informe/img/rosgraph_micro.png)
+
+![Interfaz grafica](Informe/img/ros_ui.png)
+
 ![Ensayo de posición](Informe/img/ensayo_pos_yolo.png)
 
 ![Ensayo de trayectoria](Informe/img/compk5.png)
