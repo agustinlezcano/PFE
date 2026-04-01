@@ -1,7 +1,3 @@
-![Alt text|150](Informe/img/FING.PNG)
-
-![Alt text|50](Informe/img/Escudo_uncuyo.jpg)
-
 <h1 style="text-align: center;"> Proyecto Final de Estudios </h1>
 
 <h2 style="text-align: center;"> Ingeniería en Mecatrónica </h2>
@@ -23,3 +19,21 @@ El desarrollo abarca múltiples areas: la modificación estructural hacia motore
 la deteccion y localización de objetos en el entorno. 
 
 Finalmente, se implementa una arquitectura de comunicacion mediante ROS2, por medio de la cual se establecen nodos dedicados a la interaccion entre la computadora encargada del procesamiento de vision y el envío de consignas de posición, y el microcontrolador STM32 responsable del control de los motores. Esta infraestructura permite el intercambio confiable de informacion entre los distintos módulos del sistema y constituye la base para la coordinación del proceso completo de manipulación robótica.
+
+---
+
+## Imágenes
+
+![Robot Assembly](Informe/img/Robot2CompletoVP.png)
+
+![Robot Real](Informe/img/robot_real2.jpg)
+
+![Arquitectura general](Informe/img/arquitecturaGralPfe.png)
+
+![Predicción objetos](Informe/img/yolo_predict.jpg)
+
+![Diagrama objetos ROS](Informe/img/diagramaObjetosROS_completo.png)
+
+![Ensayo de posición](Informe/img/ensayo_pos_yolo.png)
+
+![Ensayo de trayectoria](Informe/img/compk5.png)
